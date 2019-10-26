@@ -4,6 +4,7 @@
 * `sudo -u postgres psql`
 * `CREATE USER cleanship WITH PASSWORD 'mysecretpass';`
 * `CREATE DATABASE cleanship OWNER cleanship;`
+* `ALTER ROLE cleanship CREATEDB;`
 * `\q`
 * `sudo apt install python3-dev libpq-dev`
 * `mkvirtualenv -p /usr/bin/python3 cleanship`
