@@ -27,6 +27,7 @@ def import_issues(cmd, filename = 'klarschiff_vorgang.csv', SIZE_CHUNK = 500, OF
 					id = row['id']
 					descr = row['beschreibung']
 					email = row['autor_email']
+					positionEwkb = row['ovi']
 					#TODO: Add IGNORE_FIELDS (old)
 					if Issue.objects.filter(id=id).exists():
 						cmd.stdout.write("(skipped %s)" % id)
@@ -34,7 +35,7 @@ def import_issues(cmd, filename = 'klarschiff_vorgang.csv', SIZE_CHUNK = 500, OF
 						if email == EMAIL_HIDDEN:
 							email = None
 						issueCount += 1
-						issue = Issue(id=id, description = descr, authorEmail = email)
+						issue = Issue(id=id, description = descr, authorEmail = email, position = positionEwkb)
 						chunk.append(issue)
 					lineCount += 1
 					if issueCount % SIZE_CHUNK == 0:

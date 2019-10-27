@@ -1,12 +1,15 @@
 # Dev
 
-* `sudo apt install postgres pgadmin3`
+* `sudo apt install postgres pgadmin3 postgresql-10-postgis-scripts`
 * `sudo -u postgres psql`
 * `CREATE USER cleanship WITH PASSWORD 'mysecretpass';`
 * `CREATE DATABASE cleanship OWNER cleanship;`
-* `ALTER ROLE cleanship CREATEDB;`
+* `ALTER ROLE cleanship CREATEDB SUPERUSER;` (setting up test-dbs with GIS extension requires high privileges)
 * `\q`
-* `sudo apt install python3-dev libpq-dev`
+* `psql cleanship`
+* `CREATE EXTENSION postgis;`
+* `\q`
+* `sudo apt install python3-dev libpq-dev binutils libproj-dev gdal-bin`
 * `mkvirtualenv -p /usr/bin/python3 cleanship`
 * `workon cleanship`
 * `git clone cleanship`

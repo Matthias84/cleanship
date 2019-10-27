@@ -9,7 +9,7 @@ SECRET_KEY = '' # enter a long random string
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'cleanship',
         'USER': 'cleanship',
         'PASSWORD': 'secret',
