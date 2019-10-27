@@ -13,7 +13,8 @@ def import_issues(cmd, filename = 'klarschiff_vorgang.csv', SIZE_CHUNK = 500, OF
 			linesFile = sum(1 for line in f)
 		linesFile -= 1
 		with open(filename) as csvfile:
-			NESSESARY_FIELDS = ['id','beschreibung']
+			NESSESARY_FIELDS = ['id','beschreibung','autor_email']
+			EMAIL_HIDDEN = '- bei Archivierung entfernt -'
 			Issue.objects.all().delete()
 			cmd.stdout.write(cmd.style.SUCCESS('Reading %s ...') % filename)
 			reader = csv.DictReader(csvfile)
@@ -25,12 +26,15 @@ def import_issues(cmd, filename = 'klarschiff_vorgang.csv', SIZE_CHUNK = 500, OF
 				for row in islice(reader, OFFSET, None):
 					id = row['id']
 					descr = row['beschreibung']
+					email = row['autor_email']
 					#TODO: Add IGNORE_FIELDS (old)
 					if Issue.objects.filter(id=id).exists():
 						cmd.stdout.write("(skipped %s)" % id)
 					else:
+						if email == EMAIL_HIDDEN:
+							email = None
 						issueCount += 1
-						issue = Issue(id=id, description = descr)
+						issue = Issue(id=id, description = descr, authorEmail = email)
 						chunk.append(issue)
 					lineCount += 1
 					if issueCount % SIZE_CHUNK == 0:

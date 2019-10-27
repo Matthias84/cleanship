@@ -11,3 +11,4 @@ class User(AbstractUser):
 class Issue(models.Model):
     id = models.AutoField(primary_key=True)
     description = models.TextField(max_length=500) #BUG: Could be empty, whats the right way?
+    authorEmail = models.EmailField(null=True, blank=False)
