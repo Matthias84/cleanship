@@ -1,0 +1,9 @@
+id,naehere_beschreibung_notwendig,name,typ,parent,geloescht,d3
+0,details,CAT A,problem,,f,
+1,details,A1,,0,f,
+2,details,A2,,0,f,
+3,details,A3,,0,f,
+4,details,A4,,0,f,
+5,details,A5,,0,f,
+6,keine,A6,,0,f,
+7,details,A7,,0,f,
