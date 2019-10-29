@@ -1,6 +1,7 @@
 from django.contrib.gis import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
+from django.utils.safestring import mark_safe
 from mptt.admin import MPTTModelAdmin
 
 from .forms import UserCreationForm, UserChangeForm
@@ -12,6 +13,17 @@ class UserAdmin(UserAdmin):
     model = User
     list_display = ['email', 'username',]
 
+class IssueAdmin(admin.GeoModelAdmin):
+	readonly_fields = ["thumb_image"]
+	
+	def thumb_image(self, obj):
+		return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
+			url = obj.photo.url,
+			width=obj.photo.width,
+			height=obj.photo.height,
+			)
+	)
+
 admin.site.register(User, UserAdmin)
-admin.site.register(Issue, admin.GeoModelAdmin)
+admin.site.register(Issue, IssueAdmin)
 admin.site.register(Category , MPTTModelAdmin)

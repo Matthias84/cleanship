@@ -13,7 +13,7 @@ def import_issues(cmd, filename = 'klarschiff_vorgang.csv', SIZE_CHUNK = 500, OF
 			linesFile = sum(1 for line in f)
 		linesFile -= 1
 		with open(filename) as csvfile:
-			NESSESARY_FIELDS = ['id','beschreibung','autor_email', 'kategorie']
+			NESSESARY_FIELDS = ['id','beschreibung','autor_email', 'kategorie', 'foto_gross']
 			EMAIL_HIDDEN = '- bei Archivierung entfernt -'
 			Issue.objects.all().delete()
 			cmd.stdout.write(cmd.style.SUCCESS('Reading %s ...') % filename)
@@ -29,6 +29,7 @@ def import_issues(cmd, filename = 'klarschiff_vorgang.csv', SIZE_CHUNK = 500, OF
 					email = row['autor_email']
 					positionEwkb = row['ovi']
 					categoryId = row['kategorie']
+					photoFilename = row['foto_gross']
 					#TODO: Add IGNORE_FIELDS (old)
 					if Issue.objects.filter(id=id).exists():
 						cmd.stdout.write("(skipped %s)" % id)
@@ -38,8 +39,10 @@ def import_issues(cmd, filename = 'klarschiff_vorgang.csv', SIZE_CHUNK = 500, OF
 						cat = Category.objects.get(id=categoryId)
 						if cat == None:
 							cmd.stdout.write(cmd.style.ERROR('Error - No category found (Issue %s, Cat.Id. %s)' % (id, categoryId)))
+						if photoFilename == "":
+							photoFilename = None
 						issueCount += 1
-						issue = Issue(id=id, description = descr, authorEmail = email, position = positionEwkb, category = cat)
+						issue = Issue(id=id, description = descr, authorEmail = email, position = positionEwkb, category = cat, photo = photoFilename)
 						chunk.append(issue)
 					lineCount += 1
 					if issueCount % SIZE_CHUNK == 0:

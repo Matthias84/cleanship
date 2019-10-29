@@ -21,3 +21,5 @@ DATABASES = {
 LANGUAGE_CODE = 'de-de'
 
 TIME_ZONE = 'Europe/Berlin'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

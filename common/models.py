@@ -15,6 +15,7 @@ class Issue(models.Model):
     authorEmail = models.EmailField(null=True, blank=False)
     position = models.PointField(srid=25833) #TODO: Extract srid to settings
     category = TreeForeignKey('Category',on_delete=models.CASCADE, null=False, blank=False)
+    photo = models.ImageField(null=True, blank=True)
 
 class Category(MPTTModel):
 	name = models.CharField(max_length=50)

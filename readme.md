@@ -32,5 +32,6 @@ psql -h localhost -d klarschiff -U admin -Atc "select tablename from pg_tables" 
         psql -h localhost -d klarschiff -U admin -c "COPY $TBL TO STDOUT WITH (FORMAT CSV, HEADER);" > $TBL.csv
     fi
   done`
+* copy all full size photos to /media directory: `cp /srv/www/klarschiff/static/*_gross_*.jpg ./media`
 * Import via `python3 manage.py import --settings cleanship.settings.local`
 * Import will take some minutes

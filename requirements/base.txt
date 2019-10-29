@@ -1,3 +1,4 @@
+pillow
 django-mptt
 psycopg2
 django >= 2.0
