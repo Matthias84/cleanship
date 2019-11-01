@@ -1,6 +1,8 @@
 # Dev
 
-* `sudo apt install postgres pgadmin3 postgresql-10-postgis-scripts`
+## setup
+
+* `sudo apt install pgadmin3 postgresql postgresql-10-postgis-2.4  postgresql-10-postgis-scripts`
 * `sudo -u postgres psql`
 * `CREATE USER cleanship WITH PASSWORD 'mysecretpass';`
 * `CREATE DATABASE cleanship OWNER cleanship;`
@@ -20,6 +22,11 @@
 * Test startup with `python3 manage.py runserver --settings cleanship.settings.local`
 * Create first admin user with `python3 manage.py createsuperuser --settings cleanship.settings.local`
 * Performe single tests with e.g. `python3 manage.py test legacy/tests -v 2 --settings cleanship.settings.local`
+
+## Format
+
+* UTF-8, 4space ident
+* flake8 compliance
 
 # migrate from Klarschiff
 

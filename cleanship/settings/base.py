@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'django.contrib.gis',
-	'mptt',
+    'django.contrib.gis',
+    'mptt',
     'common.apps.CommonConfig',
     'legacy.apps.LegacyConfig'
 ]

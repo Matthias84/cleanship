@@ -5,7 +5,7 @@ ADMIN_ENABLED = False
 
 DEBUG = False
 
-SECRET_KEY = '' # enter a long random string
+SECRET_KEY = ''  # enter a long random string
 
 DATABASES = {
     'default': {
