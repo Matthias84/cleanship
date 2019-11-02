@@ -16,12 +16,13 @@ class CSVImporter:
 
     NESSESARY_FIELDS = []
 
-    def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False):
+    def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
         # TODO: limit, offset
         self.cmd = cmd
         self.csvfilename = csvFilename
         self.chunkSize = chunkSize
         self.skipExisting = skipExisting
+        self.clean = clean
         self.lines = self.countTotalLines()
         logger.debug('opening %s' % self.csvfilename)
         csvfile = open(self.csvfilename)
@@ -30,7 +31,8 @@ class CSVImporter:
         if chunkSize is not None:
             self.cmd.stdout.write(self.cmd.style.SUCCESS("(Chunks with %s objects)" % chunkSize))
         if self.checkFields():
-            self.eraseObjects()
+            if self.clean:
+                self.eraseObjects()
             self.importCSV()
         else:
             cmd.stdout.write(cmd.style.ERROR('Error - CSV file missing fields (expexted: %s)' % self.NESSESARY_FIELDS))
@@ -108,10 +110,10 @@ class IssueImporter(CSVImporter):
     (requires existing categories)
     """
 
-    def __init__(self, cmd, csvFilename, chunkSize=None):
+    def __init__(self, cmd, csvFilename, chunkSize=None, clean=True):
         self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross']
         self.EMAIL_HIDDEN = '- bei Archivierung entfernt -'
-        super().__init__(cmd, csvFilename, chunkSize)
+        super().__init__(cmd, csvFilename, chunkSize, clean)
 
     def eraseObjects(self):
         Issue.objects.all().delete()
@@ -152,9 +154,9 @@ class CategoryImporter(CSVImporter):
     Import old categories from CSV export
     """
 
-    def __init__(self, cmd, csvFilename, chunkSize=None):
+    def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
         self.NESSESARY_FIELDS = ['id', 'name', 'typ', 'parent']
-        super().__init__(cmd, csvFilename, chunkSize)
+        super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
 
     def eraseObjects(self):
         Category.objects.all().delete()
