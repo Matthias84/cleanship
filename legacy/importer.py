@@ -1,7 +1,9 @@
+from django.utils import dateparse
 from common.models import Issue, Category
 from itertools import islice
 import csv
 import time
+from datetime import timezone, timedelta
 
 import logging
 
@@ -111,7 +113,7 @@ class IssueImporter(CSVImporter):
     """
 
     def __init__(self, cmd, csvFilename, chunkSize=None, clean=True):
-        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross']
+        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum']
         self.EMAIL_HIDDEN = '- bei Archivierung entfernt -'
         super().__init__(cmd, csvFilename, chunkSize, clean)
 
@@ -127,6 +129,7 @@ class IssueImporter(CSVImporter):
         positionEwkb = row['ovi']
         categoryId = row['kategorie']
         photoFilename = row['foto_gross']
+        created = row['datum']
         if email == self.EMAIL_HIDDEN:
             email = None
         cat = Category.objects.get(id=categoryId)
@@ -134,7 +137,9 @@ class IssueImporter(CSVImporter):
             self.cmd.stdout.write(self.cmd.style.ERROR('Error - No category found (Issue %s, Cat.Id. %s)' % (id, categoryId)))
         if photoFilename == "":
             photoFilename = None
-        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename)
+        created = dateparse.parse_datetime(created)
+        created=created.replace(tzinfo=timezone(timedelta(hours=1)))
+        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created)
         return issue
 
     def checkObjExists(self, row):

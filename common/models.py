@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.gis.db import models
+from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -17,6 +18,7 @@ class Issue(models.Model):
     position = models.PointField(srid=25833)  # TODO: Extract srid to settings
     category = TreeForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False)
     photo = models.ImageField(null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
 
 class Category(MPTTModel):
