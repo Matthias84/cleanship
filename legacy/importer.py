@@ -115,6 +115,7 @@ class IssueImporter(CSVImporter):
     def __init__(self, cmd, csvFilename, chunkSize=None, clean=True):
         self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum']
         self.EMAIL_HIDDEN = '- bei Archivierung entfernt -'
+        self.LOCATION_UNKOWN = 'nicht zuordenbar'
         super().__init__(cmd, csvFilename, chunkSize, clean)
 
     def eraseObjects(self):
@@ -130,6 +131,7 @@ class IssueImporter(CSVImporter):
         categoryId = row['kategorie']
         photoFilename = row['foto_gross']
         created = row['datum']
+        location = row['adresse']
         if email == self.EMAIL_HIDDEN:
             email = None
         cat = Category.objects.get(id=categoryId)
@@ -139,7 +141,9 @@ class IssueImporter(CSVImporter):
             photoFilename = None
         created = dateparse.parse_datetime(created)
         created=created.replace(tzinfo=timezone(timedelta(hours=1)))
-        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created)
+        if location == self.LOCATION_UNKOWN:
+            location = None
+        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location )
         return issue
 
     def checkObjExists(self, row):

@@ -19,6 +19,7 @@ class Issue(models.Model):
     category = TreeForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False)
     photo = models.ImageField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
+    location = models.CharField(max_length=150, null=True)
 
 
 class Category(MPTTModel):
