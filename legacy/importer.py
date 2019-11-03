@@ -1,5 +1,5 @@
 from django.utils import dateparse
-from common.models import Issue, Category
+from common.models import Issue, Category, PriorityTypes
 from itertools import islice
 import csv
 import time
@@ -113,9 +113,10 @@ class IssueImporter(CSVImporter):
     """
 
     def __init__(self, cmd, csvFilename, chunkSize=None, clean=True):
-        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum']
+        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum', 'prioritaet']
         self.EMAIL_HIDDEN = '- bei Archivierung entfernt -'
         self.LOCATION_UNKOWN = 'nicht zuordenbar'
+        self.MAP_PRIORITY = {'mittel': PriorityTypes.NORMAL, 'niedrig': PriorityTypes.LOW, 'hoch': PriorityTypes.HIGH}
         super().__init__(cmd, csvFilename, chunkSize, clean)
 
     def eraseObjects(self):
@@ -132,6 +133,7 @@ class IssueImporter(CSVImporter):
         photoFilename = row['foto_gross']
         created = row['datum']
         location = row['adresse']
+        priority = row['prioritaet']
         if email == self.EMAIL_HIDDEN:
             email = None
         cat = Category.objects.get(id=categoryId)
@@ -143,7 +145,8 @@ class IssueImporter(CSVImporter):
         created=created.replace(tzinfo=timezone(timedelta(hours=1)))
         if location == self.LOCATION_UNKOWN:
             location = None
-        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location )
+        priority = self.MAP_PRIORITY[priority]
+        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority)
         return issue
 
     def checkObjExists(self, row):

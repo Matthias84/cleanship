@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.gis.db import models
 from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
+from enum import IntEnum
 
 
 class User(AbstractUser):
@@ -9,6 +10,15 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+class PriorityTypes(IntEnum):
+  LOW = 1
+  NORMAL = 2
+  HIGH = 3
+  
+  @classmethod
+  def choices(cls):
+    return [(key.value, key.name) for key in cls]
 
 
 class Issue(models.Model):
@@ -20,6 +30,10 @@ class Issue(models.Model):
     photo = models.ImageField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     location = models.CharField(max_length=150, null=True)
+    priority = models.IntegerField(choices=PriorityTypes.choices(), default=PriorityTypes.NORMAL)
+    
+    def get_issue_priority_label(self):
+        return PriorityTypes(self.type).name.title()
 
 
 class Category(MPTTModel):
