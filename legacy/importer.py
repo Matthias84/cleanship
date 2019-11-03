@@ -113,7 +113,7 @@ class IssueImporter(CSVImporter):
     """
 
     def __init__(self, cmd, csvFilename, chunkSize=None, clean=True):
-        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum', 'prioritaet']
+        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum', 'prioritaet', 'flurstueckseigentum']
         self.EMAIL_HIDDEN = '- bei Archivierung entfernt -'
         self.LOCATION_UNKOWN = 'nicht zuordenbar'
         self.MAP_PRIORITY = {'mittel': PriorityTypes.NORMAL, 'niedrig': PriorityTypes.LOW, 'hoch': PriorityTypes.HIGH}
@@ -134,6 +134,7 @@ class IssueImporter(CSVImporter):
         created = row['datum']
         location = row['adresse']
         priority = row['prioritaet']
+        landowner = row['flurstueckseigentum']
         if email == self.EMAIL_HIDDEN:
             email = None
         cat = Category.objects.get(id=categoryId)
@@ -146,7 +147,7 @@ class IssueImporter(CSVImporter):
         if location == self.LOCATION_UNKOWN:
             location = None
         priority = self.MAP_PRIORITY[priority]
-        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority)
+        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner)
         return issue
 
     def checkObjExists(self, row):

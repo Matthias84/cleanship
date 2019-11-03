@@ -31,6 +31,7 @@ class Issue(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     location = models.CharField(max_length=150, null=True)
     priority = models.IntegerField(choices=PriorityTypes.choices(), default=PriorityTypes.NORMAL)
+    landowner = models.CharField(max_length=250, null=True)
     
     def get_issue_priority_label(self):
         return PriorityTypes(self.type).name.title()
