@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import Group
 from django.contrib.gis.db import models
 from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
@@ -32,6 +33,7 @@ class Issue(models.Model):
     location = models.CharField(max_length=150, null=True)
     priority = models.IntegerField(choices=PriorityTypes.choices(), default=PriorityTypes.NORMAL)
     landowner = models.CharField(max_length=250, null=True)
+    assigned = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL)
     
     def get_issue_priority_label(self):
         return PriorityTypes(self.type).name.title()

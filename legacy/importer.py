@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.utils import dateparse
 from common.models import Issue, Category, PriorityTypes
 from itertools import islice
@@ -117,6 +118,7 @@ class IssueImporter(CSVImporter):
         self.EMAIL_HIDDEN = '- bei Archivierung entfernt -'
         self.LOCATION_UNKOWN = 'nicht zuordenbar'
         self.MAP_PRIORITY = {'mittel': PriorityTypes.NORMAL, 'niedrig': PriorityTypes.LOW, 'hoch': PriorityTypes.HIGH}
+        self.ASSIGNED_OK = 'akzeptiert'
         super().__init__(cmd, csvFilename, chunkSize, clean)
 
     def eraseObjects(self):
@@ -135,6 +137,8 @@ class IssueImporter(CSVImporter):
         location = row['adresse']
         priority = row['prioritaet']
         landowner = row['flurstueckseigentum']
+        assigned = row['zustaendigkeit']
+        assigned_state = row['zustaendigkeit_status']
         if email == self.EMAIL_HIDDEN:
             email = None
         cat = Category.objects.get(id=categoryId)
@@ -147,7 +151,11 @@ class IssueImporter(CSVImporter):
         if location == self.LOCATION_UNKOWN:
             location = None
         priority = self.MAP_PRIORITY[priority]
-        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner)
+        if assigned_state == self.ASSIGNED_OK:
+            group_assigned, was_created = Group.objects.get_or_create(name=assigned)
+        else:
+            group_assigned = None
+        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned)
         return issue
 
     def checkObjExists(self, row):
