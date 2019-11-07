@@ -33,7 +33,8 @@ class Issue(models.Model):
     location = models.CharField(max_length=150, null=True)
     priority = models.IntegerField(choices=PriorityTypes.choices(), default=PriorityTypes.NORMAL)
     landowner = models.CharField(max_length=250, null=True)
-    assigned = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL)
+    assigned = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL, related_name='assignedIssues')
+    delegated = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL, related_name='delegatedIssues')
     
     def get_issue_priority_label(self):
         return PriorityTypes(self.type).name.title()

@@ -139,12 +139,13 @@ class IssueImporter(CSVImporter):
         landowner = row['flurstueckseigentum']
         assigned = row['zustaendigkeit']
         assigned_state = row['zustaendigkeit_status']
+        delegated = row['delegiert_an']
         if email == self.EMAIL_HIDDEN:
             email = None
         cat = Category.objects.get(id=categoryId)
         if cat is None:
             self.cmd.stdout.write(self.cmd.style.ERROR('Error - No category found (Issue %s, Cat.Id. %s)' % (id, categoryId)))
-        if photoFilename == "":
+        if photoFilename == '':
             photoFilename = None
         created = dateparse.parse_datetime(created)
         created=created.replace(tzinfo=timezone(timedelta(hours=1)))
@@ -155,7 +156,11 @@ class IssueImporter(CSVImporter):
             group_assigned, was_created = Group.objects.get_or_create(name=assigned)
         else:
             group_assigned = None
-        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned)
+        if delegated == '':
+            group_delegated = None
+        else:
+            group_delegated, was_created = Group.objects.get_or_create(name=delegated)
+        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned, delegated=group_delegated)
         return issue
 
     def checkObjExists(self, row):
