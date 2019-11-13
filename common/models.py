@@ -43,6 +43,9 @@ class Issue(models.Model):
              verbose_name = "issue"
              verbose_name_plural = 'issues'
 
+    def __str__(self):
+                return str(self.id)
+
 
 class Category(MPTTModel):
         name = models.CharField(max_length=50, verbose_name = 'name', help_text='Short label of this category.')

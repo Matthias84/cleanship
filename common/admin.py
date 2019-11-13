@@ -15,7 +15,21 @@ class UserAdmin(UserAdmin):
 
 
 class IssueAdmin(admin.GeoModelAdmin):
-        readonly_fields = ["thumb_image"]
+        readonly_fields = ['id', "thumb_image"]
+        date_hierarchy = 'created_at'
+        # TODO: Add admin bulk actions
+        fieldsets = (
+        ('Basics', {
+            'fields': ( 'id', 'created_at', 'authorEmail', 'category', 'description', 'thumb_image', 'photo')
+        }),
+        ('Geospatial', {
+            #'classes': ('collapse',),
+            'fields': ('position', 'location', 'landowner'),
+        }),
+        ('Processing', {
+            'fields': ('priority', 'assigned', 'delegated'),
+        }),
+        )
 
         def thumb_image(self, obj):
                 return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
