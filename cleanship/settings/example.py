@@ -2,6 +2,8 @@ from .base import *
 
 
 ADMIN_ENABLED = False
+AdminSite.site_header = 'Cleanship Administration'
+AdminSite.site_title = 'Cleanship Admin'
 
 DEBUG = False
 

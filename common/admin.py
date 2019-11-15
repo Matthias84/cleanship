@@ -17,7 +17,11 @@ class UserAdmin(UserAdmin):
 class IssueAdmin(admin.GeoModelAdmin):
         readonly_fields = ['id', "thumb_image"]
         date_hierarchy = 'created_at'
+        list_display = ('id', 'created_at', 'location', 'category', 'priority')
+        list_filter = ('created_at', 'priority', 'category') # TODO: split category levels for filters
+        search_fields = ['id']
         # TODO: Add admin bulk actions
+        # TODO: Add Link to public frontend / backoffice view_on_site()
         fieldsets = (
         ('Basics', {
             'fields': ( 'id', 'created_at', 'authorEmail', 'category', 'description', 'thumb_image', 'photo')

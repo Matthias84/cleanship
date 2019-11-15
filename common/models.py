@@ -32,7 +32,7 @@ class Issue(models.Model):
     created_at = models.DateTimeField(default=timezone.now, verbose_name = 'creation date', help_text='Date of submission.')
     location = models.CharField(max_length=150, null=True, verbose_name = 'location', help_text='Human readable description of the position.')
     priority = models.IntegerField(choices=PriorityTypes.choices(), default=PriorityTypes.NORMAL, verbose_name = 'priority', help_text='Importance of the note for responsibles.')
-    landowner = models.CharField(max_length=250, null=True, verbose_name = 'öandowner', help_text='Operrator that manages the area of the position. (usually landowner, might be inaccurate)')
+    landowner = models.CharField(max_length=250, null=True, verbose_name = 'landowner', help_text='Operrator that manages the area of the position. (usually landowner, might be inaccurate)')
     assigned = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL, related_name='assignedIssues', verbose_name = 'assigned group', help_text='Responsible (internal) department, which processes the issue currently.')
     delegated = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL, related_name='delegatedIssues', verbose_name = 'delegated group', help_text='Responsible (external) organisation, which becomes involved in solving this issue.')
     
