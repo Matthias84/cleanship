@@ -28,6 +28,12 @@
 * UTF-8, 4space ident
 * flake8 compliance
 
+## Translating
+
+* Update the current strings to po templates: `django-admin makemessages -l de`
+* Use e.g. poedit to add translation strings
+* Update the binary translations: `django-admin compilemessages`
+
 # migrate from Klarschiff
 
 * recommend a clean install 

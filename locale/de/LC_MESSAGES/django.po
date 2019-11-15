@@ -1,0 +1,145 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-15 18:40+0100\n"
+"PO-Revision-Date: 2019-11-15 17:39+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#: common/models.py:16
+msgid "LOW"
+msgstr "NIEDRIG"
+
+msgid "NORMAL"
+msgstr "NORMAL"
+
+msgid "HIGH"
+msgstr "HOCH"
+
+#: common/models.py:27
+msgid "ID"
+msgstr "Vorgangsnummer"
+
+#: common/models.py:28
+msgid "description"
+msgstr "Beschreibung"
+
+#: common/models.py:28
+msgid "Notes describing further details."
+msgstr "Weitere Details und zum Vorgang."
+
+#: common/models.py:29
+msgid "author"
+msgstr "Autor"
+
+#: common/models.py:29
+msgid "eMail alias of the author."
+msgstr "E-Mail Adresse des Autors"
+
+#: common/models.py:30
+msgid "position"
+msgstr "Position"
+
+#: common/models.py:30
+msgid "Georeference for this issue. (might be inaccurate)"
+msgstr "Geoposition des Vorgangs (kann ungenau sein)"
+
+#: common/models.py:31 common/models.py:60
+msgid "category"
+msgstr "Kategorie"
+
+#: common/models.py:31
+msgid "Multi-level selection of which kind of note this issue comes closest."
+msgstr ""
+"Mehrstufige Auswahl von Kategorien, um den Vorgang möglichst genau zu "
+"charakterisieren."
+
+#: common/models.py:32
+msgid "photo"
+msgstr "Photo"
+
+#: common/models.py:32
+msgid "Photo that show the spot. (unprocessed, might include metadata)"
+msgstr "Photo der Umgebung (Rohversion, ggF. mit weiteren Metadaten)"
+
+#: common/models.py:33
+msgid "creation date"
+msgstr "Erstellungsdatum"
+
+#: common/models.py:33
+msgid "Date of submission."
+msgstr "Datum der Einreichung"
+
+#: common/models.py:34
+msgid "location"
+msgstr "Lage"
+
+#: common/models.py:34
+msgid "Human readable description of the position."
+msgstr "Umgangssprachliche Beschreibung der Position."
+
+#: common/models.py:35
+msgid "priority"
+msgstr "Priorität"
+
+#: common/models.py:35
+msgid "Importance of the note for responsibles."
+msgstr "Wichtigkeit des Hinweises für Bearbeiter."
+
+#: common/models.py:36
+msgid "landowner"
+msgstr "Eigentümer"
+
+#: common/models.py:36
+msgid ""
+"Operrator that manages the area of the position. (usually landowner, might "
+"be inaccurate)"
+msgstr ""
+"Verantwortlicher für das Gebiet an der Position (gewöhnlich Landeigentümer, "
+"kann u.U. ungenau sein)"
+
+#: common/models.py:37
+msgid "assigned group"
+msgstr "Zugeordnet"
+
+#: common/models.py:37
+msgid "Responsible (internal) department, which processes the issue currently."
+msgstr "Verantwortliches Amt, dass den Vorgang betreut"
+
+#: common/models.py:38
+msgid "delegated group"
+msgstr "Delegiert"
+
+#: common/models.py:38
+msgid ""
+"Responsible (external) organisation, which becomes involved in solving this "
+"issue."
+msgstr "Externe Organisation, dass bei der Bearbeitung des Vorganges hilft"
+
+#: common/models.py:44
+msgid "issue"
+msgstr "Vorgang"
+
+#: common/models.py:45
+msgid "issues"
+msgstr "Vorgänge"
+
+#: common/models.py:52
+msgid "Short label of this category."
+msgstr "Kurzbezeichnung dieser Kategorie."
+
+#: common/models.py:61
+msgid "categories"
+msgstr "Kategorien"
