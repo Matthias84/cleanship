@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'mptt',
+    'leaflet',
     'common.apps.CommonConfig',
     'legacy.apps.LegacyConfig'
 ]

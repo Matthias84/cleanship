@@ -25,3 +25,10 @@ LANGUAGE_CODE = 'de-de'
 TIME_ZONE = 'Europe/Berlin'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LEAFLET_CONFIG = {
+    'TILES': [
+                ('ORKa.MV', 'http://www.orka-mv.de/geodienste/orkamv/tiles/1.0.0/orkamv/GLOBAL_WEBMERCATOR/{z}/{x}/{y}.png', {'attribution': '&copy; Kartenbild Hanse- und Universitätsstadt Rostock (CC BY 4.0) | Kartendaten OpenStreetMap (ODbL) und LkKfS-MV.'}),
+                ('OpenStreetMap (DE)', 'http://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {'attribution': '&copy; OpenStreetMap - Mitwirkende'})
+    ]
+}

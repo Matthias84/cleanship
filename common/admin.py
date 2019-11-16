@@ -2,6 +2,7 @@ from django.contrib.gis import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.safestring import mark_safe
 from mptt.admin import MPTTModelAdmin
+from leaflet.admin import LeafletGeoAdmin
 
 from .forms import UserCreationForm, UserChangeForm
 from .models import User, Issue, Category
@@ -14,7 +15,7 @@ class UserAdmin(UserAdmin):
     list_display = ['email', 'username']
 
 
-class IssueAdmin(admin.GeoModelAdmin):
+class IssueAdmin(LeafletGeoAdmin):
         readonly_fields = ['id', "thumb_image"]
         date_hierarchy = 'created_at'
         list_display = ('id', 'created_at', 'location', 'category', 'priority', 'status')
