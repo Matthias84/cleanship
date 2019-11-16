@@ -22,6 +22,19 @@ class PriorityTypes(IntEnum):
   def choices(cls):
     return [(key.value, _(key.name)) for key in cls]
 
+class StatusTypes(IntEnum):
+  SUBMITTED = 1
+  WIP = 2
+  SOLVED = 3
+  IMPOSSIBLE = 4
+  DUBLICATE = 5
+  # TODO: Add unassigned / offen
+  # TODO: Add deleted / geloescht
+  
+  @classmethod
+  def choices(cls):
+    return [(key.value, _(key.name)) for key in cls]
+
 
 class Issue(models.Model):
     id = models.AutoField(primary_key=True, verbose_name=_('ID'))
@@ -36,6 +49,7 @@ class Issue(models.Model):
     landowner = models.CharField(max_length=250, null=True, verbose_name = _('landowner'), help_text=_('Operrator that manages the area of the position. (usually landowner, might be inaccurate)'))
     assigned = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL, related_name='assignedIssues', verbose_name=_('assigned group'), help_text=_('Responsible (internal) department, which processes the issue currently.'))
     delegated = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL, related_name='delegatedIssues', verbose_name=_('delegated group'), help_text=_('Responsible (external) organisation, which becomes involved in solving this issue.'))
+    status = models.IntegerField(choices=StatusTypes.choices(), default=StatusTypes.SUBMITTED, verbose_name = _('status'), help_text=_('Stage of progress for the solution.'))
     
     def get_issue_priority_label(self):
         return PriorityTypes(self.type).name.title()

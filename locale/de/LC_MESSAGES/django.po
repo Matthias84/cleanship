@@ -28,6 +28,22 @@ msgstr "NORMAL"
 msgid "HIGH"
 msgstr "HOCH"
 
+#: common/models.py:25
+msgid "SUBMITTED"
+msgstr "UNBESTÄTIGT"
+
+msgid "WIP"
+msgstr "IN BEARBEITUNG"
+
+msgid "SOLVED"
+msgstr "GELÖST"
+
+msgid "IMPOSSIBLE"
+msgstr "UNLÖSBAR"
+
+msgid "DUBLICATE"
+msgstr "DUBLIKAT"
+
 #: common/models.py:27
 msgid "ID"
 msgstr "Vorgangsnummer"
@@ -123,6 +139,9 @@ msgid "delegated group"
 msgstr "Delegiert"
 
 #: common/models.py:38
+msgid "Stage of progress for the solution."
+msgstr "Aktueller Status der Bearbeitung."
+
 msgid ""
 "Responsible (external) organisation, which becomes involved in solving this "
 "issue."
