@@ -16,6 +16,7 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '',
+    }
 }
 
 LANGUAGE_CODE = 'de-de'
