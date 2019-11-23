@@ -114,12 +114,14 @@ class IssueImporter(CSVImporter):
     """
 
     def __init__(self, cmd, csvFilename, chunkSize=None, clean=True):
-        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum', 'prioritaet', 'flurstueckseigentum', 'status']
+        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum', 'prioritaet', 'flurstueckseigentum', 'status', 'archiviert', 'foto_freigabe_status', 'beschreibung_freigabe_status']
         self.EMAIL_HIDDEN = '- bei Archivierung entfernt -'
         self.LOCATION_UNKOWN = 'nicht zuordenbar'
         self.MAP_PRIORITY = {'mittel': PriorityTypes.NORMAL, 'niedrig': PriorityTypes.LOW, 'hoch': PriorityTypes.HIGH}
         self.ASSIGNED_OK = 'akzeptiert'
         self.MAP_STATUS = {'gemeldet': StatusTypes.SUBMITTED, 'offen': StatusTypes.WIP, 'inBearbeitung': StatusTypes.WIP, 'geloest': StatusTypes.SOLVED, 'nichtLoesbar': StatusTypes.IMPOSSIBLE, 'duplikat': StatusTypes.DUBLICATE, 'geloescht': StatusTypes.DUBLICATE}
+        self.MAP_ARCHIVE = {'t': True, 'f': False, '': False}
+        self.MAP_PUBLIC = {'extern': True, 'intern': False, 'geloescht': False} # TODO: Process deleted photo
         super().__init__(cmd, csvFilename, chunkSize, clean)
 
     def eraseObjects(self):
@@ -142,6 +144,9 @@ class IssueImporter(CSVImporter):
         assigned_state = row['zustaendigkeit_status']
         delegated = row['delegiert_an']
         status = row['status']
+        archive = row['archiviert']
+        public_photo = row['foto_freigabe_status']
+        public_descr = row['beschreibung_freigabe_status']
         if email == self.EMAIL_HIDDEN:
             email = None
         cat = Category.objects.get(id=categoryId)
@@ -163,7 +168,14 @@ class IssueImporter(CSVImporter):
         else:
             group_delegated, was_created = Group.objects.get_or_create(name=delegated)
         status = self.MAP_STATUS[status]
-        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned, delegated=group_delegated, status=status)
+        published = self.MAP_ARCHIVE[archive]
+        if published == True:
+            # Check if all content is published
+            if self.MAP_PUBLIC[public_photo] and self.MAP_PUBLIC[public_descr]:
+                published = True
+            else:
+                published = False
+        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned, delegated=group_delegated, status=status, published=published)
         return issue
 
     def checkObjExists(self, row):

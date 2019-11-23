@@ -50,6 +50,7 @@ class Issue(models.Model):
     assigned = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL, related_name='assignedIssues', verbose_name=_('assigned group'), help_text=_('Responsible (internal) department, which processes the issue currently.'))
     delegated = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL, related_name='delegatedIssues', verbose_name=_('delegated group'), help_text=_('Responsible (external) organisation, which becomes involved in solving this issue.'))
     status = models.IntegerField(choices=StatusTypes.choices(), default=StatusTypes.SUBMITTED, verbose_name = _('status'), help_text=_('Stage of progress for the solution.'))
+    published = models.BooleanField(null=False, blank=False, default=False, verbose_name=_('published'), help_text=_('If base information are currently public. (can be altered manually and by state changes)'))
     
     def get_issue_priority_label(self):
         return PriorityTypes(self.type).name.title()
