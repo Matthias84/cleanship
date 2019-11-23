@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group
 from django.utils import dateparse
-from common.models import Issue, Category, PriorityTypes, StatusTypes
+from common.models import Issue, Category, PriorityTypes, StatusTypes, Comment
 from itertools import islice
 import csv
 import time
@@ -92,11 +92,11 @@ class CSVImporter:
 
     def eraseObjects(self):
         """empty DB from objects"""
-        raise NotImplementedError("Please Implement parseLine() method")
+        raise NotImplementedError("Please Implement eraseObjects() method")
 
     def parseRow(self, row):
         """return DB model object from CSV fields"""
-        raise NotImplementedError("Please Implement parseLine() method")
+        raise NotImplementedError("Please Implement parseRow() method")
 
     def checkObjExists(self, row):
         """Test if model object already exists in DB"""
@@ -226,3 +226,30 @@ class CategoryImporter(CSVImporter):
         cat.save()
     # TODO: manager for bulk update rebuild()
 
+class CommentImporter(CSVImporter):
+    """
+    Add old internal issue comments from CSV export
+    (requires existing issues)
+    """
+
+    def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
+        self.NESSESARY_FIELDS = ['datum', 'nutzer', 'text', 'vorgang']
+        super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
+
+    def eraseObjects(self):
+        Comment.objects.all().delete()
+
+    def parseRow(self, row):
+        id = row['id']
+        created_at = row['datum']
+        author = row['nutzer']
+        content = row['text']
+        issue_id = row['vorgang']
+        created_at = dateparse.parse_datetime(created_at)
+        created_at=created_at.replace(tzinfo=timezone(timedelta(hours=1)))
+        issue = Issue.objects.get(id=issue_id)
+        comment = Comment(created_at=created_at, author=author, content=content, issue=issue)
+        comment.save()
+    
+    def saveChunk(self, chunk):
+        Comment.objects.bulk_create(chunk)

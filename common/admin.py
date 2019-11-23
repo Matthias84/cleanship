@@ -5,7 +5,7 @@ from mptt.admin import MPTTModelAdmin
 from leaflet.admin import LeafletGeoAdmin
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import User, Issue, Category
+from .models import User, Issue, Category, Comment
 
 
 class UserAdmin(UserAdmin):
@@ -14,6 +14,11 @@ class UserAdmin(UserAdmin):
     model = User
     list_display = ['email', 'username']
 
+class CommentInline(admin.StackedInline):
+    model = Comment
+    ordering = ['-created_at']
+    readonly_fields = ['created_at', "author", "content"]
+    extra = 0
 
 class IssueAdmin(LeafletGeoAdmin):
         readonly_fields = ['id', "thumb_image"]
@@ -35,6 +40,8 @@ class IssueAdmin(LeafletGeoAdmin):
             'fields': ('priority', 'status', 'assigned', 'delegated'),
         }),
         )
+        inlines = [CommentInline,]
+
 
         def thumb_image(self, obj):
                 return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
@@ -44,7 +51,16 @@ class IssueAdmin(LeafletGeoAdmin):
                     )
                 )
 
+class CommentAdmin(admin.ModelAdmin):
+    date_hierarchy = 'created_at'
+    list_display = ('issue_id', 'created_at', 'author')
+    list_filter = ('author',)
+    search_fields = ['issue_id','author' ]
+    
+    def issue_id(self, obj):
+        return obj.issue.id
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Issue, IssueAdmin)
 admin.site.register(Category, MPTTModelAdmin)
+admin.site.register(Comment, CommentAdmin)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-22 23:09+0100\n"
+"POT-Creation-Date: 2019-11-23 23:31+0100\n"
 "PO-Revision-Date: 2019-11-15 17:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -30,7 +30,7 @@ msgstr "Beschreibung"
 msgid "Notes describing further details."
 msgstr "Weitere Details und zum Vorgang."
 
-#: common/models.py:42
+#: common/models.py:42 common/models.py:84
 msgid "author"
 msgstr "Autor"
 
@@ -64,7 +64,7 @@ msgstr "Photo"
 msgid "Photo that show the spot. (unprocessed, might include metadata)"
 msgstr "Photo der Umgebung (Rohversion, ggF. mit weiteren Metadaten)"
 
-#: common/models.py:46
+#: common/models.py:46 common/models.py:86
 msgid "creation date"
 msgstr "Erstellungsdatum"
 
@@ -154,6 +154,30 @@ msgstr "Kurzbezeichnung dieser Kategorie."
 msgid "categories"
 msgstr "Kategorien"
 
+#: common/models.py:84
+msgid "Who wrote the content."
+msgstr "Der Verfasser des Inhalts."
+
+#: common/models.py:86
+msgid "When was the contet written."
+msgstr "Zeitpunkt, als der Inhalt geschrieben wurde"
+
+#: common/models.py:87
+msgid "content"
+msgstr "Inhalt"
+
+#: common/models.py:87
+msgid "Text of the comment"
+msgstr "Text des Kommentars"
+
+#: common/models.py:90
+msgid "comment"
+msgstr "Kommentar"
+
+#: common/models.py:91
+msgid "comments"
+msgstr "Kommentare"
+
 msgid "LOW"
 msgstr "NIEDRIG"
 
@@ -175,5 +199,5 @@ msgstr "GELÖST"
 msgid "IMPOSSIBLE"
 msgstr "UNLÖSBAR"
 
-msgid "DUBLICATE"
-msgstr "DUBLIKAT"
+#~ msgid "DUBLICATE"
+#~ msgstr "DUBLIKAT"

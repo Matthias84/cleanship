@@ -77,3 +77,19 @@ class Category(MPTTModel):
 
         def __str__(self):
                 return self.name
+
+class Comment(models.Model):
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    # TODO: User needs to be model not string (if provided by #29)
+    author = models.CharField(max_length=150, null=False, blank=False, verbose_name=_('author'), help_text=_('Who wrote the content.'))
+    # TODO: Get number of edits + last timestamp
+    created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('When was the contet written.'))
+    content = models.TextField(max_length=500, verbose_name=_('content'), help_text=_('Text of the comment'))
+
+    class Meta:
+        verbose_name = _("comment")
+        verbose_name_plural = _('comments')
+        ordering = ['-created_at', 'author']
+
+    def __str__(self):
+        return "%s @ %s" % (self.author, str(self.issue.id))
