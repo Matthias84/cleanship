@@ -113,10 +113,17 @@ Some reminders for first contact or before we push to github / pull-request:
 * check requirements, contributors, ...
 * (CI checks again)
 
+Please install `requirements\dev.txt` for the tools dependencies!
+
 ### Codeformat
 
 * UTF-8, 4space ident
 * flake8 compliance
+
+## Testing
+
+* `python3 manage.py test --settings cleanship.settings.local`
+* Code coverage with `coverage run  manage.py test --settings cleanship.settings.local`
 
 ## Translating
 
