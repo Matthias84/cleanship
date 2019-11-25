@@ -30,10 +30,10 @@ class IssueAdmin(LeafletGeoAdmin):
         readonly_fields = ['id', "thumb_image"]
         date_hierarchy = 'created_at'
         list_display = ('id', 'created_at', 'location', 'category', 'priority', 'status', 'published')
-        list_filter = ('created_at', 'priority', 'status', 'published', 'category') # TODO: split category levels for filters
+        list_filter = ('created_at', 'priority', 'status', 'published', 'category') # TODO: split category levels for filters #47
         search_fields = ['id']
-        # TODO: Add admin bulk actions
-        # TODO: Add Link to public frontend / backoffice view_on_site()
+        # TODO: Add admin bulk actions #10
+        # TODO: Add Link to public frontend / backoffice view_on_site() #11
         fieldsets = (
         ('Basics', {
             'fields': ( 'id', 'created_at', 'authorEmail', 'category', 'description', 'thumb_image', 'photo')

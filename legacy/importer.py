@@ -121,7 +121,7 @@ class IssueImporter(CSVImporter):
         self.ASSIGNED_OK = 'akzeptiert'
         self.MAP_STATUS = {'gemeldet': StatusTypes.SUBMITTED, 'offen': StatusTypes.WIP, 'inBearbeitung': StatusTypes.WIP, 'geloest': StatusTypes.SOLVED, 'nichtLoesbar': StatusTypes.IMPOSSIBLE, 'duplikat': StatusTypes.DUBLICATE, 'geloescht': StatusTypes.DUBLICATE}
         self.MAP_ARCHIVE = {'t': True, 'f': False, '': False}
-        self.MAP_PUBLIC = {'extern': True, 'intern': False, 'geloescht': False} # TODO: Process deleted photo
+        self.MAP_PUBLIC = {'extern': True, 'intern': False, 'geloescht': False} # TODO: Process deleted photo #48
         super().__init__(cmd, csvFilename, chunkSize, clean)
 
     def eraseObjects(self):
@@ -273,7 +273,7 @@ class FeedbackImporter(CSVImporter):
         authorEmail = row['autor_email']
         content = row['freitext']
         issue_id = row['vorgang']
-        # TODO: Get receiver mail alias -> which staff user was notified?
+        # TODO: Get receiver mail alias -> which staff user was notified? #46
         created_at = dateparse.parse_datetime(created_at)
         created_at=created_at.replace(tzinfo=timezone(timedelta(hours=1)))
         issue = Issue.objects.get(id=issue_id)
