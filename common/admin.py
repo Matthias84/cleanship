@@ -5,7 +5,7 @@ from mptt.admin import MPTTModelAdmin
 from leaflet.admin import LeafletGeoAdmin
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import User, Issue, Category, Comment
+from .models import User, Issue, Category, Comment, Feedback
 
 
 class UserAdmin(UserAdmin):
@@ -17,7 +17,13 @@ class UserAdmin(UserAdmin):
 class CommentInline(admin.StackedInline):
     model = Comment
     ordering = ['-created_at']
-    readonly_fields = ['created_at', "author", "content"]
+    readonly_fields = ['created_at', "content", "author"]
+    extra = 0
+
+class FeedbackInline(admin.StackedInline):
+    model = Feedback
+    ordering = ['-created_at']
+    readonly_fields = ['created_at', "content", "authorEmail"]
     extra = 0
 
 class IssueAdmin(LeafletGeoAdmin):
@@ -40,7 +46,7 @@ class IssueAdmin(LeafletGeoAdmin):
             'fields': ('priority', 'status', 'assigned', 'delegated'),
         }),
         )
-        inlines = [CommentInline,]
+        inlines = [FeedbackInline, CommentInline]
 
 
         def thumb_image(self, obj):
@@ -60,7 +66,17 @@ class CommentAdmin(admin.ModelAdmin):
     def issue_id(self, obj):
         return obj.issue.id
 
+class FeedbackAdmin(admin.ModelAdmin):
+    date_hierarchy = 'created_at'
+    list_display = ('issue_id', 'created_at', 'authorEmail')
+    list_filter = ('authorEmail',)
+    search_fields = ['issue_id','authorEmail' ]
+    
+    def issue_id(self, obj):
+        return obj.issue.id
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Issue, IssueAdmin)
 admin.site.register(Category, MPTTModelAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Feedback, FeedbackAdmin)

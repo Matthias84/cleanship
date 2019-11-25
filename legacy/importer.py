@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group
 from django.utils import dateparse
-from common.models import Issue, Category, PriorityTypes, StatusTypes, Comment
+from common.models import Issue, Category, PriorityTypes, StatusTypes, Comment, Feedback
 from itertools import islice
 import csv
 import time
@@ -253,3 +253,32 @@ class CommentImporter(CSVImporter):
     
     def saveChunk(self, chunk):
         Comment.objects.bulk_create(chunk)
+
+class FeedbackImporter(CSVImporter):
+    """
+    Add old external issue feedback from CSV export
+    (requires existing issues)
+    """
+
+    def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
+        self.NESSESARY_FIELDS = ['datum', 'autor_email', 'freitext', 'vorgang']
+        super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
+
+    def eraseObjects(self):
+        Feedback.objects.all().delete()
+
+    def parseRow(self, row):
+        id = row['id']
+        created_at = row['datum']
+        authorEmail = row['autor_email']
+        content = row['freitext']
+        issue_id = row['vorgang']
+        # TODO: Get receiver mail alias -> which staff user was notified?
+        created_at = dateparse.parse_datetime(created_at)
+        created_at=created_at.replace(tzinfo=timezone(timedelta(hours=1)))
+        issue = Issue.objects.get(id=issue_id)
+        feedback = Feedback(created_at=created_at, authorEmail=authorEmail, content=content, issue=issue)
+        feedback.save()
+    
+    def saveChunk(self, chunk):
+        Feedback.objects.bulk_create(chunk)

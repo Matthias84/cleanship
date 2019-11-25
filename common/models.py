@@ -79,11 +79,12 @@ class Category(MPTTModel):
                 return self.name
 
 class Comment(models.Model):
+    """Internal comments of staff after login"""
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     # TODO: User needs to be model not string (if provided by #29)
     author = models.CharField(max_length=150, null=False, blank=False, verbose_name=_('author'), help_text=_('Who wrote the content.'))
     # TODO: Get number of edits + last timestamp
-    created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('When was the contet written.'))
+    created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('When was the content written.'))
     content = models.TextField(max_length=500, verbose_name=_('content'), help_text=_('Text of the comment'))
 
     class Meta:
@@ -93,3 +94,20 @@ class Comment(models.Model):
 
     def __str__(self):
         return "%s @ %s" % (self.author, str(self.issue.id))
+
+class Feedback(models.Model):
+    """External feedback"""
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    # TODO: User needs to be model not string (if provided by #29)
+    authorEmail = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author (verified).'))
+    # TODO: Set receiver mail alias -> which staff user was notified?
+    created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('When was the content written.'))
+    content = models.TextField(max_length=500, verbose_name=_('content'), help_text=_('Text of the feedback'))
+
+    class Meta:
+        verbose_name = _("feedback")
+        verbose_name_plural = _('feedback')
+        ordering = ['-created_at', 'authorEmail']
+
+    def __str__(self):
+        return "%s to %s" % (self.authorEmail, str(self.issue.id))

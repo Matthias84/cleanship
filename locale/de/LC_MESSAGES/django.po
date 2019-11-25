@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-23 23:31+0100\n"
+"POT-Creation-Date: 2019-11-24 20:34+0100\n"
 "PO-Revision-Date: 2019-11-15 17:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -30,7 +30,7 @@ msgstr "Beschreibung"
 msgid "Notes describing further details."
 msgstr "Weitere Details und zum Vorgang."
 
-#: common/models.py:42 common/models.py:84
+#: common/models.py:42 common/models.py:85 common/models.py:102
 msgid "author"
 msgstr "Autor"
 
@@ -64,7 +64,7 @@ msgstr "Photo"
 msgid "Photo that show the spot. (unprocessed, might include metadata)"
 msgstr "Photo der Umgebung (Rohversion, ggF. mit weiteren Metadaten)"
 
-#: common/models.py:46 common/models.py:86
+#: common/models.py:46 common/models.py:87 common/models.py:104
 msgid "creation date"
 msgstr "Erstellungsdatum"
 
@@ -154,29 +154,41 @@ msgstr "Kurzbezeichnung dieser Kategorie."
 msgid "categories"
 msgstr "Kategorien"
 
-#: common/models.py:84
+#: common/models.py:85
 msgid "Who wrote the content."
 msgstr "Der Verfasser des Inhalts."
 
-#: common/models.py:86
-msgid "When was the contet written."
+#: common/models.py:87 common/models.py:104
+msgid "When was the content written."
 msgstr "Zeitpunkt, als der Inhalt geschrieben wurde"
 
-#: common/models.py:87
+#: common/models.py:88 common/models.py:105
 msgid "content"
 msgstr "Inhalt"
 
-#: common/models.py:87
+#: common/models.py:88
 msgid "Text of the comment"
 msgstr "Text des Kommentars"
 
-#: common/models.py:90
+#: common/models.py:91
 msgid "comment"
 msgstr "Kommentar"
 
-#: common/models.py:91
+#: common/models.py:92
 msgid "comments"
 msgstr "Kommentare"
+
+#: common/models.py:102
+msgid "eMail alias of the author (verified)."
+msgstr "E-Mail Adresse des Autors (verifziziert)"
+
+#: common/models.py:105
+msgid "Text of the feedback"
+msgstr "Text der Rückmeldung"
+
+#: common/models.py:108 common/models.py:109
+msgid "feedback"
+msgstr "Rückmeldung"
 
 msgid "LOW"
 msgstr "NIEDRIG"
@@ -199,5 +211,5 @@ msgstr "GELÖST"
 msgid "IMPOSSIBLE"
 msgstr "UNLÖSBAR"
 
-#~ msgid "DUBLICATE"
-#~ msgstr "DUBLIKAT"
+msgid "DUBLICATE"
+msgstr "DUBLIKAT"
