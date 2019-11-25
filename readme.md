@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/Matthias84/cleanship.svg?branch=master)](https://travis-ci.org/Matthias84/cleanship)
 [![Coverage Status](https://coveralls.io/repos/github/Matthias84/cleanship/badge.svg?branch=master)](https://coveralls.io/github/Matthias84/cleanship?branch=master)
-Cleanship is a citizen participation (Bürgerbeteiligung) / complaints & suggestion management (Mängelmelder) /  ... online platform that allows you to submit issues about the public infrastructure. The  local administration will then review your note and the solution process is public visible.
+
+Cleanship is a citizen participation (Bürgerbeteiligung) / complaints & suggestion management (Anliegenmanagement) /  ... online platform that allows you to submit issues about the public infrastructure. The  local administration will then review your note and the solution process is public visible.
 
 It is the successor of klarschiff. But this project includes only the core and a [backoffice](https://github.com/bfpi/klarschiff-backend) for city staff. We reuse the old public (mobile) [frontend](https://github.com/bfpi/klarschiff-field_service) from Klarschiff,  which is connected trough an extended [CitySDK API](https://github.com/bfpi/klarschiff-citysdk).
 Currently we port only existing features, while avoiding old bottlenecks. New features will be introduced with version 0.2
@@ -75,7 +76,7 @@ Cleanship focus to be a enterprise-grade selfhosted solution for the public admi
 * multilanguage
 * scale with huge amount of issues (>40k tested so far)
 * history and logging
-* openAPI following Open311 and CitySDK protocoll
+* API following Open311 and CitySDK protocoll
 
 To get a basic understanding of the internals, you might have a look at the base object definitions:
 
