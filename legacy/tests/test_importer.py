@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.core.management.base import BaseCommand
+from django.contrib.gis.geos import Point
 
-from legacy.importer import IssueImporter, CategoryImporter
-from common.models import Issue, Category
+from legacy.importer import IssueImporter, CategoryImporter, CommentImporter, FeedbackImporter
+from common.models import Issue, Category, Comment, Feedback
 
 
 class ImporterTests(TestCase):
@@ -40,5 +41,29 @@ class ImporterTests(TestCase):
         cat = Category(name='Testcategory')
         cat.save()
         cmd = BaseCommand()
-        ci = CategoryImporter(cmd, './legacy/tests/basic-cat.csv')
+        cati = CategoryImporter(cmd, './legacy/tests/basic-cat.csv')
         self.assertEqual(Category.objects.count(), 11)
+
+    def test_import_csv_comments_basic(self):
+        """Check if parsing a wellformed CSV works fine"""
+        cmd = BaseCommand()
+        catA = Category(id=0, name='Category A')
+        catA.save()
+        issue = Issue(id=1, description="test issue with defined id", position=Point(5, 23), category=catA)
+        issue.save()
+        issue = Issue(id=2, description="test issue with defined id", position=Point(5, 23), category=catA)
+        issue.save()
+        commi = CommentImporter(cmd, './legacy/tests/basic-comment.csv')
+        self.assertEqual(Comment.objects.count(), 2)
+    
+    def test_import_csv_feedback_basic(self):
+        """Check if parsing a wellformed CSV works fine"""
+        cmd = BaseCommand()
+        catA = Category(id=0, name='Category A')
+        catA.save()
+        issue = Issue(id=1, description="test issue with defined id", position=Point(5, 23), category=catA)
+        issue.save()
+        issue = Issue(id=2, description="test issue with defined id", position=Point(5, 23), category=catA)
+        issue.save()
+        fbi = FeedbackImporter(cmd, './legacy/tests/basic-feedback.csv')
+        self.assertEqual(Feedback.objects.count(), 2)
