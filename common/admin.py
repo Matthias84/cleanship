@@ -27,7 +27,7 @@ class FeedbackInline(admin.StackedInline):
     extra = 0
 
 class IssueAdmin(LeafletGeoAdmin):
-        readonly_fields = ['id', "thumb_image"]
+        readonly_fields = ['id', 'thumb_image', 'location', 'landowner']
         date_hierarchy = 'created_at'
         list_display = ('id', 'created_at', 'location', 'category', 'priority', 'status', 'published')
         list_filter = ('created_at', 'priority', 'status', 'published', 'category') # TODO: split category levels for filters #47
