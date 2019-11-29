@@ -55,13 +55,22 @@ def validate_in_municipality(value):
             code='error_bounds',
         )
 
+def validate_is_subcategory(value):
+    """Only 3rd level is a full type/main category/sub category"""
+    cat = Category.objects.get(id=value)
+    if cat.level < 2:
+        raise ValidationError(
+            _('Category must be a subcategory (3. level).'),
+            code='error_cats',
+        )
+
 class Issue(models.Model):
     """A submitted ticket / service request / observation which somebody wants to be fixed / evaluated (e.g. report of waste)"""
     id = models.AutoField(primary_key=True, verbose_name=_('ID'))
     description = models.TextField(max_length=500, verbose_name=_('description'), help_text=_('Notes describing further details.'))  # BUG: Could be empty, whats the right way?
     authorEmail = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author.'))
     position = models.PointField(srid=25833, verbose_name=_('position'), help_text=_('Georeference for this issue. (might be inaccurate)'), validators=[validate_in_municipality])  # TODO: Extract srid to settings
-    category = TreeForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False, verbose_name=_('category'), help_text=_('Multi-level selection of which kind of note this issue comes closest.'))
+    category = TreeForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False, verbose_name=_('category'), help_text=_('Multi-level selection of which kind of note this issue comes closest.'), validators=[validate_is_subcategory])
     photo = models.ImageField(null=True, blank=True, verbose_name=_('photo'), help_text=_('Photo that show the spot. (unprocessed, might include metadata)'))
     created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('Date of submission.'))
     location = models.CharField(max_length=150, null=True, verbose_name=_('location'), help_text=_('Human readable description of the position.'))
