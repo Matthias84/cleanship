@@ -12,32 +12,33 @@ import json
 
 
 class User(AbstractUser):
-    pass
 
     def __str__(self):
         return self.email
 
 class PriorityTypes(IntEnum):
-  LOW = 1
-  NORMAL = 2
-  HIGH = 3
-  
-  @classmethod
-  def choices(cls):
-    return [(key.value, _(key.name)) for key in cls]
+    """Enum how important a issue is (e.g. danger of life)"""
+    LOW = 1
+    NORMAL = 2
+    HIGH = 3
+
+    @classmethod
+    def choices(cls):
+        return [(key.value, _(key.name)) for key in cls]
 
 class StatusTypes(IntEnum):
-  SUBMITTED = 1
-  WIP = 2
-  SOLVED = 3
-  IMPOSSIBLE = 4
-  DUBLICATE = 5
-  # TODO: Add unassigned / offen #12
-  # TODO: Add deleted / geloescht #13
-  
-  @classmethod
-  def choices(cls):
-    return [(key.value, _(key.name)) for key in cls]
+    """Enum of current step in finding a solution to the issue"""
+    SUBMITTED = 1
+    WIP = 2
+    SOLVED = 3
+    IMPOSSIBLE = 4
+    DUBLICATE = 5
+    # TODO: Add unassigned / offen #12
+    # TODO: Add deleted / geloescht #13
+
+    @classmethod
+    def choices(cls):
+        return [(key.value, _(key.name)) for key in cls]
 
 def validate_in_municipality(value):
     """Check if map point is within boundary"""
@@ -48,7 +49,6 @@ def validate_in_municipality(value):
     ds = DataSource('municipality_area.json')
     poly = ds[0].get_geoms(geos=True)[0]
     poly.srid = 4326
-    print("Check %s" % str())
     if poly.contains(position) == False:
         raise ValidationError(
             _('Position must be within the municipality area.'),
@@ -56,6 +56,7 @@ def validate_in_municipality(value):
         )
 
 class Issue(models.Model):
+    """A submitted ticket / service request / observation which somebody wants to be fixed / evaluated (e.g. report of waste)"""
     id = models.AutoField(primary_key=True, verbose_name=_('ID'))
     description = models.TextField(max_length=500, verbose_name=_('description'), help_text=_('Notes describing further details.'))  # BUG: Could be empty, whats the right way?
     authorEmail = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author.'))
@@ -75,27 +76,28 @@ class Issue(models.Model):
         return PriorityTypes(self.type).name.title()
 
     class Meta:
-             verbose_name = _("issue")
-             verbose_name_plural = _('issues')
+         verbose_name = _("issue")
+         verbose_name_plural = _('issues')
 
     def __str__(self):
-                return str(self.id)
+        return str(self.id)
 
 
 class Category(MPTTModel):
-        name = models.CharField(max_length=50, verbose_name = 'name', help_text=_('Short label of this category.'))
-        parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', db_index=True, verbose_name = 'parent', help_text='Parent category within the hierachy.')
+    """Kind of issues which used to classify issues and find groups to get a solution"""
+    name = models.CharField(max_length=50, verbose_name = 'name', help_text=_('Short label of this category.'))
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', db_index=True, verbose_name = 'parent', help_text='Parent category within the hierachy.')
 
-        class MPTTMeta:
-                order_insertion_by = ['name']
+    class MPTTMeta:
+            order_insertion_by = ['name']
 
-        class Meta:
-                unique_together = (('id', 'name',))
-                verbose_name = _("category")
-                verbose_name_plural = _('categories')
+    class Meta:
+            unique_together = (('id', 'name',))
+            verbose_name = _("category")
+            verbose_name_plural = _('categories')
 
-        def __str__(self):
-                return self.name
+    def __str__(self):
+            return self.name
 
 class Comment(models.Model):
     """Internal comments of staff after login"""
