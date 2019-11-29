@@ -1,10 +1,14 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import Group
 from django.contrib.gis.db import models
+from django.contrib.gis.gdal import DataSource
+from django.contrib.gis.geos import GEOSGeometry, Point
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 from enum import IntEnum
+import json
 
 
 class User(AbstractUser):
@@ -35,12 +39,27 @@ class StatusTypes(IntEnum):
   def choices(cls):
     return [(key.value, _(key.name)) for key in cls]
 
+def validate_in_municipality(value):
+    """Check if map point is within boundary"""
+    # TODO: Extract validators, switch datasource #56
+    position = value
+    position.transform(4326)
+    print("Check %s" % str(position))
+    ds = DataSource('municipality_area.json')
+    poly = ds[0].get_geoms(geos=True)[0]
+    poly.srid = 4326
+    print("Check %s" % str())
+    if poly.contains(position) == False:
+        raise ValidationError(
+            _('Position must be within the municipality area.'),
+            code='error_bounds',
+        )
 
 class Issue(models.Model):
     id = models.AutoField(primary_key=True, verbose_name=_('ID'))
     description = models.TextField(max_length=500, verbose_name=_('description'), help_text=_('Notes describing further details.'))  # BUG: Could be empty, whats the right way?
     authorEmail = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author.'))
-    position = models.PointField(srid=25833, verbose_name=_('position'), help_text=_('Georeference for this issue. (might be inaccurate)'))  # TODO: Extract srid to settings
+    position = models.PointField(srid=25833, verbose_name=_('position'), help_text=_('Georeference for this issue. (might be inaccurate)'), validators=[validate_in_municipality])  # TODO: Extract srid to settings
     category = TreeForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False, verbose_name=_('category'), help_text=_('Multi-level selection of which kind of note this issue comes closest.'))
     photo = models.ImageField(null=True, blank=True, verbose_name=_('photo'), help_text=_('Photo that show the spot. (unprocessed, might include metadata)'))
     created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('Date of submission.'))

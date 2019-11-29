@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-24 20:34+0100\n"
+"POT-Creation-Date: 2019-11-29 19:02+0100\n"
 "PO-Revision-Date: 2019-11-15 17:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,81 +18,85 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.0.6\n"
 
-#: common/models.py:40
+#: common/models.py:54
+msgid "Position must be within the municipality area."
+msgstr "Position muss innerhalb der Verwaltungsgrenze sei."
+
+#: common/models.py:59
 msgid "ID"
 msgstr "Vorgangsnummer"
 
-#: common/models.py:41
+#: common/models.py:60
 msgid "description"
 msgstr "Beschreibung"
 
-#: common/models.py:41
+#: common/models.py:60
 msgid "Notes describing further details."
 msgstr "Weitere Details und zum Vorgang."
 
-#: common/models.py:42 common/models.py:85 common/models.py:102
+#: common/models.py:61 common/models.py:104 common/models.py:121
 msgid "author"
 msgstr "Autor"
 
-#: common/models.py:42
+#: common/models.py:61
 msgid "eMail alias of the author."
 msgstr "E-Mail Adresse des Autors"
 
-#: common/models.py:43
+#: common/models.py:62
 msgid "position"
 msgstr "Position"
 
-#: common/models.py:43
+#: common/models.py:62
 msgid "Georeference for this issue. (might be inaccurate)"
 msgstr "Geoposition des Vorgangs (kann ungenau sein)"
 
-#: common/models.py:44 common/models.py:75
+#: common/models.py:63 common/models.py:94
 msgid "category"
 msgstr "Kategorie"
 
-#: common/models.py:44
+#: common/models.py:63
 msgid "Multi-level selection of which kind of note this issue comes closest."
 msgstr ""
 "Mehrstufige Auswahl von Kategorien, um den Vorgang möglichst genau zu "
 "charakterisieren."
 
-#: common/models.py:45
+#: common/models.py:64
 msgid "photo"
 msgstr "Photo"
 
-#: common/models.py:45
+#: common/models.py:64
 msgid "Photo that show the spot. (unprocessed, might include metadata)"
 msgstr "Photo der Umgebung (Rohversion, ggF. mit weiteren Metadaten)"
 
-#: common/models.py:46 common/models.py:87 common/models.py:104
+#: common/models.py:65 common/models.py:106 common/models.py:123
 msgid "creation date"
 msgstr "Erstellungsdatum"
 
-#: common/models.py:46
+#: common/models.py:65
 msgid "Date of submission."
 msgstr "Datum der Einreichung"
 
-#: common/models.py:47
+#: common/models.py:66
 msgid "location"
 msgstr "Lage"
 
-#: common/models.py:47
+#: common/models.py:66
 msgid "Human readable description of the position."
 msgstr "Umgangssprachliche Beschreibung der Position."
 
-#: common/models.py:48
+#: common/models.py:67
 msgid "priority"
 msgstr "Priorität"
 
-#: common/models.py:48
+#: common/models.py:67
 msgid "Importance of the note for responsibles."
 msgstr "Wichtigkeit des Hinweises für Bearbeiter."
 
-#: common/models.py:49
+#: common/models.py:68
 msgid "landowner"
 msgstr "Eigentümer"
 
-#: common/models.py:49
+#: common/models.py:68
 msgid ""
 "Operrator that manages the area of the position. (usually landowner, might "
 "be inaccurate)"
@@ -100,37 +104,37 @@ msgstr ""
 "Verantwortlicher für das Gebiet an der Position (gewöhnlich Landeigentümer, "
 "kann u.U. ungenau sein)"
 
-#: common/models.py:50
+#: common/models.py:69
 msgid "assigned group"
 msgstr "Zugeordnet"
 
-#: common/models.py:50
+#: common/models.py:69
 msgid "Responsible (internal) department, which processes the issue currently."
 msgstr "Verantwortliches Amt, dass den Vorgang betreut"
 
-#: common/models.py:51
+#: common/models.py:70
 msgid "delegated group"
 msgstr "Delegiert"
 
-#: common/models.py:51
+#: common/models.py:70
 msgid ""
 "Responsible (external) organisation, which becomes involved in solving this "
 "issue."
 msgstr "Externe Organisation, dass bei der Bearbeitung des Vorganges hilft"
 
-#: common/models.py:52
+#: common/models.py:71
 msgid "status"
 msgstr "Status"
 
-#: common/models.py:52
+#: common/models.py:71
 msgid "Stage of progress for the solution."
 msgstr "Aktueller Status der Bearbeitung."
 
-#: common/models.py:53
+#: common/models.py:72
 msgid "published"
 msgstr "veröffentlicht"
 
-#: common/models.py:53
+#: common/models.py:72
 msgid ""
 "If base information are currently public. (can be altered manually and by "
 "state changes)"
@@ -138,55 +142,55 @@ msgstr ""
 "Ist Meldung öffentlich einsehbar? (Kann manuell geändert werden, aber auch "
 "automatisch durch Status-Änderungen"
 
-#: common/models.py:59
+#: common/models.py:78
 msgid "issue"
 msgstr "Vorgang"
 
-#: common/models.py:60
+#: common/models.py:79
 msgid "issues"
 msgstr "Vorgänge"
 
-#: common/models.py:67
+#: common/models.py:86
 msgid "Short label of this category."
 msgstr "Kurzbezeichnung dieser Kategorie."
 
-#: common/models.py:76
+#: common/models.py:95
 msgid "categories"
 msgstr "Kategorien"
 
-#: common/models.py:85
+#: common/models.py:104
 msgid "Who wrote the content."
 msgstr "Der Verfasser des Inhalts."
 
-#: common/models.py:87 common/models.py:104
+#: common/models.py:106 common/models.py:123
 msgid "When was the content written."
 msgstr "Zeitpunkt, als der Inhalt geschrieben wurde"
 
-#: common/models.py:88 common/models.py:105
+#: common/models.py:107 common/models.py:124
 msgid "content"
 msgstr "Inhalt"
 
-#: common/models.py:88
+#: common/models.py:107
 msgid "Text of the comment"
 msgstr "Text des Kommentars"
 
-#: common/models.py:91
+#: common/models.py:110
 msgid "comment"
 msgstr "Kommentar"
 
-#: common/models.py:92
+#: common/models.py:111
 msgid "comments"
 msgstr "Kommentare"
 
-#: common/models.py:102
+#: common/models.py:121
 msgid "eMail alias of the author (verified)."
 msgstr "E-Mail Adresse des Autors (verifziziert)"
 
-#: common/models.py:105
+#: common/models.py:124
 msgid "Text of the feedback"
 msgstr "Text der Rückmeldung"
 
-#: common/models.py:108 common/models.py:109
+#: common/models.py:127 common/models.py:128
 msgid "feedback"
 msgstr "Rückmeldung"
 

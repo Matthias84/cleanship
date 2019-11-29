@@ -49,7 +49,8 @@ On Linux you need to follow this steps to get an working instance
     * Apply DB tables with `python3 manage.py migrate --settings cleanship.settings.local`
     * Test startup with `python3 manage.py runserver --settings cleanship.settings.local`
     * Create first admin user with `python3 manage.py createsuperuser --settings cleanship.settings.local`
-    * Performe single tests with e.g. `python3 manage.py test legacy/tests -v 2 --settings cleanship.settings.local`
+    * Create `/municipality_area.json` which contains the outer border as polygon in CRS:4326 (e.g. [of Rostock](https://www.opendata-hro.de/dataset/gemeindeflaeche/)
+    * Perform single tests with e.g. `python3 manage.py test legacy/tests -v 2 --settings cleanship.settings.local`
 
 ## Klarschiff migration
 
@@ -67,6 +68,7 @@ We highly recommend a fresh cleanship setup to avoid troubles!
 * copy all full size photos to /media directory: `cp /srv/www/klarschiff/static/*_gross_*.jpg ./media`
 * Import via `python3 manage.py import --settings cleanship.settings.local`
 * Import will take only a few minutes
+* 
 
 # Concepts
 
