@@ -1,7 +1,9 @@
+from django.contrib import admin as adminorg
 from django.contrib.gis import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.safestring import mark_safe
-from mptt.admin import MPTTModelAdmin
+from django.utils.translation import gettext_lazy as _
+from mptt.admin import MPTTModelAdmin, TreeRelatedFieldListFilter
 from leaflet.admin import LeafletGeoAdmin
 
 from .forms import UserCreationForm, UserChangeForm
@@ -29,8 +31,8 @@ class FeedbackInline(admin.StackedInline):
 class IssueAdmin(LeafletGeoAdmin):
         readonly_fields = ['id', 'thumb_image', 'location', 'landowner']
         date_hierarchy = 'created_at'
-        list_display = ('id', 'created_at', 'location', 'category', 'priority', 'status', 'published')
-        list_filter = ('created_at', 'priority', 'status', 'published', 'category') # TODO: split category levels for filters #47
+        list_display = ('id', 'created_at', 'location', 'category_type', 'category_subcat', 'priority', 'status', 'published')
+        list_filter = ('created_at', 'priority', 'status', 'published', ('category', TreeRelatedFieldListFilter),) # TODO: split category levels for filters #47
         search_fields = ['id']
         # TODO: Add admin bulk actions #10
         # TODO: Add Link to public frontend / backoffice view_on_site() #11
@@ -56,6 +58,15 @@ class IssueAdmin(LeafletGeoAdmin):
                     height=obj.photo.height,
                     )
                 )
+        
+        def category_type(self, issue):
+            return issue.category.get_root().name
+        
+        def category_maincat(self, issue):
+            return issue.category.parent.name
+        
+        def category_subcat(self, issue):
+            return issue.category.name
 
 class CommentAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
