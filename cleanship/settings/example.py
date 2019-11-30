@@ -32,3 +32,5 @@ LEAFLET_CONFIG = {
                 ('OpenStreetMap (DE)', 'http://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {'attribution': '&copy; OpenStreetMap - Mitwirkende'})
     ]
 }
+
+GEOCODR_API_KEY = 'abcd...'

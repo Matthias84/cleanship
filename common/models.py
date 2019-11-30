@@ -9,6 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 from enum import IntEnum
 import json
+from .utils import reverse_geocode
 
 
 class User(AbstractUser):
@@ -45,7 +46,6 @@ def validate_in_municipality(value):
     # TODO: Extract validators, switch datasource #56
     position = value
     position.transform(4326)
-    print("Check %s" % str(position))
     ds = DataSource('municipality_area.json')
     poly = ds[0].get_geoms(geos=True)[0]
     poly.srid = 4326
@@ -61,8 +61,14 @@ def validate_is_subcategory(value):
     if cat.level < 2:
         raise ValidationError(
             _('Category must be a subcategory (3. level).'),
-            code='error_cats',
-        )
+            code='error_cats')
+
+def save_issue(sender, instance, **kwargs):
+    """
+    Signal handler to update location string
+    (see geocodr service https://geo.sv.rostock.de/geocodr.html
+    """
+    instance.location = reverse_geocode(instance.position)
 
 class Issue(models.Model):
     """A submitted ticket / service request / observation which somebody wants to be fixed / evaluated (e.g. report of waste)"""
