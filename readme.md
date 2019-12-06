@@ -10,6 +10,8 @@ The code is Python3 using the Django 2 framework and bootstrap4 webfrontend tool
 
 Currently **alpha** , so expect that we will break your installation / data / modules / ... ! Migrations will cause data lost!
 
+![admin webinterface showing details of a opened issue](doc/img/cleanship%20admin%20issue%20detail%20example.png)
+
 # Features
 
 * issues with georeference
