@@ -1,4 +1,6 @@
 from django.conf import settings
+from django.contrib.gis.gdal import DataSource
+from django.contrib.gis.geos import GEOSGeometry, Point
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 import requests
 import json
@@ -35,5 +37,16 @@ def reverse_geocode(point):
         pass
         # TODO: Log useful details on failed connection
     return result
-    # try district abbreviation
+    # TODO: Add district abbreviation
 
+def get_landowner(point):
+    """Check if map point is within boundary"""
+    # TODO: Extract validators, switch datasource #56
+    point.transform(25833) # TODO: django gis docs say autoconvert?
+    ds = DataSource('eigentumsangaben.geojson')
+    layer = ds[0]
+    for feature in layer:
+        poly = feature.geom.geos
+        if poly.contains(point) == True:
+            return feature.get('eigentumsangabe')
+    return None

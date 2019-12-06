@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 from enum import IntEnum
 import json
-from .utils import reverse_geocode
+from .utils import reverse_geocode, get_landowner
 
 
 class User(AbstractUser):
@@ -69,6 +69,7 @@ def save_issue(sender, instance, **kwargs):
     (see geocodr service https://geo.sv.rostock.de/geocodr.html
     """
     instance.location = reverse_geocode(instance.position)
+    instance.landowner = get_landowner(instance.position)
 
 class Issue(models.Model):
     """A submitted ticket / service request / observation which somebody wants to be fixed / evaluated (e.g. report of waste)"""

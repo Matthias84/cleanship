@@ -50,6 +50,7 @@ On Linux you need to follow this steps to get an working instance
     * Test startup with `python3 manage.py runserver --settings cleanship.settings.local`
     * Create first admin user with `python3 manage.py createsuperuser --settings cleanship.settings.local`
     * Create `/municipality_area.json` which contains the outer border as polygon in CRS:4326 (e.g. [of Rostock](https://www.opendata-hro.de/dataset/gemeindeflaeche/)
+    * Create `/eigentumsangaben.geojson` which contains disjunct polygones CRS:25833 with char field `eigentumsangabe` about landowners
     * Perform single tests with e.g. `python3 manage.py test legacy/tests -v 2 --settings cleanship.settings.local`
 
 ## Klarschiff migration
@@ -97,6 +98,17 @@ The django project is splitted in different **apps** focussing on single aspects
 * **legacy** - compatibility features to migrate from old predecessor project Klarschiff
 
 # Dev
+
+## Exploring
+
+You might want to understand the internals, so feel free to play around with the django project and your own scripts.
+We recommend using ipython shell:
+
+* `python3 manage.py shell --settings cleanship.settings.local`
+* `%load_ext autoreload`
+* `%autoreload 2`
+* `from common.models import issue`
+* `issue.objects.create(id=....)`
 
 ## Contributing
 
