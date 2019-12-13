@@ -107,10 +107,12 @@ You might want to understand the internals, so feel free to play around with the
 We recommend using ipython shell:
 
 * `python3 manage.py shell --settings cleanship.settings.local`
-* `%load_ext autoreload`
-* `%autoreload 2`
-* `from common.models import issue`
-* `issue.objects.create(id=....)`
+```python
+%load_ext autoreload
+%autoreload 2
+from common.models import issue
+issue.objects.create(id=....)
+```
 
 ## Contributing
 
