@@ -33,7 +33,7 @@ class IssueAdmin(LeafletGeoAdmin):
         date_hierarchy = 'created_at'
         list_display = ('id', 'created_at', 'location', 'category_type', 'category_subcat', 'priority', 'status', 'published')
         list_filter = ('created_at', 'priority', 'status', 'published', ('category', TreeRelatedFieldListFilter),) # TODO: split category levels for filters #47
-        search_fields = ['id']
+        search_fields = ['id', 'location']
         # TODO: Add admin bulk actions #10
         # TODO: Add Link to public frontend / backoffice view_on_site() #11
         fieldsets = (
