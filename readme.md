@@ -60,6 +60,14 @@ On Linux you need to follow this steps to get an working instance
 You can transfer your existing issues from Klarschiff (tested v1.9) to cleanship including issues, categories, groups.
 We highly recommend a fresh cleanship setup to avoid troubles!
 
+The import skips some checks to improve performance:
+
+* is in boundary polygon
+* updating location description
+* updating landowner
+
+The following instructions are tested to transfer your Klarschiff content:
+
 * export old data as CSV via this shell-script at your current Klarschiff DB server
     * `export PGPASSWORD="mypass"
     psql -h localhost -d klarschiff -U admin -Atc "select tablename from pg_tables" |\
