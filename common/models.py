@@ -9,8 +9,11 @@ from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 from enum import IntEnum
 import json
+import logging
 from .utils import reverse_geocode, get_landowner
 
+
+logger = logging.getLogger(__name__)
 
 class User(AbstractUser):
 
@@ -46,10 +49,13 @@ def validate_in_municipality(value):
     # TODO: Extract validators, switch datasource #56
     position = value
     position.transform(4326)
+    logger.debug('Checking issue position (%s)' % position)
     ds = DataSource('municipality_area.json')
     poly = ds[0].get_geoms(geos=True)[0]
     poly.srid = 4326
+    logger.debug('Loaded area polygon') #TODO: provide more characteristics?
     if poly.contains(position) == False:
+        logger.debug('Point (%s) not within area polygon' % position.coords)
         raise ValidationError(
             _('Position must be within the municipality area.'),
             code='error_bounds',
@@ -70,6 +76,7 @@ def save_issue(sender, instance, **kwargs):
     """
     instance.location = reverse_geocode(instance.position)
     instance.landowner = get_landowner(instance.position)
+    logger.info('Saving issue')
 
 class Issue(models.Model):
     """A submitted ticket / service request / observation which somebody wants to be fixed / evaluated (e.g. report of waste)"""

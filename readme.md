@@ -114,6 +114,30 @@ from common.models import issue
 issue.objects.create(id=....)
 ```
 
+## Debugging
+
+You want to enable `DEBUG = True` in your local settings and get a more verbose logging on the console, by adding this lines:
+
+```python
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler'
+        },
+    },
+    'loggers': {
+        'common': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+```
+
 ## Contributing
 
 Currently we focus on a pure port of Klarschiff (Java, PHP) to cleanship (Django) with all of the existing functionality. For that reason, **we don't accept pull-requests yet**.  Feel free to submit requests / bugs for discussion. New features or breaking changes will be stalled till version 0.2! 
