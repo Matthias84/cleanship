@@ -7,7 +7,7 @@ from mptt.admin import MPTTModelAdmin, TreeRelatedFieldListFilter
 from leaflet.admin import LeafletGeoAdmin
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import User, Issue, Category, Comment, Feedback
+from .models import User, Issue, Category, Comment, Feedback, StatusTypes
 
 
 class UserAdmin(UserAdmin):
@@ -31,7 +31,7 @@ class FeedbackInline(admin.StackedInline):
 class IssueAdmin(LeafletGeoAdmin):
         readonly_fields = ['id', 'thumb_image', 'location', 'landowner']
         date_hierarchy = 'created_at'
-        list_display = ('id', 'created_at', 'location', 'category_type', 'category_subcat', 'priority', 'status', 'published')
+        list_display = ('id', 'created_at', 'location', 'category_type', 'category_subcat', 'priority', 'status_styled', 'published')
         list_filter = ('created_at', 'priority', 'status', 'published', ('category', TreeRelatedFieldListFilter),) # TODO: split category levels for filters #47
         search_fields = ['id', 'location']
         # TODO: Add admin bulk actions #10
@@ -50,7 +50,6 @@ class IssueAdmin(LeafletGeoAdmin):
         )
         inlines = [FeedbackInline, CommentInline]
 
-
         def thumb_image(self, obj):
                 return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
                     url=obj.photo.url,
@@ -59,14 +58,31 @@ class IssueAdmin(LeafletGeoAdmin):
                     )
                 )
         
+        def status_styled(self, obj):
+            if obj.status == StatusTypes.SUBMITTED:
+                color = 'grey'
+            elif obj.status == StatusTypes.WIP:
+                color = 'red'
+            else:
+                color = 'green'
+            return mark_safe('<div style="width:100%%; height:100%%; background-color:%s;">%s</div>' % (color, obj.get_status_display()))
+        
         def category_type(self, issue):
-            return issue.category.get_root().name
+            if issue.category.get_root().name == 'Problem':
+                return '❗'
+            if issue.category.get_root().name == 'Idee':
+                return '💡'
+            if issue.category.get_root().name == 'Tipp':
+                return '👆'
         
         def category_maincat(self, issue):
             return issue.category.parent.name
         
         def category_subcat(self, issue):
             return issue.category.name
+        
+        status_styled.short_description = 'status'
+        category_type.short_description = 'type'
 
 class CommentAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
