@@ -138,6 +138,11 @@ LOGGING = {
 }
 ```
 
+You might want to fire up dedicated test suites using this line:
+
+* `python3 manage.py test common/ --settings cleanship.settings.local`
+
+
 ## Contributing
 
 Currently we focus on a pure port of Klarschiff (Java, PHP) to cleanship (Django) with all of the existing functionality. For that reason, **we don't accept pull-requests yet**.  Feel free to submit requests / bugs for discussion. New features or breaking changes will be stalled till version 0.2! 

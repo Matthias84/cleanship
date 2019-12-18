@@ -1,11 +1,16 @@
 from django.test import TestCase
+from unittest.mock import patch
 from django.contrib.gis.geos import Point
 
 from common.models import Issue, Category
 
-
+@patch("common.models.get_landowner")
+@patch("requests.post")
 class IssueModelTests(TestCase):
-    def test_new_Issue(self):
+    def test_new_Issue(self, requests_post, get_landowner):
+        #requests_post.status_code.return_value = 200
+        requests_post.json.return_value = {'features': []}
+        get_landowner.return_value = 'TEST landowner'
         cat = Category(name="test category")
         cat.save()
         issue = Issue(description="test issue", position=Point(5, 23), category=cat)

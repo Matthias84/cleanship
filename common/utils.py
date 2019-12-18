@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 def reverse_geocode(point):
     """
     calling webservice to get string description of position
-    currently hardcoded against 
+    currently hardcoded against geocodr service (https://geo.sv.rostock.de/geocodr.html)
     """
     lat, lon = point.coords
     url = 'https://geo.sv.rostock.de/geocodr/query?key=' + settings.GEOCODR_API_KEY

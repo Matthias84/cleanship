@@ -69,15 +69,6 @@ def validate_is_subcategory(value):
             _('Category must be a subcategory (3. level).'),
             code='error_cats')
 
-def save_issue(sender, instance, **kwargs):
-    """
-    Signal handler to update location string
-    (see geocodr service https://geo.sv.rostock.de/geocodr.html
-    """
-    instance.location = reverse_geocode(instance.position)
-    instance.landowner = get_landowner(instance.position)
-    logger.info('Saving issue')
-
 class Issue(models.Model):
     """A submitted ticket / service request / observation which somebody wants to be fixed / evaluated (e.g. report of waste)"""
     id = models.AutoField(primary_key=True, verbose_name=_('ID'))
@@ -104,6 +95,15 @@ class Issue(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+    def save(self, *args, **kwargs):
+        """
+        Update fields (but not for bulk imports)
+        """
+        self.location = reverse_geocode(self.position)
+        self.landowner = get_landowner(self.position)
+        logger.info('Saving issue')
+        super(Issue, self).save(*args, **kwargs)
 
 
 class Category(MPTTModel):
