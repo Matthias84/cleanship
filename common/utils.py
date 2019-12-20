@@ -66,3 +66,4 @@ def get_landowner(point):
             return owner
     logger.warning("Fail landowner - No polygon for (%s)" % str(point.coords))
     return None
+    

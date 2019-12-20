@@ -44,6 +44,16 @@ class StatusTypes(IntEnum):
     def choices(cls):
         return [(key.value, _(key.name)) for key in cls]
 
+class TrustTypes(IntEnum):
+    """Enum of trust level for issue authors"""
+    EXTERNAL = 1
+    INTERNAL = 2
+    FIELDTEAM = 3
+
+    @classmethod
+    def choices(cls):
+        return [(key.value, _(key.name)) for key in cls]
+
 def validate_in_municipality(value):
     """Check if map point is within boundary"""
     # TODO: Extract validators, switch datasource #56
@@ -69,11 +79,20 @@ def validate_is_subcategory(value):
             _('Category must be a subcategory (3. level).'),
             code='error_cats')
 
+def get_trust(email):
+    """Detect if issue submitted via internal staff, field staff or from the public"""
+    if email.find('@rostock.de')>-1:
+        return TrustTypes.INTERNAL
+    else:
+        return TrustTypes.EXTERNAL
+    # TODO: determine FieldTeam by User groups
+
 class Issue(models.Model):
     """A submitted ticket / service request / observation which somebody wants to be fixed / evaluated (e.g. report of waste)"""
     id = models.AutoField(primary_key=True, verbose_name=_('ID'))
     description = models.TextField(max_length=500, verbose_name=_('description'), help_text=_('Notes describing further details.'))  # BUG: Could be empty, whats the right way?
     authorEmail = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author.'))
+    authorTrust = models.IntegerField(choices=TrustTypes.choices(), default=TrustTypes.EXTERNAL, verbose_name = _('trust'), help_text=_('Trust level of the author.'))
     position = models.PointField(srid=25833, verbose_name=_('position'), help_text=_('Georeference for this issue. (might be inaccurate)'), validators=[validate_in_municipality])  # TODO: Extract srid to settings
     category = TreeForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False, verbose_name=_('category'), help_text=_('Multi-level selection of which kind of note this issue comes closest.'), validators=[validate_is_subcategory])
     photo = models.ImageField(null=True, blank=True, verbose_name=_('photo'), help_text=_('Photo that show the spot. (unprocessed, might include metadata)'))
@@ -102,6 +121,7 @@ class Issue(models.Model):
         """
         self.location = reverse_geocode(self.position)
         self.landowner = get_landowner(self.position)
+        self.authorTrust = get_trust(self.authorEmail)
         logger.info('Saving issue')
         super(Issue, self).save(*args, **kwargs)
 

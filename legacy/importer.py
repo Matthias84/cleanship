@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group
 from django.utils import dateparse
-from common.models import Issue, Category, PriorityTypes, StatusTypes, Comment, Feedback
+from common.models import Issue, Category, PriorityTypes, StatusTypes, TrustTypes, Comment, Feedback
 from itertools import islice
 import csv
 import time
@@ -114,7 +114,7 @@ class IssueImporter(CSVImporter):
     """
 
     def __init__(self, cmd, csvFilename, chunkSize=None, clean=True):
-        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum', 'prioritaet', 'flurstueckseigentum', 'status', 'archiviert', 'foto_freigabe_status', 'beschreibung_freigabe_status']
+        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum', 'prioritaet', 'flurstueckseigentum', 'status', 'archiviert', 'foto_freigabe_status', 'beschreibung_freigabe_status', 'trust']
         self.EMAIL_HIDDEN = '- bei Archivierung entfernt -'
         self.LOCATION_UNKOWN = 'nicht zuordenbar'
         self.MAP_PRIORITY = {'mittel': PriorityTypes.NORMAL, 'niedrig': PriorityTypes.LOW, 'hoch': PriorityTypes.HIGH}
@@ -122,6 +122,7 @@ class IssueImporter(CSVImporter):
         self.MAP_STATUS = {'gemeldet': StatusTypes.SUBMITTED, 'offen': StatusTypes.WIP, 'inBearbeitung': StatusTypes.WIP, 'geloest': StatusTypes.SOLVED, 'nichtLoesbar': StatusTypes.IMPOSSIBLE, 'duplikat': StatusTypes.DUBLICATE, 'geloescht': StatusTypes.DUBLICATE}
         self.MAP_ARCHIVE = {'t': True, 'f': False, '': False}
         self.MAP_PUBLIC = {'extern': True, 'intern': False, 'geloescht': False} # TODO: Process deleted photo #48
+        self.MAP_TRUST = {'0': TrustTypes.EXTERNAL, '1': TrustTypes.INTERNAL, '2': TrustTypes.FIELDTEAM}
         super().__init__(cmd, csvFilename, chunkSize, clean)
 
     def eraseObjects(self):
@@ -133,6 +134,7 @@ class IssueImporter(CSVImporter):
         logger.debug('parsing %s' % id)
         descr = row['beschreibung']
         email = row['autor_email']
+        trust = row['trust']
         positionEwkb = row['ovi']
         categoryId = row['kategorie']
         photoFilename = row['foto_gross']
@@ -149,6 +151,7 @@ class IssueImporter(CSVImporter):
         public_descr = row['beschreibung_freigabe_status']
         if email == self.EMAIL_HIDDEN:
             email = None
+        trust = self.MAP_TRUST[trust]
         cat = Category.objects.get(id=categoryId)
         if cat is None:
             self.cmd.stdout.write(self.cmd.style.ERROR('Error - No category found (Issue %s, Cat.Id. %s)' % (id, categoryId)))
@@ -175,7 +178,7 @@ class IssueImporter(CSVImporter):
                 published = True
             else:
                 published = False
-        issue = Issue(id=id, description=descr, authorEmail=email, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned, delegated=group_delegated, status=status, published=published)
+        issue = Issue(id=id, description=descr, authorEmail=email, authorTrust=trust, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned, delegated=group_delegated, status=status, published=published)
         return issue
 
     def checkObjExists(self, row):
