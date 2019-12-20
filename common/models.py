@@ -81,10 +81,14 @@ def validate_is_subcategory(value):
 
 def get_trust(email):
     """Detect if issue submitted via internal staff, field staff or from the public"""
-    if email.find('@rostock.de')>-1:
-        return TrustTypes.INTERNAL
+    if email != None:
+        if email.find('@rostock.de')>-1:
+            return TrustTypes.INTERNAL
+        else:
+            return TrustTypes.EXTERNAL
     else:
-        return TrustTypes.EXTERNAL
+        # Only internals can submit issues without email
+        return TrustTypes.INTERNAL
     # TODO: determine FieldTeam by User groups
 
 class Issue(models.Model):
