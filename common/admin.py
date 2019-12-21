@@ -29,9 +29,9 @@ class FeedbackInline(admin.StackedInline):
     extra = 0
 
 class IssueAdmin(LeafletGeoAdmin):
-        readonly_fields = ['id', 'thumb_image', 'location', 'landowner', 'authorTrust']
+        readonly_fields = ['id', 'thumb_image', 'location', 'landowner', 'authorTrust', 'status_created_at']
         date_hierarchy = 'created_at'
-        list_display = ('id', 'created_at', 'location', 'category_type', 'category_subcat', 'priority', 'status_styled', 'published')
+        list_display = ('id', 'created_at', 'location', 'category_type', 'category_subcat', 'priority', 'status_styled','status_created_at', 'published')
         list_filter = ('created_at', 'priority', 'status', 'published', 'authorTrust', ('category', TreeRelatedFieldListFilter),) # TODO: split category levels for filters #47
         search_fields = ['id', 'location']
         # TODO: Add admin bulk actions #10
@@ -45,7 +45,7 @@ class IssueAdmin(LeafletGeoAdmin):
             'fields': ('position', 'location', 'landowner'),
         }),
         ('Processing', {
-            'fields': ('priority', 'status', 'assigned', 'delegated'),
+            'fields': ('priority', 'status_created_at', 'status', 'status_text', 'assigned', 'delegated'),
         }),
         )
         inlines = [FeedbackInline, CommentInline]

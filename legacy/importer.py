@@ -114,7 +114,7 @@ class IssueImporter(CSVImporter):
     """
 
     def __init__(self, cmd, csvFilename, chunkSize=None, clean=True):
-        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum', 'prioritaet', 'flurstueckseigentum', 'status', 'archiviert', 'foto_freigabe_status', 'beschreibung_freigabe_status', 'trust']
+        self.NESSESARY_FIELDS = ['id', 'beschreibung', 'autor_email', 'kategorie', 'foto_gross', 'datum', 'prioritaet', 'flurstueckseigentum', 'status', 'archiviert', 'foto_freigabe_status', 'beschreibung_freigabe_status', 'trust', 'status_kommentar', 'status_datum']
         self.EMAIL_HIDDEN = '- bei Archivierung entfernt -'
         self.LOCATION_UNKOWN = 'nicht zuordenbar'
         self.MAP_PRIORITY = {'mittel': PriorityTypes.NORMAL, 'niedrig': PriorityTypes.LOW, 'hoch': PriorityTypes.HIGH}
@@ -146,6 +146,8 @@ class IssueImporter(CSVImporter):
         assigned_state = row['zustaendigkeit_status']
         delegated = row['delegiert_an']
         status = row['status']
+        status_text = row['status_kommentar']
+        status_created_at = row['status_datum']
         archive = row['archiviert']
         public_photo = row['foto_freigabe_status']
         public_descr = row['beschreibung_freigabe_status']
@@ -171,6 +173,8 @@ class IssueImporter(CSVImporter):
         else:
             group_delegated, was_created = Group.objects.get_or_create(name=delegated)
         status = self.MAP_STATUS[status]
+        status_created_at = dateparse.parse_datetime(status_created_at)
+        status_created_at = status_created_at.replace(tzinfo=timezone(timedelta(hours=1)))
         published = self.MAP_ARCHIVE[archive]
         if published == True:
             # Check if all content is published
@@ -178,7 +182,7 @@ class IssueImporter(CSVImporter):
                 published = True
             else:
                 published = False
-        issue = Issue(id=id, description=descr, authorEmail=email, authorTrust=trust, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned, delegated=group_delegated, status=status, published=published)
+        issue = Issue(id=id, description=descr, authorEmail=email, authorTrust=trust, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned, delegated=group_delegated, status=status, status_text=status_text, status_created_at=status_created_at, published=published)
         return issue
 
     def checkObjExists(self, row):
