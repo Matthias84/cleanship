@@ -10,5 +10,10 @@ Die folgenden Vorgänge könnten Ihrere Aufmerksamkeit bedürfen:
     <li>XX seit 30 Tagen ohne neue Rückmeldung</li>
     <li>XX seit 60 Tagen ohne abschließende Bearbeitung</li>
 </ul>
+<ul>
+    {% for groupname in groups %}
+    <li>{{ groupname }}</li>
+    {% endfor %}
+</ul>
 </p>
 {% endblock %}

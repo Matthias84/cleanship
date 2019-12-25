@@ -9,7 +9,7 @@
     </header>
     <ul class="nav">
       <li>
-        <a href="{% url 'office_start'%}">
+        <a href="{% url 'office:start' %}">
           <i class="zmdi zmdi-home"></i> Start
         </a>
       </li>
@@ -50,7 +50,7 @@
             <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
             </a>
           </li>
-          <li><a href="#">Test User</a></li>
+          <li><a href="#">{{ user.get_username }}</a></li>
         </ul>
       </div>
     </nav>

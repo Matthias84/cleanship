@@ -56,6 +56,14 @@ On Linux you need to follow this steps to get an working instance
     * Create `/municipality_area.json` which contains the outer border as polygon in CRS:4326 (e.g. [of Rostock](https://www.opendata-hro.de/dataset/gemeindeflaeche/)
     * Create `/eigentumsangaben.geojson` which contains disjunct polygones CRS:25833 with char field `eigentumsangabe` about landowners
     * Perform single tests with e.g. `python3 manage.py test legacy/tests -v 2 --settings cleanship.settings.local`
+* Assign users to groups
+    * `from common.models import User, Group`
+    * `myself = User.objects.get(username='test')`
+    * `group = Group.objects.get(name='a group')')`
+    * `group = Group.objects.get(name='a group')')`
+    * `group.user_set.add(myself)`
+    * `group.save()`
+    
 
 ## Klarschiff migration
 
