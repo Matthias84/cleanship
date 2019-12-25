@@ -1,0 +1,63 @@
+{% extends "office/base.html" %}
+{% load i18n %}
+{% block page %}
+<div id="viewport">
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <header>
+      <a href="#">Klarschiff.HRO</a>
+    </header>
+    <ul class="nav">
+      <li>
+        <a href="{% url 'office_start'%}">
+          <i class="zmdi zmdi-home"></i> Start
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-folder"></i> {% trans "Issues" %}
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-plus"></i> {% trans "new Issue" %}
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-comment-more"></i> Feedback
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-comment-more"></i> Comments
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-info-outline"></i> {% trans "Help" %}
+        </a>
+      </li>
+    </ul>
+    <p>ver. 0.1 (painbox)</p>
+  </div>
+  <!-- Content -->
+  <div id="content">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
+            </a>
+          </li>
+          <li><a href="#">Test User</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid">
+    {% block content %}
+    {% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

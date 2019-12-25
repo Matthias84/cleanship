@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-22 09:10+0100\n"
+"POT-Creation-Date: 2019-12-23 19:44+0100\n"
 "PO-Revision-Date: 2019-11-15 17:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -153,7 +153,9 @@ msgstr "Status"
 msgid ""
 "Further details explaining the progress / plans / challanges / "
 "milestones / ... ."
-msgstr "Weiterführende Informationen, die den Stand der Bearbeitung / geplanten Ablauf / Herausforderungen / Meilensteine / ... erklären"
+msgstr ""
+"Weiterführende Informationen, die den Stand der Bearbeitung / geplanten "
+"Ablauf / Herausforderungen / Meilensteine / ... erklären"
 
 #: common/models.py:111
 msgid "status date"
@@ -226,6 +228,18 @@ msgstr "Text der Rückmeldung"
 #: common/models.py:178 common/models.py:179
 msgid "feedback"
 msgstr "Rückmeldung"
+
+#: office/templates/office/start.html:18
+msgid "Issues"
+msgstr "Vorgänge"
+
+#: office/templates/office/start.html:23
+msgid "new Issue"
+msgstr "Neuer Vorgang"
+
+#: office/templates/office/start.html:38
+msgid "Help"
+msgstr "Hilfe"
 
 msgid "LOW"
 msgstr "NIEDRIG"

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'mptt',
     'leaflet',
     'common.apps.CommonConfig',
-    'legacy.apps.LegacyConfig'
+    'legacy.apps.LegacyConfig',
+    'office.apps.OfficeConfig'
 ]
 
 MIDDLEWARE = [
@@ -127,6 +128,17 @@ LOCALE_PATHS = [os.path.join(PROJECT_ROOT, 'locale')]
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
+
+STATIC_FILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+#STATICFILES_DIRS = [
+#    os.path.join(PROJECT_ROOT, "static"),
+#]
 
 # User defined MEDIA files as photos
 MEDIA_URL = '/media/'

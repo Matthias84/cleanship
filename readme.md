@@ -21,7 +21,8 @@ Currently **alpha** , so expect that we will break your installation / data / mo
 # Usage
 
 * start `python3 manage.py runserver --settings cleanship.settings.local`
-* enter `/admin` to maintain issues
+* enter `localhost:8000/admin` to maintain issues
+* enter `localhost:8000/office` for staff backoffice
 
 
 ## Setup
@@ -49,6 +50,7 @@ On Linux you need to follow this steps to get an working instance
     * `cp /cleanship/settings/example.py /cleanship/settings/local.py`
     * Adapt your settings in `/cleanship/settings/local.py`
     * Apply DB tables with `python3 manage.py migrate --settings cleanship.settings.local`
+    * Gather static assets to ./static `python3 manage.py collectstatic --settings cleanship.settings.local`
     * Test startup with `python3 manage.py runserver --settings cleanship.settings.local`
     * Create first admin user with `python3 manage.py createsuperuser --settings cleanship.settings.local`
     * Create `/municipality_area.json` which contains the outer border as polygon in CRS:4326 (e.g. [of Rostock](https://www.opendata-hro.de/dataset/gemeindeflaeche/)
@@ -199,9 +201,11 @@ The client protocol specification is basing on work of the open311 and citySDK c
 The codebases integrates packages of great communities as well:
 
 * Django project
-* Bootstrap
 * Postgres
 * PostGIS
 * GDAL
 * GEOS
+* Bootstrap
 * Leafletjs
+
+The internal office GUI makes use of a [Bootstrap sidebar Layout by Brenna Veen](https://codepen.io/blcveen/pen/jwMdrX) and the [Material Design Iconic Font by Sergey Kupletsky](https://zavoloklom.github.io/material-design-iconic-font/i)

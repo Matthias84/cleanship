@@ -3,3 +3,4 @@ __pycache__
 /cleanship/settings/local.py
 /*.csv
 /*.json
+/static
