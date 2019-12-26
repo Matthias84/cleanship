@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views import generic
-from django_tables2 import SingleTableView
+from django_tables2.views import SingleTableMixin
+from django_filters.views import FilterView
 
-from common.models import Issue
+from common.models import Issue, IssueFilter
 from .tables import IssueTable
 
 @login_required
@@ -18,9 +19,10 @@ class IssueDetailView(generic.DetailView):
     model = Issue
     template_name = 'office/issue.html'
 
-class IssueListView(SingleTableView):
+class IssueListView(SingleTableMixin, FilterView):
     model = Issue
     table_class = IssueTable
+    filterset_class = IssueFilter
     template_name = 'office/issues.html'
     
     def get_queryset(self):

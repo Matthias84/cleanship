@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'mptt',
     'leaflet',
     'django_tables2',
+    'django_filters',
     'common.apps.CommonConfig',
     'legacy.apps.LegacyConfig',
     'office.apps.OfficeConfig'

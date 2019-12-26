@@ -209,6 +209,7 @@ The client protocol specification is basing on work of the open311 and citySDK c
 The codebases integrates packages of great communities as well:
 
 * Django project including some pretty useful external packages
+    * django-filter
     * django-tables2
 * Postgres
 * PostGIS

@@ -5,5 +5,11 @@
 {% block content %}
 <h1>{% trans "Issues" %}</h1>
 {% trans "All issues assigned to your groups" %}
+{% if filter %}
+    <form action="" method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
+{% endif %}
 {% render_table table %}
 {% endblock %}
