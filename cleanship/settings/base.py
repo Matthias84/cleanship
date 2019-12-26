@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'mptt',
     'leaflet',
+    'django_tables2',
     'common.apps.CommonConfig',
     'legacy.apps.LegacyConfig',
     'office.apps.OfficeConfig'

@@ -1,5 +1,6 @@
 requests
 pillow
+django-tables2
 django-leaflet
 django-mptt
 psycopg2

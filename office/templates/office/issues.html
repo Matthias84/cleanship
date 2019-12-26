@@ -1,0 +1,9 @@
+{% extends "office/layout.html" %}
+{% load i18n %}
+{% load render_table from django_tables2 %}
+{% block title %} {% trans "Issues" %}{% endblock %}
+{% block content %}
+<h1>{% trans "Issues" %}</h1>
+{% trans "All issues assigned to your groups" %}
+{% render_table table %}
+{% endblock %}

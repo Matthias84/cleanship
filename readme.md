@@ -6,7 +6,7 @@ Cleanship is a citizen participation (Bürgerbeteiligung) / complaints & suggest
 It is the successor of klarschiff. But this project includes only the core and a [backoffice](https://github.com/bfpi/klarschiff-backend) for city staff. We reuse the old public (mobile) [frontend](https://github.com/bfpi/klarschiff-field_service) from Klarschiff,  which is connected trough an extended [CitySDK API](https://github.com/bfpi/klarschiff-citysdk).
 Currently we port only existing features, while avoiding old bottlenecks. New features will be introduced with version 0.2
 
-The code is Python3 using the Django 2 framework and bootstrap4 webfrontend toolkit.
+The code is Python3 using the Django 2 framework and bootstrap3 webfrontend toolkit.
 
 Currently **alpha** , so expect that we will break your installation / data / modules / ... ! Migrations will cause data lost!
 
@@ -208,7 +208,8 @@ The client protocol specification is basing on work of the open311 and citySDK c
 
 The codebases integrates packages of great communities as well:
 
-* Django project
+* Django project including some pretty useful external packages
+    * django-tables2
 * Postgres
 * PostGIS
 * GDAL
