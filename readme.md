@@ -210,6 +210,7 @@ The codebases integrates packages of great communities as well:
 
 * Django project including some pretty useful external packages
     * django-filter
+    * django-leaflet
     * django-tables2
 * Postgres
 * PostGIS

@@ -43,5 +43,15 @@ class IssueListView(SingleTableMixin, FilterView):
     template_name = 'office/issues.html'
     
     def get_queryset(self):
-        """List all assigned issues"""
+        """List all assigned and filtered issues"""
         return Issue.objects.filter(assigned__in=self.request.user.groups.all())
+
+    def get_context_data(self,**kwargs):
+        """Extend with improved map representation"""
+        context = super().get_context_data(**kwargs)
+        # reproject
+        for issue in context['object_list']:
+            positionWGS84 = issue.position
+            positionWGS84.transform(4326)
+            issue.position_webmap = positionWGS84.geojson
+        return context

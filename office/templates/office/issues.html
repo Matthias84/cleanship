@@ -1,15 +1,67 @@
 {% extends "office/layout.html" %}
 {% load i18n %}
 {% load render_table from django_tables2 %}
+{% load leaflet_tags %}
+{% block head %}
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <script type="text/javascript">
+    function map_init_basic (map, options) {
+        //Setup and fill leaflet map
+        layer = L.geoJSON();
+        {% for issue in filter.qs %}
+            marker = layer.addData({{ issue.position.geojson|safe }});
+            marker.bindTooltip("{{ issue.id }}<br\>({{ issue.category }})");
+            marker.issueid = {{ issue.id }};
+        {% endfor %}
+        layer.addTo(map);
+        layer.on("click", function (event) {
+            var clickedMarker = event.layer;
+           window.open(clickedMarker.issueid);
+        });
+        map.flyToBounds(layer.getBounds());
+    }
+    </script>
+{% endblock %}
 {% block title %} {% trans "Issues" %}{% endblock %}
 {% block content %}
 <h1>{% trans "Issues" %}</h1>
 {% trans "All issues assigned to your groups" %}
 {% if filter %}
-    <form action="" method="get">
-        {{ filter.form.as_p }}
-        <input type="submit" />
-    </form>
+     <div class="panel-group">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" href="#collapseFilters">Filters</a>
+          </h4>
+        </div>
+        <div id="collapseFilters" class="panel-collapse collapse">
+          <div class="panel-body">
+              <form class="form-inline" action="" method="get">
+                <div class="form-group">
+                {{ filter.form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> 
 {% endif %}
-{% render_table table %}
+<!-- Menus-->
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#tabletab">Table</a></li>
+    <li><a data-toggle="tab" href="#maptab">Map</a></li>
+  </ul>
+
+  <!-- Panes-->
+  <div class="tab-content">
+    <div id="tabletab" class="tab-pane fade in active">
+      {% render_table table %}
+    </div>
+    <div id="maptab" class="tab-pane fade">
+    {% leaflet_map "issuesmap" callback="window.map_init_basic" %}
+    <!-- #TODO: Enable settings as overview map, overlays, ... -->
+    </div>
+  </div>
 {% endblock %}
