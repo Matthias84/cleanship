@@ -219,4 +219,4 @@ The codebases integrates packages of great communities as well:
 * Bootstrap
 * Leafletjs
 
-The internal office GUI makes use of a [Bootstrap sidebar Layout by Brenna Veen](https://codepen.io/blcveen/pen/jwMdrX) and the [Material Design Iconic Font by Sergey Kupletsky](https://zavoloklom.github.io/material-design-iconic-font/i)
+The internal office GUI makes use of a [Bootstrap sidebar Layout by Brenna Veen](https://codepen.io/blcveen/pen/jwMdrX) and the [Material Design Iconic Font by Sergey Kupletsky](https://zavoloklom.github.io/material-design-iconic-font)
