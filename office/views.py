@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import generic
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
+from leaflet.forms.widgets import LeafletWidget
 
 from common.models import Issue, IssueFilter, StatusTypes, TrustTypes
 from .tables import IssueTable
@@ -55,3 +57,22 @@ class IssueListView(SingleTableMixin, FilterView):
             positionWGS84.transform(4326)
             issue.position_webmap = positionWGS84.geojson
         return context
+
+class IssueCreateView(generic.CreateView):
+    model = Issue
+    fields = ['description', 'category', 'authorEmail', 'position','photo']
+    template_name = 'office/issue_create.html'
+    
+    def get_form(self):
+        form = super(IssueCreateView, self).get_form()
+        form.fields['position'].widget = LeafletWidget()
+        return form
+        
+    def get_initial(self):
+        initial = super(IssueCreateView, self).get_initial()
+        initial = initial.copy()
+        initial['authorEmail'] = self.request.user.email
+        return initial
+
+    def get_success_url(self):
+        return reverse('office:issue', kwargs={'pk': self.object.pk})
