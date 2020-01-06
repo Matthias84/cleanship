@@ -3,5 +3,6 @@ pillow
 django-tables2
 django-leaflet
 django-mptt
+django-filter
 psycopg2
 django >= 2.0,<3.0
