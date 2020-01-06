@@ -3,27 +3,28 @@
 
 Cleanship is a citizen participation (Bürgerbeteiligung) / complaints & suggestion management (Anliegenmanagement) /  ... online platform that allows you to submit issues about the public infrastructure. The  local administration will then review your note and the solution process is public visible.
 
-It is the successor of klarschiff. But this project includes only the core and a [backoffice](https://github.com/bfpi/klarschiff-backend) for city staff. We reuse the old public (mobile) [frontend](https://github.com/bfpi/klarschiff-field_service) from Klarschiff,  which is connected trough an extended [CitySDK API](https://github.com/bfpi/klarschiff-citysdk).
-Currently we port only existing features, while avoiding old bottlenecks. New features will be introduced with version 0.2
+It is the successor of [klarschiff](https://de.wikipedia.org/wiki/Klarschiff). But this project includes only the core and a [backoffice](https://github.com/bfpi/klarschiff-backend) for city staff. We reuse the old public (mobile) [frontend](https://github.com/bfpi/klarschiff-field_service) from Klarschiff,  which is connected trough an extended [CitySDK API](https://github.com/bfpi/klarschiff-citysdk).
+Currently we port only existing features, while avoiding old bottlenecks. New features will be introduced starting with version 0.3.
 
 The code is Python3 using the Django 2 framework and bootstrap3 webfrontend toolkit.
 
 Currently **alpha** , so expect that we will break your installation / data / modules / ... ! Migrations will cause data lost!
 
 ![admin webinterface showing details of a opened issue](doc/img/cleanship%20admin%20issue%20detail%20example.png)
+![office webinterface showing details of a opened issue](doc/img/cleanship%20office%20issue%20detail%20example.png)
 
 # Features
 
 * issues with georeference
 * groups to maintain / delegate issues
 * admin backend
+* import Klarschiff legacy data
 
 # Usage
 
 * start `python3 manage.py runserver --settings cleanship.settings.local`
 * enter `localhost:8000/admin` to maintain issues
 * enter `localhost:8000/office` for staff backoffice
-
 
 ## Setup
 
@@ -45,7 +46,7 @@ On Linux you need to follow this steps to get an working instance
     * `workon cleanship`
 * Init codebase
     * `git clone cleanship`
-    * `pip install -R requirements/dev.txt`
+    * `pip install -R requirements/base.txt` (dev.txt for debugging / contributing)
 * Configure instance
     * `cp /cleanship/settings/example.py /cleanship/settings/local.py`
     * Adapt your settings in `/cleanship/settings/local.py`
@@ -114,8 +115,9 @@ To get a basic understanding of the internals, you might have a look at the base
 
 The django project is splitted in different **apps** focussing on single aspects:
 
-* **common** - general aspects esp. shared models
+* **common** - general aspects esp. shared models, admin frontend
 * **legacy** - compatibility features to migrate from old predecessor project Klarschiff
+* **office** - internal frontend for staff
 
 # Dev
 
@@ -156,7 +158,7 @@ LOGGING = {
 }
 ```
 
-You might want to fire up dedicated test suites using this line:
+You might want to restrict the tests to specific suites using this line:
 
 * `python3 manage.py test common/ --settings cleanship.settings.local`
 
@@ -196,7 +198,7 @@ Please install `requirements\dev.txt` for the tools dependencies!
 
 ## Translating
 
-* Update the current strings to po templates: `django-admin makemessages -l de`
+* Update the current strings to .po templates: `django-admin makemessages -l de`
 * Use e.g. poedit to add translation strings
 * Update the binary translations: `django-admin compilemessages`
 
