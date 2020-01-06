@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
@@ -66,6 +67,9 @@ class IssueCreateView(generic.CreateView):
     def get_form(self):
         form = super(IssueCreateView, self).get_form()
         form.fields['position'].widget = LeafletWidget()
+        form.fields['authorEmail'].help_text = 'eMail of subitter (usually a citizen, will get a info mail. No confirmation nessesary)'
+        form.fields['position'].help_text = 'Try to map the position as accurate as possible (used to determine landowner and location description)'
+        form.fields['photo'].help_text = 'Photo showing the spot and surroundings'
         return form
         
     def get_initial(self):
@@ -73,6 +77,14 @@ class IssueCreateView(generic.CreateView):
         initial = initial.copy()
         initial['authorEmail'] = self.request.user.email
         return initial
+    
+    def form_valid(self, form):
+        # Set issue defaults if submitted via office users
+        self.object = form.save(commit=False)
+        self.object.status = StatusTypes.WIP
+        self.object.published = True
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('office:issue', kwargs={'pk': self.object.pk})
