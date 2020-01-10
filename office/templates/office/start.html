@@ -6,14 +6,24 @@
 <p>
 Die folgenden Vorgänge könnten Ihrere Aufmerksamkeit bedürfen:
 <ul>
-    <li>XX seit 3 Tagen nicht geprüft</li>
-    <li>XX seit 30 Tagen ohne neue Rückmeldung</li>
-    <li>XX seit 60 Tagen ohne abschließende Bearbeitung</li>
-</ul>
-<ul>
-    {% for groupname in groups %}
-    <li>{{ groupname }}</li>
+    <li><b>{{issues3dunchecked.count}}</b> seit 3 Tagen nicht geprüft (
+    {% for issue in issues3dunchecked %}
+        <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
     {% endfor %}
+    )
+    </li>
+    <li><b>{{issues30dunupdated.count}}</b> seit 30 Tagen ohne neue Status-Meldung (
+    {% for issue in issues30dunupdated %}
+        <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
+    {% endfor %}
+    )
+    </li>
+    <li><b>{{ideas60d.count}}</b> seit 60 Tagen ohne abschließende Bearbeitung (
+    {% for issue in ideas60d %}
+        <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
+    {% endfor %}
+    )
+    </li>
 </ul>
 </p>
 {% endblock %}

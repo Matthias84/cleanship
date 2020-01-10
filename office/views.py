@@ -2,13 +2,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils import timezone
 from django.urls import reverse
 from django.views import generic
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from leaflet.forms.widgets import LeafletWidget
 
-from common.models import Issue, IssueFilter, StatusTypes, TrustTypes
+from common.models import Category, Issue, IssueFilter, StatusTypes, TrustTypes
 from common.utils import send_author_email_notification
 from .tables import IssueTable
 
@@ -17,7 +18,20 @@ def start(request):
     l = []
     for g in request.user.groups.all():
         l.append(g.name)
-    return render(request, 'office/start.html', {'groups': l})
+    ourissues = Issue.objects.filter(assigned__in=request.user.groups.all())
+    ouropenissues = ourissues.filter(status=StatusTypes.WIP)
+    # all wip issues without review > 3d
+    uncheckedIssues = ouropenissues.filter(published=False)
+    checkdate = timezone.now()-timezone.timedelta(days=3)
+    uncheckedIssues = uncheckedIssues.filter(created_at__lt=checkdate)
+    # all wip issues without status update > 30d
+    unupdatedIssues = ouropenissues.filter(published=True)
+    checkdate = timezone.now()-timezone.timedelta(days=30)
+    unupdatedIssues = unupdatedIssues.filter(status_created_at__lt=checkdate)
+    # all wip ideas older > 60d
+    catidee = Category.objects.filter(name='Idee').first()
+    ourideas = ouropenissues.filter(category__in=catidee.get_descendants())
+    return render(request, 'office/start.html', {'groups': l, 'issues3dunchecked': uncheckedIssues,'issues30dunupdated': unupdatedIssues, 'ideas60d': ourideas})
 
 class IssueDetailView(LoginRequiredMixin, generic.DetailView):
     model = Issue

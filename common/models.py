@@ -107,7 +107,7 @@ class Issue(models.Model):
     landowner = models.CharField(max_length=250, null=True, blank=True, verbose_name = _('landowner'), help_text=_('Operrator that manages the area of the position. (usually landowner, might be inaccurate)'))
     assigned = models.ForeignKey(Group, null=True, blank=True, on_delete=models.SET_NULL, related_name='assignedIssues', verbose_name=_('assigned group'), help_text=_('Responsible (internal) department, which processes the issue currently.'))
     delegated = models.ForeignKey(Group, null=True, blank=True, on_delete=models.SET_NULL, related_name='delegatedIssues', verbose_name=_('delegated group'), help_text=_('Responsible (external) organisation, which becomes involved in solving this issue.'))
-    status = models.IntegerField(choices=StatusTypes.choices(), default=StatusTypes.SUBMITTED, verbose_name = _('status'), help_text=_('Stage of progress for the solution.'))
+    status = models.IntegerField(choices=StatusTypes.choices(), default=StatusTypes.SUBMITTED, verbose_name = _('status'), help_text=_('Stage of progress for the solution.')) # TODO: Avoid changing status backwards e.g. forms/admin
     status_text = models.TextField(max_length=1000, verbose_name=_('status text'), help_text=_('Further details explaining the progress / plans / challanges / milestones / ... .'))
     status_created_at = models.DateTimeField(default=timezone.now, verbose_name=_('status date'), help_text=_('Date of the last status change.')) # TODO: The default date needs an filter procedure to trigger only on relevant changes
     published = models.BooleanField(null=False, blank=False, default=False, verbose_name=_('published'), help_text=_('If base information are currently public. (can be altered manually and by state changes)'))
