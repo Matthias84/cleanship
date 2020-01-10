@@ -114,6 +114,15 @@ class Issue(models.Model):
     
     def get_issue_priority_label(self):
         return PriorityTypes(self.type).name.title()
+    
+    def get_responsible_candidates(self):
+        """Returns ordered list of groups which might be responsible to this issue"""
+        # TODO: This is a dummy to be replaced with a separated app
+        ls = []
+        if self.category.name.find("Beschilderung") > -1:
+            a66_signs = Group.objects.filter(name='a66_beschilderung').first()
+            ls.append(a66_signs)
+        return ls
 
     class Meta:
          verbose_name = _("issue")

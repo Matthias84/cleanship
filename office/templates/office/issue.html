@@ -90,6 +90,11 @@
                 <p>Status Text:
                     <q class="usertext">{{ issue.status_text|default_if_none:"(no text)" }}</q>
                 </p>
+                <p>Assigned: {{ issue.assigned.name|default_if_none:"(not assigned)" }}
+                {% if issue.delegated %}
+                    <b>(delegated: {{ issue.delegated }})</b>
+                {% endif %}
+                </p>
             </div>
           </div>
           <div class="col-md-4">

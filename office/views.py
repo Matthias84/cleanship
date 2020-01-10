@@ -83,6 +83,9 @@ class IssueCreateView(generic.CreateView):
         self.object = form.save(commit=False)
         self.object.status = StatusTypes.WIP
         self.object.published = True
+        candidates = self.object.get_responsible_candidates()
+        if len(candidates) > 0:
+            self.object.assigned = candidates[0]
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
