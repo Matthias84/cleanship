@@ -28,4 +28,4 @@ class IssueTable(tables.Table):
         model = Issue
         template_name = "django_tables2/bootstrap.html"
         fields = ('id', 'created_at', 'location', 'category_type', 'category_subcat', 'priority', 'status_styled','status_created_at', 'published' )
-        order_by = ('created_at')
+        order_by = ('-id')

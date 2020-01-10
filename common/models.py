@@ -207,3 +207,16 @@ class IssueFilter(django_filters.FilterSet):
         model = Issue
         # TODO: category, delegated
         fields = ['id', 'authorTrust', 'location', 'priority', 'landowner', 'status', 'published']
+    
+    def __init__(self, data, *args, **kwargs):
+        if not data:
+            data = {}
+            data['published'] = 'True'
+            data['status'] = '2'
+        else:
+            if not data.get('published'):
+                if not data.get('foo'):
+                    data = data.copy()
+                    data['published'] = 'True'
+                    data['status'] = '2'
+        super().__init__(data, *args, **kwargs)
