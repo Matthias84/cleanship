@@ -1,6 +1,9 @@
 from django.contrib import admin as adminorg
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.gis import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group
+from django.forms import ModelForm, ModelMultipleChoiceField
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from mptt.admin import MPTTModelAdmin, TreeRelatedFieldListFilter
@@ -9,12 +12,47 @@ from leaflet.admin import LeafletGeoAdmin
 from .forms import UserCreationForm, UserChangeForm
 from .models import User, Issue, Category, Comment, Feedback, StatusTypes
 
-
 class UserAdmin(UserAdmin):
+    def group(self, user):
+        groups = []
+        for group in user.groups.all():
+            groups.append(group.name)
+        return ' '.join(groups)
+    group.short_description = 'Groups'
     add_form = UserCreationForm
     form = UserChangeForm
     model = User
-    list_display = ['email', 'username']
+    list_display = ['email', 'username', 'first_name', 'last_name', 'is_staff', 'group']
+
+class GroupAdminForm(ModelForm):
+    """Extended admin form to assign users to groups"""
+    class Meta:
+        model = Group
+        exclude = []
+
+    users = ModelMultipleChoiceField(
+         queryset=User.objects.all(), 
+         required=False,
+         widget=FilteredSelectMultiple('users', False)
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(GroupAdminForm, self).__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['users'].initial = self.instance.user_set.all()
+
+    def save_m2m(self):
+        self.instance.user_set.set(self.cleaned_data['users'])
+
+    def save(self, *args, **kwargs):
+        instance = super(GroupAdminForm, self).save()
+        self.save_m2m()
+        return instance
+
+admin.site.unregister(Group)
+class GroupAdmin(admin.ModelAdmin):
+    form = GroupAdminForm
+    filter_horizontal = ['permissions']
 
 class CommentInline(admin.StackedInline):
     model = Comment
@@ -103,6 +141,7 @@ class FeedbackAdmin(admin.ModelAdmin):
         return obj.issue.id
 
 admin.site.register(User, UserAdmin)
+admin.site.register(Group, GroupAdmin)
 admin.site.register(Issue, IssueAdmin)
 admin.site.register(Category, MPTTModelAdmin)
 admin.site.register(Comment, CommentAdmin)
