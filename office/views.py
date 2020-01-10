@@ -8,6 +8,7 @@ from django_filters.views import FilterView
 from leaflet.forms.widgets import LeafletWidget
 
 from common.models import Issue, IssueFilter, StatusTypes, TrustTypes
+from common.utils import send_author_email_notification
 from .tables import IssueTable
 
 @login_required
@@ -87,6 +88,7 @@ class IssueCreateView(generic.CreateView):
         if len(candidates) > 0:
             self.object.assigned = candidates[0]
         self.object.save()
+        send_author_email_notification(self.object)
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.gis.gdal import DataSource
 from django.contrib.gis.geos import GEOSGeometry, Point
+from django.core.mail import send_mail
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 import requests
 import json
@@ -67,3 +68,13 @@ def get_landowner(point):
     logger.warning("Fail landowner - No polygon for (%s)" % str(point.coords))
     return None
     
+def send_author_email_notification(issue):
+    '''Send UTF-8 encoded mail '''
+    # TODO: We need better formating, templates, inheritance, ...
+    logger.info("Send email notification")
+    send_mail(
+        '🌟Klarschiff.HRO #{} erstellt'.format(issue.id),
+        'Für Sie wurde eine neue Meldung mit folgendem Inhalt erstellt: "{}"'.format(issue.description),
+        settings.EMAIL_FROM,
+        [issue.authorEmail],
+        fail_silently=False,)

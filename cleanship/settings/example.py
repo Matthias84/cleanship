@@ -36,3 +36,12 @@ LEAFLET_CONFIG = {
 }
 
 GEOCODR_API_KEY = 'abcd...'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'yourhost.de'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'cleanship'
+EMAIL_HOST_PASSWORD = 'pass'
+EMAIL_FROM = 'cleanship@yourhost.de'
+EMAIL_USE_TLS = True
+EMAIL_TIMEOUT = 5
