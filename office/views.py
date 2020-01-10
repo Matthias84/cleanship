@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -18,8 +19,7 @@ def start(request):
         l.append(g.name)
     return render(request, 'office/start.html', {'groups': l})
 
-
-class IssueDetailView(generic.DetailView):
+class IssueDetailView(LoginRequiredMixin, generic.DetailView):
     model = Issue
     template_name = 'office/issue.html'
     
@@ -40,7 +40,7 @@ class IssueDetailView(generic.DetailView):
         context['position_geojson'] = positionWGS84
         return context
 
-class IssueListView(SingleTableMixin, FilterView):
+class IssueListView(LoginRequiredMixin, SingleTableMixin, FilterView):
     model = Issue
     table_class = IssueTable
     filterset_class = IssueFilter
@@ -60,7 +60,7 @@ class IssueListView(SingleTableMixin, FilterView):
             issue.position_webmap = positionWGS84.geojson
         return context
 
-class IssueCreateView(generic.CreateView):
+class IssueCreateView(LoginRequiredMixin, generic.CreateView):
     model = Issue
     fields = ['description', 'category', 'authorEmail', 'position','photo']
     template_name = 'office/issue_create.html'
