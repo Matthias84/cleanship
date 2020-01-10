@@ -145,5 +145,5 @@ STATIC_FILES_FINDERS = [
 # User defined MEDIA files as photos
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'office:index'
-LOGOUT_REDIRECT_URL = 'office:index'
+LOGIN_REDIRECT_URL = 'office:start'
+LOGOUT_REDIRECT_URL = 'office:start'

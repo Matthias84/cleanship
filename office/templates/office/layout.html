@@ -46,11 +46,8 @@
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
-            </a>
-          </li>
           <li><a href="#">{{ user.get_username }}</a></li>
+          <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></i></a></li>
         </ul>
       </div>
     </nav>

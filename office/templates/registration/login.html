@@ -1,0 +1,10 @@
+{% extends "office/base.html" %}
+{% block title %}Login{% endblock %}
+{% block page %}
+<h2>Login</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form}}
+  <button type="submit" class="btn btn-success">Submit</button>
+</form>
+{% endblock %}
