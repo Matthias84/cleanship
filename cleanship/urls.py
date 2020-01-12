@@ -20,6 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('citysdk/', include('citysdk.urls')),
     path('office/', include('office.urls')),
     path('accounts/', include('django.contrib.auth.urls'))
 ]

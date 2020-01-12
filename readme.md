@@ -9,15 +9,22 @@ Currently we port only existing features, while avoiding old bottlenecks. New fe
 The code is Python3 using the Django 2 framework and bootstrap3 webfrontend toolkit.
 
 Currently **alpha** , so expect that we will break your installation / data / modules / ... ! Migrations will cause data lost!
+This version is a preview with a lot of limitations:
+* frontend UI not polished
+* read-only API
+* some performance issues
+* hardcoded settings
 
 ![admin webinterface showing details of a opened issue](doc/img/cleanship%20admin%20issue%20detail%20example.png)
 ![office webinterface showing details of a opened issue](doc/img/cleanship%20office%20issue%20detail%20example.png)
 
 # Features
 
+* staff frontend
 * issues with georeference
 * groups to maintain / delegate issues
 * admin backend
+* api compatible with open311
 * import Klarschiff legacy data
 
 # Usage
@@ -25,6 +32,7 @@ Currently **alpha** , so expect that we will break your installation / data / mo
 * start `python3 manage.py runserver --settings cleanship.settings.local`
 * enter `localhost:8000/admin` to maintain issues
 * enter `localhost:8000/office` for staff backoffice
+* enter `localhost:8000/citysdk` for REST API
 
 ## Setup
 
@@ -118,6 +126,7 @@ The django project is splitted in different **apps** focussing on single aspects
 * **common** - general aspects esp. shared models, admin frontend
 * **legacy** - compatibility features to migrate from old predecessor project Klarschiff
 * **office** - internal frontend for staff
+* **citysdk** - API for public frontend / 3rd party apps & platforms
 
 # Dev
 
@@ -215,6 +224,8 @@ The codebases integrates packages of great communities as well:
     * django-leaflet
     * django-mptt
     * django-tables2
+    * djangorestframework
+    * djangorestframework-xml
 * Postgres
 * PostGIS
 * GDAL
