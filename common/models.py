@@ -6,6 +6,7 @@ from django.contrib.gis.geos import GEOSGeometry, Point
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from mptt.models import MPTTModel, TreeForeignKey
 from enum import IntEnum
 import json
@@ -26,6 +27,13 @@ class PriorityTypes(IntEnum):
     LOW = 1
     NORMAL = 2
     HIGH = 3
+    # to get strings for translation
+    gettext_noop("LOW")
+    gettext_noop("low")
+    gettext_noop("NORMAL")
+    gettext_noop("normal")
+    gettext_noop("HIGH")
+    gettext_noop("high")
 
     @classmethod
     def choices(cls):
@@ -40,6 +48,18 @@ class StatusTypes(IntEnum):
     DUBLICATE = 5
     # TODO: Add unassigned / offen #12
     # TODO: Add deleted / geloescht #13
+    # to get strings for translation
+    gettext_noop("SUBMITTED")
+    gettext_noop("submitted")
+    gettext_noop("WIP")
+    gettext_noop("wip")
+    gettext_noop("SOLVED")
+    gettext_noop("solved")
+    gettext_noop("IMPOSSIBLE")
+    gettext_noop("impossible")
+    gettext_noop("DUBLICATE")
+    gettext_noop("dublicate")
+    
 
     @classmethod
     def choices(cls):
@@ -54,6 +74,14 @@ class TrustTypes(IntEnum):
     @classmethod
     def choices(cls):
         return [(key.value, _(key.name)) for key in cls]
+    
+    # to get strings for translation
+    gettext_noop("EXTERNAL")
+    gettext_noop("external")
+    gettext_noop("INTERNAL")
+    gettext_noop("internal")
+    gettext_noop("FIELDTEAM")
+    gettext_noop("fieldteam")
 
 def validate_in_municipality(value):
     """Check if map point is within boundary"""

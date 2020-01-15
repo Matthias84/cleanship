@@ -32,7 +32,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a data-toggle="collapse" href="#collapseFilters">Filters</a>
+            <a data-toggle="collapse" href="#collapseFilters">{% trans "Filters" %}</a>
           </h4>
         </div>
         <div id="collapseFilters" class="panel-collapse collapse">
@@ -41,7 +41,7 @@
                 <div class="form-group">
                 {{ filter.form.as_p }}
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
             </form>
           </div>
         </div>
@@ -50,8 +50,8 @@
 {% endif %}
 <!-- Menus-->
   <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#tabletab">Table</a></li>
-    <li><a data-toggle="tab" href="#maptab">Map</a></li>
+    <li class="active"><a data-toggle="tab" href="#tabletab">{% trans "Table" %}</a></li>
+    <li><a data-toggle="tab" href="#maptab">{% trans "Map" %}</a></li>
   </ul>
 
   <!-- Panes-->

@@ -47,9 +47,9 @@
       <div class="container-fluid">
       <form class="navbar-form navbar-left" action="{% url 'office:issues' %}" method="get">
         <div class="form-group">
-          <input type="text" class="form-control" name = "id" placeholder="Search ID ...">
+          <input type="text" class="form-control" name = "id" placeholder="{% trans "ID ..." %}">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">{% trans "Search" %}</button>
       </form>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">{{ user.get_username }}</a></li>

@@ -19,7 +19,7 @@
     }
     </script>
 {% endblock %}
-{% block title %} {% trans "Issues" %}{% endblock %}
+{% block title %} #{{ issue.id }}{% endblock %}
 {% block content %}
 <div class="container">
   <h2>
@@ -28,71 +28,73 @@
       {% elif issue.priority == 1 %}
         <i class="zmdi zmdi-trending-down"></i>
       {% endif %}
-    Issue {{ issue.id }}
+    {% trans "issue" %} {{ issue.id }}
   {% if issue.published %}
-    <i class="zmdi zmdi-eye" title='public visible'></i>
+    <i class="zmdi zmdi-eye" title='{% trans "public visible" %}'></i>
   {% else %}
-    <i class="zmdi zmdi-eye-off" title='not public visible'></i>
+    <i class="zmdi zmdi-eye-off" title='{% trans "not public visible" %}'></i>
   {% endif %}
   </h2>
   <p>{{ issue.category }}</p>
   
   <!-- Menus-->
   <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#base">Base</a></li>
-    <li><a data-toggle="tab" href="#comments">Comments</a></li>
-    <li><a data-toggle="tab" href="#feedback">Feedback</a></li>
-    <li><a data-toggle="tab" href="#history">History</a></li>
+    <li class="active"><a data-toggle="tab" href="#base">{% trans "Base" %}</a></li>
+    <li><a data-toggle="tab" href="#comments">{% trans "Comments" %}</a></li>
+    <li><a data-toggle="tab" href="#feedback">{% trans "Feedback" %}</a></li>
+    <li><a data-toggle="tab" href="#history">{% trans "History" %}</a></li>
   </ul>
 
   <!-- Panes-->
   <div class="tab-content">
     <div id="base" class="tab-pane fade in active">
-      <h3>Base</h3>
+      <h3>{% trans "Base" %}</h3>
       <div class="row">
           <div class="col-md-8">
-            <p>Author: 
+            <p>{% trans "Author" %}: 
                 {% if author_trust_string == 'external' %}
-                    <i class="zmdi zmdi-accounts" title="{{ author_trust_string }}"></i>
+                    <i class="zmdi zmdi-accounts" title="{% trans author_trust_string %}"></i>
                 {% elif author_trust_string == 'internal' %}
-                    <i class="zmdi zmdi-city" title="{{ author_trust_string }}"></i>
+                    <i class="zmdi zmdi-city" title="{% trans author_trust_string %}"></i>
                 {% elif author_trust_string == 'fieldteam' %}
-                    <i class="zmdi zmdi-walk" title="{{ author_trust_string }}"></i>
+                    <i class="zmdi zmdi-walk" title="{% trans author_trust_string %}"></i>
                 {% endif %}
-                {{ issue.authorEmail|default_if_none:"(removed)" }}
+                {% trans '(removed)' as trans_empty_email %}
+                {{ issue.authorEmail|default_if_none:trans_empty_email }}
             </p>
-            <p title="{{ issue.created_at }}">Created: {{ issue.created_at|date:"SHORT_DATE_FORMAT" }}</p>
+            <p title="{{ issue.created_at }}">{% trans "Created" %}: {{ issue.created_at|date:"SHORT_DATE_FORMAT" }}</p>
             <q class="usertext">{{ issue.description }}</q>
             {% leaflet_map "issuemap" callback="window.map_init_basic" %}
             <!-- #TODO: Enable settings as overview map, overlays, ... -->
-            <p>Location: {{ issue.location }}</p>
-            <p>Landowner: {{ issue.landowner }}</p>
+            {% trans '(unknown)' as trans_unkown_location %}
+            <p>{% trans "Location" %}: {{ issue.location|default_if_none:trans_unkown_location }}</p>
+            <p>{% trans "Landowner" %}: {{ issue.landowner }}</p>
             <div class="bg-info">
-                <p>Status: 
+                <p>{% trans "Status" %}: 
                     {% if status_string == 'submitted' %}
-                        <i class="zmdi zmdi-email-open" title="{{ status_string }}"></i>
+                        <i class="zmdi zmdi-email-open" title="{% trans status_string %}"></i>
                     {% elif status_string == 'wip' %}
-                        <i class="zmdi zmdi-puzzle-piece" title="{{ status_string }}"></i>
+                        <i class="zmdi zmdi-puzzle-piece" title="{% trans status_string %}"></i>
                     {% elif status_string == 'solved' %}
-                        <i class="zmdi zmdi-check-circle" title="{{ status_string }}"></i>
+                        <i class="zmdi zmdi-check-circle" title="{% trans status_string %}"></i>
                     {% elif status_string == 'impossible' %}
-                        <span class="zmdi-hc-stack zmdi-hc-lg" title="{{ status_string }}">
+                        <span class="zmdi-hc-stack zmdi-hc-lg" title="{% trans status_string %}">
                             <i class="zmdi zmdi-balance"></i>
                             <i class="zmdi zmdi-block zmdi-hc-stack-2x"></i>
                         </span> 
                     {% elif status_string == 'dublicate' %}
-                        <i class="zmdi zmdi-check-copy" title="{{ status_string }}"></i>
+                        <i class="zmdi zmdi-check-copy" title="{% trans status_string %}"></i>
                     {% endif %}
-                    {{ status_string }}
-                    -
-                    {{ issue.status_created_at }}
+                    {% trans status_string %} - {% trans "since" %} {{ issue.status_created_at }}
                 </p>
-                <p>Status Text:
+                <p>{% trans "Status Text" %}:
                     <q class="usertext">{{ issue.status_text|default_if_none:"(no text)" }}</q>
                 </p>
-                <p>Assigned: {{ issue.assigned.name|default_if_none:"(not assigned)" }}
+                <p>
+                {% trans '(not assigned)' as trans_not_assigned %}
+                {% trans "Assigned" %}: {{ issue.assigned.name|default_if_none:trans_not_assigned }}
                 {% if issue.delegated %}
-                    <b>(delegated: {{ issue.delegated }})</b>
+                    <b>({% trans "delegated" %}: {{ issue.delegated }})</b>
                 {% endif %}
                 </p>
             </div>
@@ -104,11 +106,11 @@
       <p></p>
     </div>
     <div id="comments" class="tab-pane fade">
-      <h3>Internal Comments</h3>
+      <h3>{% trans "Internal Comments" %}</h3>
       {% for comment in issue.comment_set.all %}
       <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">{{comment.author}} <small><i>Posted on {{comment.created_at|date:"SHORT_DATE_FORMAT" }}</i></small></h3>
+            <h3 class="panel-title">{{comment.author}} <small><i>{% trans "Posted on" %} {{comment.created_at|date:"SHORT_DATE_FORMAT" }}</i></small></h3>
             <div class="btn-group pull-right">
                 <a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></i></a>
                 <a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></i></a>
@@ -121,11 +123,11 @@
         {% endfor %}
     </div>
     <div id="feedback" class="tab-pane fade">
-      <h3>Public Feedback</h3>
+      <h3>{% trans "Public Feedback" %}</h3>
         {% for feedback in issue.feedback_set.all %}
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">{{feedback.authorEmail}} <small><i>Written on {{feedback.created_at|date:"SHORT_DATE_FORMAT" }}</i></small></h3>
+            <h3 class="panel-title">{{feedback.authorEmail}} <small><i>{% trans "Written on" %} {{feedback.created_at|date:"SHORT_DATE_FORMAT" }}</i></small></h3>
           </div>
           <div class="panel-body">
             <q>{{feedback.content}}</q>
@@ -135,7 +137,7 @@
 
     </div>
     <div id="history" class="tab-pane fade">
-      <h3>History</h3>
+      <h3>{% trans "History" %}</h3>
       <p>(here list alls edit history items)</p>
     </div>
   </div>

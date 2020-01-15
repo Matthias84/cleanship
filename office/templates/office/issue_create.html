@@ -6,10 +6,10 @@
    {% leaflet_js plugins="forms" %}
    {% leaflet_css plugins="forms" %}
 {% endblock %}
-{% block title %} New Issue{% endblock %}
+{% block title %} {% trans "New Issue" %}{% endblock %}
 {% block content %}
  <div class="container">
-            <h2>New Issue</h2>
+            <h2>{% trans "New Issue" %}</h2>
             <div style="width:30%">
                 <form action="" method="post">
                     {%csrf_token%}
@@ -35,7 +35,7 @@
                       {% endif %}
                     </div>
                     {% endfor %}
-                    <button type="submit" class="btn btn-success">Create Issue</button>
+                    <button type="submit" class="btn btn-success">{% trans "Create Issue" %}</button>
             </div>
             </form>
         </div>

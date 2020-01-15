@@ -3,22 +3,21 @@
 {% block title %} Start{% endblock %}
 {% block content %}
 <h1>Übersicht</h1>
-<p>
-Die folgenden Vorgänge könnten Ihrere Aufmerksamkeit bedürfen:
+<p> {% trans "You might want to check the following issues" %}:
 <ul>
-    <li><b>{{issues3dunchecked.count}}</b> seit 3 Tagen nicht geprüft (
+    <li><b>{{issues3dunchecked.count}}</b> {% trans "Not reviewed for more than 3 days" %} (
     {% for issue in issues3dunchecked %}
         <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
     {% endfor %}
     )
     </li>
-    <li><b>{{issues30dunupdated.count}}</b> seit 30 Tagen ohne neue Status-Meldung (
+    <li><b>{{issues30dunupdated.count}}</b> {% trans "Without update for more than 30 days" %} (
     {% for issue in issues30dunupdated %}
         <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
     {% endfor %}
     )
     </li>
-    <li><b>{{ideas60d.count}}</b> seit 60 Tagen ohne abschließende Bearbeitung (
+    <li><b>{{ideas60d.count}}</b> {% trans "Without final decission for more than 60 days" %} (
     {% for issue in ideas60d %}
         <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
     {% endfor %}
