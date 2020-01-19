@@ -128,7 +128,7 @@ class Issue(models.Model):
     authorTrust = models.IntegerField(choices=TrustTypes.choices(), default=TrustTypes.EXTERNAL, verbose_name = _('trust'), help_text=_('Trust level of the author.'))
     position = models.PointField(srid=25833, verbose_name=_('position'), help_text=_('Georeference for this issue. (might be inaccurate)'), validators=[validate_in_municipality])  # TODO: Extract srid to settings
     category = TreeForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False, verbose_name=_('category'), help_text=_('Multi-level selection of which kind of note this issue comes closest.'), validators=[validate_is_subcategory])
-    photo = models.ImageField(null=True, blank=True, verbose_name=_('photo'), help_text=_('Photo that show the spot. (unprocessed, might include metadata)'))
+    photo = models.ImageField(upload_to='', null=True, blank=True, verbose_name=_('photo'), help_text=_('Photo that show the spot. (unprocessed, might include metadata)'))
     created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('Date of submission.'))
     location = models.CharField(max_length=150, null=True, blank=True, verbose_name=_('location'), help_text=_('Human readable description of the position.'))
     priority = models.IntegerField(choices=PriorityTypes.choices(), default=PriorityTypes.NORMAL, verbose_name = _('priority'), help_text=_('Importance of the note for responsibles.'))
@@ -139,6 +139,7 @@ class Issue(models.Model):
     status_text = models.TextField(max_length=1000, verbose_name=_('status text'), help_text=_('Further details explaining the progress / plans / challanges / milestones / ... .'))
     status_created_at = models.DateTimeField(default=timezone.now, verbose_name=_('status date'), help_text=_('Date of the last status change.')) # TODO: The default date needs an filter procedure to trigger only on relevant changes
     published = models.BooleanField(null=False, blank=False, default=False, verbose_name=_('published'), help_text=_('If base information are currently public. (can be altered manually and by state changes)'))
+    # TODO: timestamp of last change (incl. comments / feedback / abuse?)
     
     def get_issue_priority_label(self):
         return PriorityTypes(self.type).name.title()
@@ -151,6 +152,11 @@ class Issue(models.Model):
             a66_signs = Group.objects.filter(name='a66_beschilderung').first()
             ls.append(a66_signs)
         return ls
+    
+    def get_position_WGS84(self):
+        positionWGS84 = self.position
+        positionWGS84.transform(4326)
+        return positionWGS84
 
     class Meta:
          verbose_name = _("issue")
