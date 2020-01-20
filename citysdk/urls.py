@@ -18,9 +18,9 @@ We also added some custom addons and simplicifations:
 https://github.com/bfpi/klarschiff-citysdk
 
 In short a endpoint provides following features:
-- /citysdk/services.xml - listing all issue categories
-- /citysdk/requests.xml - listing all (past) issues
-- /citysdk/requests/x.xml - details for a submitted issue
+- /citysdk/services.json - listing all issue categories
+- /citysdk/requests.json - listing all (past) issues
+- /citysdk/requests/x.json - details for a submitted issue
 (- /citysdk/areas.json - list geometries to subscribe for custom observations)
 (- /citysdk/discovery.json - enumerate all of your public endpoints)
 """
