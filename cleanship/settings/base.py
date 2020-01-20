@@ -117,13 +117,9 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework_xml.parsers.XMLParser',
-    ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
-        'rest_framework_xml.renderers.XMLRenderer',
     ],
 }
 

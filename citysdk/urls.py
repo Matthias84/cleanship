@@ -1,4 +1,7 @@
 from django.conf.urls import url, include
+from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.measure import D
+from django.contrib.gis.db.models.functions import Distance
 from django.utils.translation import gettext_lazy as _
 from common.models import Issue, Category, StatusTypes, TrustTypes
 from rest_framework import routers, serializers, viewsets
@@ -18,9 +21,9 @@ We also added some custom addons and simplicifations:
 https://github.com/bfpi/klarschiff-citysdk
 
 In short a endpoint provides following features:
-- /citysdk/services.xml - listing all issue categories
-- /citysdk/requests.xml - listing all (past) issues
-- /citysdk/requests/x.xml - details for a submitted issue
+- /citysdk/services.json - listing all issue categories
+- /citysdk/requests.json - listing all (past) issues
+- /citysdk/requests/x.json - details for a submitted issue
 (- /citysdk/areas.json - list geometries to subscribe for custom observations)
 (- /citysdk/discovery.json - enumerate all of your public endpoints)
 """
@@ -175,16 +178,29 @@ class IssueViewSet(viewsets.ModelViewSet):
         query_params = self.request.query_params
         # TODO: Security Check the filterstrings
         max_requests = query_params.get('max_requests', None) # TODO: What is CitySDK default limit?
+        also_archived = query_params.get('also_archived', 'false')
+        start_date = query_params.get('start_date', None)
+        end_date = query_params.get('end_date', None)
+        lat = query_params.get('lat', None)
+        long = query_params.get('long', None)
+        radius = query_params.get('radius', None)
         keywords = query_params.get('keyword', None)
         with_picture = query_params.get('with_picture', None)
         queryStatusCitySDK = query_params.get('detailed_status', None)
-        queryset_list = Issue.objects.all().order_by('-created_at')
-        # also_archived
-        # just_count
-        # start_date, end_date
+        # TODO: params just_count
         # (updated_after, updated_before)
         # (agency_responsible)
-        # lat, long, radius
+        if also_archived.lower() == 'true': # TODO: Adapt to new depublish flag?
+            queryset_list = Issue.objects.all().order_by('-created_at')
+        else:
+            queryset_list = Issue.objects.filter(published=True).order_by('-created_at')
+        if start_date and end_date:
+            queryset_list = queryset_list.filter(created_at__range=[start_date, end_date])
+        else:
+            if start_date:
+                queryset_list = queryset_list.filter(created_at__gte=start_date)
+            if end_date:
+                queryset_list = queryset_list.filter(created_at__lte=end_date)
         if keywords:
             # Limit by type (old Klarschiff uses keywords list)
             keywords=keywords.lower()
@@ -205,6 +221,20 @@ class IssueViewSet(viewsets.ModelViewSet):
             # Limit if photo present
             if with_picture.lower() == 'true':
                 queryset_list = queryset_list.exclude(photo__exact='')
+        if lat and long and radius:
+            # Limit by surrounding geo bbox
+            pnt = GEOSGeometry('POINT({} {})'.format(lat, long), srid=4326)
+            pnt.transform(25833) # TODO: django gis docs say autoconvert?
+            print(pnt)
+            #for iss in Issue.objects.all()[:5]:
+                #distance=Distance(pnt)
+                #print(iss.id, distance)
+            # TODO: Make sure internal CRS is projected -> metrical
+            # TODO: Limiting size for requests ?
+            queryset_list=queryset_list.annotate(dist=Distance('position', pnt))
+            for iss in queryset_list[:5]:
+                print("{} {}".format(iss.id, iss.dist))
+            queryset_list = queryset_list.filter(position__distance_lte=(pnt, D(m=float(radius))))
         if max_requests:
             # Limit by amount
             queryset_list = queryset_list[:int(max_requests)]
