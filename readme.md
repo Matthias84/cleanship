@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/Matthias84/cleanship.svg?branch=master)](https://travis-ci.org/Matthias84/cleanship)
 [![Coverage Status](https://coveralls.io/repos/github/Matthias84/cleanship/badge.svg?branch=master)](https://coveralls.io/github/Matthias84/cleanship?branch=master)
 
-Cleanship is a citizen participation (Bürgerbeteiligung) / complaints & suggestion management (Anliegenmanagement) /  ... online platform that allows you to submit issues about the public infrastructure. The  local administration will then review your note and the solution process is public visible.
+Cleanship is a citizen participation (Bürgerbeteiligung) / complaints & suggestion management (Anliegenmanagement) /  ... online platform that allows you to submit issues about the public infrastructure. The local administration will then review your note and the solution process is public visible.
 
-It is the successor of [klarschiff](https://de.wikipedia.org/wiki/Klarschiff). But this project includes only the core and a [backoffice](https://github.com/bfpi/klarschiff-backend) for city staff. We reuse the old public (mobile) [frontend](https://github.com/bfpi/klarschiff-field_service) from Klarschiff,  which is connected trough an extended [CitySDK API](https://github.com/bfpi/klarschiff-citysdk).
+It is the successor of [Klarschiff](https://de.wikipedia.org/wiki/Klarschiff). But this project includes only the core and a internal [backoffice](https://github.com/bfpi/klarschiff-backend) for city staff. We reuse the old public (mobile) [frontend](https://github.com/bfpi/klarschiff-field_service) from Klarschiff,  which is connected trough an extended [CitySDK API](https://github.com/bfpi/klarschiff-citysdk).
 Currently we port only existing features, while avoiding old bottlenecks. New features will be introduced starting with version 0.3.
 
 The code is Python3 using the Django 2 framework and bootstrap3 webfrontend toolkit.
@@ -15,17 +15,17 @@ This version is a preview with a lot of limitations:
 * some performance issues
 * hardcoded settings
 
-![admin webinterface showing details of a opened issue](doc/img/cleanship%20admin%20issue%20detail%20example.png)
-![office webinterface showing details of a opened issue](doc/img/cleanship%20office%20issue%20detail%20example.png)
-
 # Features
 
-* staff frontend
+* staff frontend (office)
 * issues with georeference
 * groups to maintain / delegate issues
 * admin backend
-* api compatible with open311
+* API compatible with [Open311](https://www.open311.org/) / [CitySDK](https://www.citysdk.eu/citysdk-toolkit/using-the-apis/open311-api/)
 * import Klarschiff legacy data
+
+![admin webinterface showing details of a opened issue](doc/img/cleanship%20admin%20issue%20detail%20example.png)
+![office webinterface showing details of a opened issue](doc/img/cleanship%20office%20issue%20detail%20example.png)
 
 # Usage
 
@@ -36,7 +36,7 @@ This version is a preview with a lot of limitations:
 
 ## Setup
 
-On Linux you need to follow this steps to get an working instance
+On Linux you need to follow this steps to get a working instance
 
 * Setup postgres DBMS with geoextension
     * `sudo apt install pgadmin3 postgresql postgresql-10-postgis-2.4  postgresql-10-postgis-scripts`
@@ -174,7 +174,9 @@ You might want to restrict the tests to specific suites using this line:
 
 ## Contributing
 
-Currently we focus on a pure port of Klarschiff (Java, PHP) to cleanship (Django) with all of the existing functionality. For that reason, **we don't accept pull-requests yet**.  Feel free to submit requests / bugs for discussion. New features or breaking changes will be stalled till version 0.2! 
+Currently we focus on a pure port of Klarschiff (Java, PHP) to cleanship (Django) with all of the existing functionality.
+For that reason, **we don't accept pull-requests yet**.  Feel free to submit requests / bugs for discussion.
+New features or breaking changes will be stalled till version 0.2! 
 
 We follow flake8 code conventions and pythonic best practises.
 
@@ -221,13 +223,13 @@ Please install `requirements\dev.txt` for the tools dependencies!
 
 To avoid any confusion about the wording and keeping the translations consistent, we list dedicated 
 
-    | en        | de          |
-    | --------- | ----------- |
-    | issue     | Vorgang     |
-    | fieldteam | Außendienst |
-    | photo     | Photo       |
-    | category  | Kategorie   |
-    | eMail     | E-Mail      |
+| en        | de          |
+| --------- | ----------- |
+| issue     | Vorgang     |
+| fieldteam | Außendienst |
+| photo     | Photo       |
+| category  | Kategorie   |
+| eMail     | E-Mail      |
 
 
 # Thanks
@@ -244,7 +246,6 @@ The codebases integrates packages of great communities as well:
     * django-mptt
     * django-tables2
     * djangorestframework
-    * djangorestframework-xml
 * Postgres
 * PostGIS
 * GDAL
