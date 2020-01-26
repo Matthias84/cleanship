@@ -162,10 +162,58 @@ class IssueSerializer(serializers.ModelSerializer):
                 return _('{} (delegated to {})').format(obj.assigned.name, obj.delegated.name)
             else:
                 return obj.assigned.name
-         
+
+class CategorySerializer(serializers.ModelSerializer):
+    service_code = serializers.SerializerMethodField(read_only=True)
+    service_name = serializers.CharField(source='name', read_only=True)
+    description = serializers.SerializerMethodField(read_only=True)
+    metadata = serializers.SerializerMethodField(read_only=True)
+    type = serializers.SerializerMethodField(read_only=True)
+    keywords = serializers.SerializerMethodField(read_only=True)
+    group = serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model = Category
+        fields = [   # Order is same as legacy Klarschiff CitySDK
+                    'service_code',
+                    'service_name',
+                    'description',
+                    'metadata',
+                    'type',
+                    'keywords',
+                    'group'
+        ]
+        
+    def get_keywords(self, category):
+        # Like Klarschiff, we map Level 0 (idee / problem / tipp via keyword
+        return category.get_root().name.lower()
+
+    def get_group(self, category):
+        # Like Klarschiff, we map Level 1 maincategories
+        return category.parent.name
+        
+    def get_service_code(self, category):
+        # We use (imported) Klarschiff category IDs
+        return str(category.id)
+    
+    def get_type(self, category):
+        # Not used, but required by citySDK spec
+        return "realtime"
+
+    def get_description(self, category):
+        # Not used, but required by citySDK spec
+        return None
+    
+    def get_metadata(self, category):
+        # Not used, but required by citySDK spec
+        return False
+    
 
 class IssueViewSet(viewsets.ModelViewSet):
-    # https://www.klarschiff-hro.de/citysdk/requests.json?detailed_status=RECEIVED%2C+IN_PROCESS%2C+PROCESSED%2C+REJECTED&extensions=true&keyword=problem%2C+idea&max_requests=6&with_picture=true
+    """
+    Encapsulate all API calls related to Open311 service requests / issues
+    Offers filters and returns JSON serialized requests
+    e.g. https://www.klarschiff-hro.de/citysdk/requests.json?detailed_status=RECEIVED%2C+IN_PROCESS%2C+PROCESSED%2C+REJECTED&extensions=true&keyword=problem%2C+idea&max_requests=6&with_picture=true
+    """
     serializer_class = IssueSerializer
     
     # TODO: Add api_key permissions
@@ -224,24 +272,31 @@ class IssueViewSet(viewsets.ModelViewSet):
         if lat and long and radius:
             # Limit by surrounding geo bbox
             pnt = GEOSGeometry('POINT({} {})'.format(lat, long), srid=4326)
-            pnt.transform(25833) # TODO: django gis docs say autoconvert?
             print(pnt)
-            #for iss in Issue.objects.all()[:5]:
-                #distance=Distance(pnt)
-                #print(iss.id, distance)
             # TODO: Make sure internal CRS is projected -> metrical
             # TODO: Limiting size for requests ?
-            queryset_list=queryset_list.annotate(dist=Distance('position', pnt))
-            for iss in queryset_list[:5]:
-                print("{} {}".format(iss.id, iss.dist))
             queryset_list = queryset_list.filter(position__distance_lte=(pnt, D(m=float(radius))))
         if max_requests:
             # Limit by amount
             queryset_list = queryset_list[:int(max_requests)]
         return queryset_list
 
+class CategoryViewSet(viewsets.ModelViewSet):
+    """
+    Encapsulate all API calls related to Open311 services / categories
+    We map our 3-level hierachy using the keyword, group references
+    e.g. https://www.klarschiff-hro.de/citysdk/services.json
+    """
+    serializer_class = CategorySerializer
+    queryset = Category.objects.filter(level=2)
+    
+    def get_paginated_response(self, data):
+        # Redefined to avoid JSON extra pagination fields
+        return Response(data)
+
 router = routers.DefaultRouter()
 router.register(r'requests', IssueViewSet, basename='issues')
+router.register(r'services', CategoryViewSet, basename='categories')
 # TODO: Security Check that we don't leak non public infos
 
 urlpatterns = [

@@ -4,7 +4,8 @@
 {% block content %}
 <h1>Übersicht</h1>
 <p> {% trans "You might want to check the following issues" %}:
-<ul>
+  <!-- 3x personal QA listings -->
+  <ul>
     <li><b>{{issues3dunchecked.count}}</b> {% trans "Not reviewed for more than 3 days" %} (
     {% for issue in issues3dunchecked %}
         <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
@@ -23,6 +24,6 @@
     {% endfor %}
     )
     </li>
-</ul>
+  </ul>
 </p>
 {% endblock %}

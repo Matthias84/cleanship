@@ -3,50 +3,50 @@
 {% load render_table from django_tables2 %}
 {% load leaflet_tags %}
 {% block head %}
-    {% leaflet_js %}
-    {% leaflet_css %}
-    <script type="text/javascript">
-    function map_init_basic (map, options) {
-        //Setup and fill leaflet map
-        layer = L.geoJSON();
-        {% for issue in filter.qs %}
-            marker = layer.addData({{ issue.position.geojson|safe }});
-            marker.bindTooltip("{{ issue.id }}<br\>({{ issue.category }})");
-            marker.issueid = {{ issue.id }};
-        {% endfor %}
-        layer.addTo(map);
-        layer.on("click", function (event) {
-            var clickedMarker = event.layer;
-           window.open(clickedMarker.issueid);
-        });
-        map.flyToBounds(layer.getBounds());
-    }
-    </script>
+  {% leaflet_js %}
+  {% leaflet_css %}
+  <script type="text/javascript">
+  function map_init_basic (map, options) {
+      //Setup and fill leaflet map
+      layer = L.geoJSON();
+      {% for issue in filter.qs %}
+          marker = layer.addData({{ issue.position.geojson|safe }});
+          marker.bindTooltip("{{ issue.id }}<br\>({{ issue.category }})");
+          marker.issueid = {{ issue.id }};
+      {% endfor %}
+      layer.addTo(map);
+      layer.on("click", function (event) {
+          var clickedMarker = event.layer;
+         window.open(clickedMarker.issueid);
+      });
+      map.flyToBounds(layer.getBounds());
+  }
+  </script>
 {% endblock %}
 {% block title %} {% trans "Issues" %}{% endblock %}
 {% block content %}
 <h1>{% trans "Issues" %}</h1>
 {% trans "All issues assigned to your groups" %}
 {% if filter %}
-     <div class="panel-group">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" href="#collapseFilters">{% trans "Filters" %}</a>
-          </h4>
-        </div>
-        <div id="collapseFilters" class="panel-collapse collapse">
-          <div class="panel-body">
-              <form class="form-inline" action="" method="get">
-                <div class="form-group">
-                {{ filter.form.as_p }}
-                </div>
-                <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
-            </form>
-          </div>
+   <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapseFilters">{% trans "Filters" %}</a>
+        </h4>
+      </div>
+      <div id="collapseFilters" class="panel-collapse collapse">
+        <div class="panel-body">
+            <form class="form-inline" action="" method="get">
+              <div class="form-group">
+              {{ filter.form.as_p }}
+              </div>
+              <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
+          </form>
         </div>
       </div>
-    </div> 
+    </div>
+  </div> 
 {% endif %}
 <!-- Menus-->
   <ul class="nav nav-tabs">
@@ -54,7 +54,7 @@
     <li><a data-toggle="tab" href="#maptab">{% trans "Map" %}</a></li>
   </ul>
 
-  <!-- Panes-->
+  <!-- filtered Table-->
   <div class="tab-content">
     <div id="tabletab" class="tab-pane fade in active">
       {% render_table table %}

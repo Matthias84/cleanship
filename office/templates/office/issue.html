@@ -3,9 +3,9 @@
 {% load i18n %}
 {% load leaflet_tags %}
 {% block head %}
-    {% leaflet_js %}
-    {% leaflet_css %}
-    <script type="text/javascript">
+  {% leaflet_js %}
+  {% leaflet_css %}
+  <script type="text/javascript">
     function map_init_basic (map, options) {
         //Setup leaflet map
         layer = L.geoJSON({{ position_geojson|safe }}).addTo(map);
@@ -17,23 +17,23 @@
       var markerBounds = L.latLngBounds(latLngs);
       map.fitBounds(markerBounds);
     }
-    </script>
+  </script>
 {% endblock %}
 {% block title %} #{{ issue.id }}{% endblock %}
 {% block content %}
 <div class="container">
   <h2>
-      {% if issue.priority == 3 %}
-        <i class="zmdi zmdi-trending-up"></i>
-      {% elif issue.priority == 1 %}
-        <i class="zmdi zmdi-trending-down"></i>
-      {% endif %}
+    {% if issue.priority == 3 %}
+      <i class="zmdi zmdi-trending-up"></i>
+    {% elif issue.priority == 1 %}
+      <i class="zmdi zmdi-trending-down"></i>
+    {% endif %}
     {% trans "issue" %} {{ issue.id }}
-  {% if issue.published %}
-    <i class="zmdi zmdi-eye" title='{% trans "public visible" %}'></i>
-  {% else %}
-    <i class="zmdi zmdi-eye-off" title='{% trans "not public visible" %}'></i>
-  {% endif %}
+    {% if issue.published %}
+      <i class="zmdi zmdi-eye" title='{% trans "public visible" %}'></i>
+    {% else %}
+      <i class="zmdi zmdi-eye-off" title='{% trans "not public visible" %}'></i>
+    {% endif %}
   </h2>
   <p>{{ issue.category }}</p>
   
@@ -50,81 +50,83 @@
     <div id="base" class="tab-pane fade in active">
       <h3>{% trans "Base" %}</h3>
       <div class="row">
-          <div class="col-md-8">
-            <p>{% trans "Author" %}: 
-                {% if author_trust_string == 'external' %}
-                    <i class="zmdi zmdi-accounts" title="{% trans author_trust_string %}"></i>
-                {% elif author_trust_string == 'internal' %}
-                    <i class="zmdi zmdi-city" title="{% trans author_trust_string %}"></i>
-                {% elif author_trust_string == 'fieldteam' %}
-                    <i class="zmdi zmdi-walk" title="{% trans author_trust_string %}"></i>
-                {% endif %}
-                {% trans '(removed)' as trans_empty_email %}
-                {{ issue.authorEmail|default_if_none:trans_empty_email }}
-            </p>
-            <p title="{{ issue.created_at }}">{% trans "Created" %}: {{ issue.created_at|date:"SHORT_DATE_FORMAT" }}</p>
-            <q class="usertext">{{ issue.description }}</q>
-            {% leaflet_map "issuemap" callback="window.map_init_basic" %}
-            <!-- #TODO: Enable settings as overview map, overlays, ... -->
-            {% trans '(unknown)' as trans_unkown_location %}
-            <p>{% trans "Location" %}: {{ issue.location|default_if_none:trans_unkown_location }}</p>
-            <p>{% trans "Landowner" %}: {{ issue.landowner }}</p>
-            <div class="bg-info">
-                <p>{% trans "Status" %}: 
-                    {% if status_string == 'submitted' %}
-                        <i class="zmdi zmdi-email-open" title="{% trans status_string %}"></i>
-                    {% elif status_string == 'wip' %}
-                        <i class="zmdi zmdi-puzzle-piece" title="{% trans status_string %}"></i>
-                    {% elif status_string == 'solved' %}
-                        <i class="zmdi zmdi-check-circle" title="{% trans status_string %}"></i>
-                    {% elif status_string == 'impossible' %}
-                        <span class="zmdi-hc-stack zmdi-hc-lg" title="{% trans status_string %}">
-                            <i class="zmdi zmdi-balance"></i>
-                            <i class="zmdi zmdi-block zmdi-hc-stack-2x"></i>
-                        </span> 
-                    {% elif status_string == 'dublicate' %}
-                        <i class="zmdi zmdi-check-copy" title="{% trans status_string %}"></i>
-                    {% endif %}
-                    {% trans status_string %} - {% trans "since" %} {{ issue.status_created_at }}
-                </p>
-                <p>{% trans "Status Text" %}:
-                    <q class="usertext">{{ issue.status_text|default_if_none:"(no text)" }}</q>
-                </p>
-                <p>
-                {% trans '(not assigned)' as trans_not_assigned %}
-                {% trans "Assigned" %}: {{ issue.assigned.name|default_if_none:trans_not_assigned }}
-                {% if issue.delegated %}
-                    <b>({% trans "delegated" %}: {{ issue.delegated }})</b>
-                {% endif %}
-                </p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <img class="img-thumbnail" style="width:90%" src="{% get_media_prefix %}{{ issue.photo }}"/>
+        <div class="col-md-8">
+          <p>{% trans "Author" %}: 
+              {% if author_trust_string == 'external' %}
+                  <i class="zmdi zmdi-accounts" title="{% trans author_trust_string %}"></i>
+              {% elif author_trust_string == 'internal' %}
+                  <i class="zmdi zmdi-city" title="{% trans author_trust_string %}"></i>
+              {% elif author_trust_string == 'fieldteam' %}
+                  <i class="zmdi zmdi-walk" title="{% trans author_trust_string %}"></i>
+              {% endif %}
+              {% trans '(removed)' as trans_empty_email %}
+              {{ issue.authorEmail|default_if_none:trans_empty_email }}
+          </p>
+          <p title="{{ issue.created_at }}">{% trans "Created" %}: {{ issue.created_at|date:"SHORT_DATE_FORMAT" }}</p>
+          <q class="usertext">{{ issue.description }}</q>
+          {% leaflet_map "issuemap" callback="window.map_init_basic" %}
+          <!-- #TODO: Enable settings as overview map, overlays, ... -->
+          {% trans '(unknown)' as trans_unkown_location %}
+          <p>{% trans "Location" %}: {{ issue.location|default_if_none:trans_unkown_location }}</p>
+          <p>{% trans "Landowner" %}: {{ issue.landowner }}</p>
+          <div class="bg-info">
+              <p>{% trans "Status" %}: 
+                  {% if status_string == 'submitted' %}
+                      <i class="zmdi zmdi-email-open" title="{% trans status_string %}"></i>
+                  {% elif status_string == 'wip' %}
+                      <i class="zmdi zmdi-puzzle-piece" title="{% trans status_string %}"></i>
+                  {% elif status_string == 'solved' %}
+                      <i class="zmdi zmdi-check-circle" title="{% trans status_string %}"></i>
+                  {% elif status_string == 'impossible' %}
+                      <span class="zmdi-hc-stack zmdi-hc-lg" title="{% trans status_string %}">
+                          <i class="zmdi zmdi-balance"></i>
+                          <i class="zmdi zmdi-block zmdi-hc-stack-2x"></i>
+                      </span> 
+                  {% elif status_string == 'dublicate' %}
+                      <i class="zmdi zmdi-check-copy" title="{% trans status_string %}"></i>
+                  {% endif %}
+                  {% trans status_string %} - {% trans "since" %} {{ issue.status_created_at }}
+              </p>
+              <p>{% trans "Status Text" %}:
+                  <q class="usertext">{{ issue.status_text|default_if_none:"(no text)" }}</q>
+              </p>
+              <p>
+              {% trans '(not assigned)' as trans_not_assigned %}
+              {% trans "Assigned" %}: {{ issue.assigned.name|default_if_none:trans_not_assigned }}
+              {% if issue.delegated %}
+                  <b>({% trans "delegated" %}: {{ issue.delegated }})</b>
+              {% endif %}
+              </p>
           </div>
         </div>
+        <div class="col-md-4">
+            <img class="img-thumbnail" style="width:90%" src="{% get_media_prefix %}{{ issue.photo }}"/>
+          </div>
+      </div>
       <p></p>
     </div>
+    
     <div id="comments" class="tab-pane fade">
       <h3>{% trans "Internal Comments" %}</h3>
       {% for comment in issue.comment_set.all %}
-      <div class="panel panel-default">
+        <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">{{comment.author}} <small><i>{% trans "Posted on" %} {{comment.created_at|date:"SHORT_DATE_FORMAT" }}</i></small></h3>
             <div class="btn-group pull-right">
-                <a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></i></a>
-                <a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></i></a>
-              </div>
+              <a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></i></a>
+              <a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></i></a>
+            </div>
           </div>
           <div class="panel-body">
             <q>{{comment.content}}</q>
           </div>
         </div>
-        {% endfor %}
+      {% endfor %}
     </div>
+    
     <div id="feedback" class="tab-pane fade">
       <h3>{% trans "Public Feedback" %}</h3>
-        {% for feedback in issue.feedback_set.all %}
+      {% for feedback in issue.feedback_set.all %}
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">{{feedback.authorEmail}} <small><i>{% trans "Written on" %} {{feedback.created_at|date:"SHORT_DATE_FORMAT" }}</i></small></h3>
@@ -133,15 +135,13 @@
             <q>{{feedback.content}}</q>
           </div>
         </div>
-        {% endfor %}
-
+      {% endfor %}
     </div>
+    
     <div id="history" class="tab-pane fade">
       <h3>{% trans "History" %}</h3>
       <p>(here list alls edit history items)</p>
     </div>
   </div>
-</div>
-<div>
 </div>
 {% endblock %}
