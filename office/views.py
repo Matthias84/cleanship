@@ -30,7 +30,10 @@ def start(request):
     unupdatedIssues = unupdatedIssues.filter(status_created_at__lt=checkdate)
     # all wip ideas older > 60d
     catidee = Category.objects.filter(name='Idee').first()
-    ourideas = ouropenissues.filter(category__in=catidee.get_descendants())
+    if catidee:
+        ourideas = ouropenissues.filter(category__in=catidee.get_descendants())
+    else:
+        ourideas = None
     return render(request, 'office/start.html', {'groups': l, 'issues3dunchecked': uncheckedIssues,'issues30dunupdated': unupdatedIssues, 'ideas60d': ourideas})
 
 class IssueDetailView(LoginRequiredMixin, generic.DetailView):
