@@ -1,6 +1,8 @@
 # Specifies only dev-specific requirements
 # But imports the common ones too
 -r base.txt
+sphinx_rtd_theme
+sphinx
 ipython
 flake8
 coverage
