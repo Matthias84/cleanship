@@ -198,6 +198,12 @@ aspects:
 -  **office** - internal frontend for staff
 -  **citysdk** - :term:`CitySDK` API for public frontend / 3rd party apps & platforms
 
+Status
+------
+
+A issue has a status which indicates it's current progress and which transition can trigger various actions in detail.
+
+.. graphviz:: _static/status.dot
 
 .. glossary::
 

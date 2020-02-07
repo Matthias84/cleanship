@@ -1,0 +1,30 @@
+digraph G {
+
+subgraph cluster_status{
+    label="status";
+    node [shape=box];
+    submitted -> wip [label="email verification"];
+    wip -> solved
+    wip -> impossible;
+    wip -> dublicate;
+    impossible
+    dublicate
+    submitted -> "(removed)"[label="garbage collection"];
+    submitted -> dublicate;
+}
+
+subgraph cluster_public{
+    label="published"
+    node [shape=box];
+    submitted -> invisible
+    wip -> visible
+    dublicate -> invisible
+    solved -> invisible [label="timeout" style=dashed]
+    impossible -> invisible [label="timeout" style=dashed]
+    color=lightgrey
+}
+
+start [shape=Mdiamond];
+end [shape=Msquare];
+start -> submitted
+}
