@@ -22,24 +22,26 @@ public visible.
 Basics
 ======
 
-It is the successor of
-`Klarschiff <https://de.wikipedia.org/wiki/Klarschiff>`__. But this
-project includes only the core and a internal
-`backoffice <https://github.com/bfpi/klarschiff-backend>`__ for city
-staff. We reuse the old public (mobile)
-`frontend <https://github.com/bfpi/klarschiff-field_service>`__ from
-Klarschiff, which is connected trough an extended `CitySDK
-API <https://github.com/bfpi/klarschiff-citysdk>`__. Currently we port
-only existing features, while avoiding old bottlenecks. New features
-will be introduced starting with version 0.3.
+It is the successor of :term:`Klarschiff`, a platform where citizens report problems / ideas concerning public infrastructure.
+The municipality staff does then review, check and fix this issues.
 
 The code is Python3 using the Django 2 framework and bootstrap3
 webfrontend toolkit.
 
-Currently **alpha** , so expect that we will break your installation /
-data / modules / ... ! Migrations will cause data lost! This version is
-a preview with a lot of limitations: \* frontend UI not polished \*
-read-only API \* some performance issues \* hardcoded settings
+.. note::
+  Currently we port only existing features, while avoiding old bottlenecks.
+  New features will be introduced starting with version 0.3.
+  
+.. note::
+   This version is a preview with a lot of limitations:
+   - frontend UI not polished
+   - read-only API
+   - some performance issues
+   - hardcoded settings
+
+.. warning::
+  Currently **alpha** , so expect that we will break your installation / data / modules / ... !
+  Migrations will cause data lost!
 
 Features
 ========
@@ -48,9 +50,8 @@ Features
 -  issues with georeference
 -  groups to maintain / delegate issues
 -  admin backend
--  API compatible with `Open311 <https://www.open311.org/>`__ /
-   `CitySDK <https://www.citysdk.eu/citysdk-toolkit/using-the-apis/open311-api/>`__
--  import Klarschiff legacy data
+-  API compatible with :term:`CitySDK`
+-  import :term:`Klarschiff` legacy data
 
 |admin webinterface showing details of a opened issue|
 |office webinterface showing details of a opened issue|
@@ -170,7 +171,7 @@ note step-by-step.
 -  multilanguage
 -  scale with huge amount of issues (>40k tested so far)
 -  history and logging
--  API following Open311 and CitySDK protocoll
+-  open API following :term:`CitySDK` protocoll
 
 To get a basic understanding of the internals, you might have a look at
 the base object definitions:
@@ -193,10 +194,25 @@ aspects:
 
 -  **common** - general aspects esp. shared models, admin frontend
 -  **legacy** - compatibility features to migrate from old predecessor
-   project Klarschiff
+   project :term:`Klarschiff`
 -  **office** - internal frontend for staff
--  **citysdk** - API for public frontend / 3rd party apps & platforms
+-  **citysdk** - :term:`CitySDK` API for public frontend / 3rd party apps & platforms
 
+
+.. glossary::
+
+   CitySDK
+     A REST like API which `CitySDK participation <https://www.citysdk.eu/citysdk-toolkit/using-the-apis/open311-api/>`_ component was implemented at Klarschiff.
+     It is a updated version of the `Open311 <https://www.open311.org/>`_ protocol, by exteding some core concepts.
+     Klarschiff also added even more features, are completely covered `here <https://github.com/bfpi/klarschiff-citysdk>`_.
+
+   Klarschiff
+     Is the previous (legacy) software suite for civic participation management.
+     It was splitted in a public and internal `frontend <https://github.com/bfpi/klarschiff-field_service>`_, both for mobile and desktop users.
+     The database was managed by a `backend <https://github.com/bfpi/klarschiff-backend>`_ component, which offered a :term:`CitySDK` API to the frontends.
+     See `Wikipedia (Klarschiff) <https://de.wikipedia.org/wiki/Klarschiff>`_
+     Cleanship replaces everything below the public frontends.
+     
 
 .. |Build Status| image:: https://travis-ci.org/Matthias84/cleanship.svg?branch=master
    :target: https://travis-ci.org/Matthias84/cleanship
