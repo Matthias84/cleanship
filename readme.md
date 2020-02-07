@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/Matthias84/cleanship.svg?branch=master)](https://travis-ci.org/Matthias84/cleanship)
 [![Coverage Status](https://coveralls.io/repos/github/Matthias84/cleanship/badge.svg?branch=master)](https://coveralls.io/github/Matthias84/cleanship?branch=master)
+[![Docs](https://readthedocs.org/projects/cleanship/badge/?version=latest)](https://cleanship.readthedocs.io/en/latest/?badge=latest)
 
 Cleanship is a citizen participation (Bürgerbeteiligung) / complaints & suggestion management (Anliegenmanagement) /  ... online platform that allows you to submit issues about the public infrastructure. The local administration will then review your note and the solution process is public visible.
 
@@ -171,66 +172,10 @@ You might want to restrict the tests to specific suites using this line:
 
 * `python3 manage.py test common/ --settings cleanship.settings.local`
 
-
-## Contributing
-
-Currently we focus on a pure port of Klarschiff (Java, PHP) to cleanship (Django) with all of the existing functionality.
-For that reason, **we don't accept pull-requests yet**.  Feel free to submit requests / bugs for discussion.
-New features or breaking changes will be stalled till version 0.2! 
-
-We follow flake8 code conventions and pythonic best practises.
-
-Feel free to use semantic inline comments as `TODO: refactoring` but plz. make sure, this task reflect also as a github issue!
-Git commit messages follow [conventional commits](https://www.conventionalcommits.org), so headers e.g.
-* `feat: Add abuse funtionality`
-* `fix(admin): Broken category`
-* `refactor(legacy)!: Extract importer as class` (! for breaking change)
-Possible tags are also: build, docs, lang, refactor, style, test
-At the body we give more details about what is (not) covered and which github tickets are focused.
-
-Some reminders for first contact or before we push to github / pull-request:
-
-* explore idea of new features / libs before in a separate small prototype
-* feature-branches for parallel work -> rebase
-* check tests
-* check codecov
-* check performance for realworld-data -> [DB optimization](https://docs.djangoproject.com/en/2.2/topics/db/optimization/)
-* check flake8 codestyle
-* check translations
-* check docs
-* check requirements, contributors, ...
-* (CI checks again)
-
-Please install `requirements\dev.txt` for the tools dependencies!
-
-### Codeformat
-
-* UTF-8, 4space ident
-* flake8 compliance
-
 ## Testing
 
 * `python3 manage.py test --settings cleanship.settings.local`
 * Code coverage with `coverage run  manage.py test --settings cleanship.settings.local`
-
-## Translating
-
-* Update the current strings to .po templates: `django-admin makemessages -l de`
-* Use e.g. poedit to add translation strings
-* Update the binary translations: `django-admin compilemessages`
-
-### Dictionary
-
-To avoid any confusion about the wording and keeping the translations consistent, we list dedicated 
-
-| en        | de          |
-| --------- | ----------- |
-| issue     | Vorgang     |
-| fieldteam | Außendienst |
-| photo     | Photo       |
-| category  | Kategorie   |
-| eMail     | E-Mail      |
-
 
 # Thanks
 
