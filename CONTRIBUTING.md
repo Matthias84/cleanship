@@ -29,3 +29,30 @@ Some reminders for first contact or before we push to github / pull-request:
 * (CI checks again)
 
 Please install `requirements\dev.txt` for the tools dependencies!
+
+
+## Translating
+
+* Update the current strings to .po templates:
+   `django-admin makemessages -l de`
+* Use e.g. poedit to add translation strings
+* Update the binary translations: `django-admin compilemessages`
+
+### Dictionary
+
+To avoid any confusion about the wording and keeping the translations
+consistent, we list dedicated
+
++-------------+---------------+
+| en          | de            |
++=============+===============+
+| issue       | Vorgang       |
++-------------+---------------+
+| fieldteam   | Außendienst   |
++-------------+---------------+
+| photo       | Photo         |
++-------------+---------------+
+| category    | Kategorie     |
++-------------+---------------+
+| eMail       | E-Mail        |
++-------------+---------------+
