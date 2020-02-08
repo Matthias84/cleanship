@@ -205,6 +205,11 @@ A issue has a status which indicates it's current progress and which transition 
 
 .. graphviz:: _static/status.dot
 
+Development
+===========
+
+Please see `readme.md <https://github.com/Matthias84/cleanship/>`_ and `CONTRIBUTING.md <https://github.com/Matthias84/cleanship/blob/master/CONTRIBUTING.md>`_!
+
 .. glossary::
 
    CitySDK
