@@ -7,7 +7,6 @@ from common.models import Issue, Category, StatusTypes, TrustTypes
 from rest_framework import routers, serializers, viewsets
 from rest_framework.response import Response
 
-from .serializers import IssueSerializer, CategorySerializer
 from .views import IssueViewSet, CategoryViewSet
 
 app_name = 'citysdk'

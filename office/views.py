@@ -9,9 +9,10 @@ from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from leaflet.forms.widgets import LeafletWidget
 
-from common.models import Category, Issue, IssueFilter, StatusTypes, TrustTypes
+from common.models import Category, Issue, StatusTypes, TrustTypes
 from common.utils import send_author_email_notification
 from .tables import IssueTable
+from .filters import IssueFilter
 
 @login_required
 def start(request):
