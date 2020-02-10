@@ -35,7 +35,7 @@ For further readings please head over to [docs](https://cleanship.readthedocs.or
 # Dev
 
 Please be aware, that we are currently not looking for further contributors, till the codebase is considered as stable!
-For further reading about our coding, please refer [[CONTRIBUTING.md]].
+For further reading about our coding, please refer (CONTRIBUTING.md)[CONTRIBUTING.md].
 
 ## Exploring
 

@@ -5,7 +5,7 @@ For that reason, **we don't accept pull-requests yet**.  Feel free to discuss re
 New features or breaking changes will be stalled till version 0.3! 
 
 For code format conventions, please see `.editorconfig`
-We follow flake8 code conventions and pythonic best practises.
+We follow flake8 code conventions, [Django coding style](https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/) and pythonic best practises.
 
 Please install `requirements\dev.txt` for the tools dependencies!
 
