@@ -30,17 +30,18 @@ webfrontend toolkit.
 
 .. note::
   Currently we port only existing features, while avoiding old bottlenecks.
-  New features will be introduced starting with version 0.3.
+  New features will be introduced starting with version `0.3 (*IX*) <https://github.com/Matthias84/cleanship/milestones>`_
   
 .. note::
    This version is a preview with a lot of limitations:
-   - frontend UI not polished
-   - read-only API
-   - some performance issues
-   - hardcoded settings
+     - frontend UI not polished
+     - read-only API
+     - some performance issues
+     - hardcoded settings
 
 .. warning::
   Currently **alpha** , so expect that we will break your installation / data / modules / ... !
+  
   Migrations will cause data lost!
 
 Features
@@ -59,8 +60,7 @@ Features
 Usage
 =====
 
--  start
-   ``python3 manage.py runserver --settings cleanship.settings.local``
+-  start ``python3 manage.py runserver --settings cleanship.settings.local``
 -  enter ``localhost:8000/admin`` to maintain issues
 -  enter ``localhost:8000/office`` for staff backoffice
 -  enter ``localhost:8000/citysdk`` for REST API
@@ -70,32 +70,50 @@ Setup
 
 On Linux you need to follow this steps to get a working instance
 
--  Setup postgres DBMS with geoextension
+Setup postgres DBMS with geoextension
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   -  ``sudo apt install pgadmin3 postgresql postgresql-10-postgis-2.4  postgresql-10-postgis-scripts``
-   -  ``sudo -u postgres psql``
-   -  ``CREATE USER cleanship WITH PASSWORD 'mysecretpass';``
-   -  ``CREATE DATABASE cleanship OWNER cleanship;``
-   -  ``ALTER ROLE cleanship CREATEDB SUPERUSER;`` (setting up test-dbs
-      with GIS extension requires high privileges)
-   -  ``\q``
-   -  ``psql cleanship``
-   -  ``CREATE EXTENSION postgis;``
-   -  ``\q``
+.. code:: bash
 
--  Setup python virtualenv
+   sudo apt install pgadmin3 postgresql postgresql-10-postgis-2.4  postgresql-10-postgis-scripts
+   sudo -u postgres psql
+   
+.. code:: sql
 
-   -  ``sudo apt install python3-dev libpq-dev binutils libproj-dev gdal-bin``
-   -  ``mkvirtualenv -p /usr/bin/python3 cleanship``
-   -  ``workon cleanship``
+   CREATE USER cleanship WITH PASSWORD 'mysecretpass';
+   CREATE DATABASE cleanship OWNER cleanship;
+   ALTER ROLE cleanship CREATEDB SUPERUSER;  /*setting up test-dbs with GIS extension requires high privileges)*/
 
--  Init codebase
+You quit with '\q'.
+Now work on specific 'cleanship' DB:
 
-   -  ``git clone cleanship``
-   -  ``pip install -R requirements/base.txt`` (dev.txt for debugging /
-      contributing)
+.. code:: bash
 
--  Configure instance
+   psql cleanship
+   
+.. code:: sql
+
+   CREATE EXTENSION postgis;
+
+Setup python virtualenv
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: bash
+
+   sudo apt install python3-dev libpq-dev binutils libproj-dev gdal-bin
+   mkvirtualenv -p /usr/bin/python3 cleanship
+   workon cleanship
+
+Init codebase
+~~~~~~~~~~~~~
+
+.. code:: bash
+
+   git clone cleanship
+   pip install -R requirements/base.txt (dev.txt for contributing)
+
+Configure instance
+~~~~~~~~~~~~~~~~~~
 
    -  ``cp /cleanship/settings/example.py /cleanship/settings/local.py``
    -  Adapt your settings in ``/cleanship/settings/local.py``
@@ -116,14 +134,19 @@ On Linux you need to follow this steps to get a working instance
    -  Perform single tests with e.g.
       ``python3 manage.py test legacy/tests -v 2 --settings cleanship.settings.local``
 
--  Assign users to groups
+Assign users to groups
+~~~~~~~~~~~~~~~~~~~~~~
 
-   -  ``from common.models import User, Group``
-   -  ``myself = User.objects.get(username='test')``
-   -  ``group = Group.objects.get(name='a group')')``
-   -  ``group = Group.objects.get(name='a group')')``
-   -  ``group.user_set.add(myself)``
-   -  ``group.save()``
+Could be done via admin frontend or programmatically via python shell
+
+.. code:: python
+
+   from common.models import User, Group
+   myself = User.objects.get(username='test')
+   group = Group.objects.get(name='a group')')
+   group = Group.objects.get(name='a group')')
+   group.user_set.add(myself)
+   group.save()
 
 Klarschiff migration
 --------------------
@@ -132,11 +155,11 @@ You can transfer your existing issues from Klarschiff (tested v1.9) to
 cleanship including issues, categories, groups. We highly recommend a
 fresh cleanship setup to avoid troubles!
 
-The import skips some checks to improve performance:
-
--  is in boundary polygon
--  updating location description
--  updating landowner
+.. note::
+   The import skips some checks to improve performance:
+      -  is in boundary polygon
+      -  updating location description
+      -  updating landowner
 
 The following instructions are tested to transfer your Klarschiff
 content:
@@ -144,7 +167,13 @@ content:
 -  export old data as CSV via this shell-script at your current
    Klarschiff DB server
 
-   -  ``export PGPASSWORD="mypass" psql -h localhost -d klarschiff -U admin -Atc "select tablename from pg_tables" |\   while read TBL; do if [[ $TBL == *"klarschiff_"* ]]; then     psql -h localhost -d klarschiff -U admin -c "COPY $TBL TO STDOUT WITH (FORMAT CSV, HEADER);" > $TBL.csv fi   done``
+.. code:: bash
+
+   export PGPASSWORD="mypass"
+   psql -h localhost -d klarschiff -U admin -Atc "select tablename from pg_tables" |\
+       while read TBL;
+           do if [[ $TBL == *"klarschiff_"* ]]; then psql -h localhost -d klarschiff -U admin -c "COPY $TBL TO STDOUT WITH (FORMAT CSV, HEADER);" > $TBL.csv
+           fi done
 
 -  copy all full size photos to /media directory:
    ``cp /srv/www/klarschiff/static/*_gross_*.jpg ./media``
@@ -153,9 +182,11 @@ content:
 -  Import will take only a few minutes
 -  Update DB squences
 
-   -  ``SELECT setval(pg_get_serial_sequence('"common_issue"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "common_issue";``
-   -  ``SELECT setval(pg_get_serial_sequence('"common_category"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "common_category";``
-   -  ``SELECT setval(pg_get_serial_sequence('"common_comment"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "common_comment";``
+.. code:: sql
+
+   SELECT setval(pg_get_serial_sequence('"common_issue"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "common_issue";
+   SELECT setval(pg_get_serial_sequence('"common_category"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "common_category";
+   SELECT setval(pg_get_serial_sequence('"common_comment"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "common_comment";
 
 
 Concepts
@@ -231,8 +262,8 @@ Please see `readme.md <https://github.com/Matthias84/cleanship/>`_ and `CONTRIBU
    :target: https://coveralls.io/github/Matthias84/cleanship?branch=master
 .. |DOCs Status| image:: https://readthedocs.org/projects/cleanship/badge/?version=latest
    :target: https://cleanship.readthedocs.io/en/latest/?badge=latest
-.. |admin webinterface showing details of a opened issue| image:: doc/img/cleanship%20admin%20issue%20detail%20example.png
-.. |office webinterface showing details of a opened issue| image:: doc/img/cleanship%20office%20issue%20detail%20example.png
+.. |admin webinterface showing details of a opened issue| image:: ../img/cleanship admin issue detail example.png
+.. |office webinterface showing details of a opened issue| image:: ../img/cleanship office issue detail example.png
 
 
 
