@@ -76,5 +76,5 @@ def send_author_email_notification(issue):
         '🌟Klarschiff.HRO #{} erstellt'.format(issue.id),
         'Für Sie wurde eine neue Meldung mit folgendem Inhalt erstellt: "{}"'.format(issue.description),
         settings.EMAIL_FROM,
-        [issue.authorEmail],
+        [issue.author_email],
         fail_silently=False,)

@@ -123,8 +123,8 @@ class Issue(models.Model):
     """A submitted ticket / service request / observation which somebody wants to be fixed / evaluated (e.g. report of waste)"""
     id = models.AutoField(primary_key=True, verbose_name=_('ID'))
     description = models.TextField(max_length=500, verbose_name=_('description'), help_text=_('Notes describing further details.'))  # BUG: Could be empty, whats the right way?
-    authorEmail = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author.'))
-    authorTrust = models.IntegerField(choices=TrustTypes.choices(), default=TrustTypes.EXTERNAL, verbose_name = _('trust'), help_text=_('Trust level of the author.'))
+    author_email = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author.'))
+    author_trust = models.IntegerField(choices=TrustTypes.choices(), default=TrustTypes.EXTERNAL, verbose_name = _('trust'), help_text=_('Trust level of the author.'))
     position = models.PointField(srid=25833, verbose_name=_('position'), help_text=_('Georeference for this issue. (might be inaccurate)'), validators=[validate_in_municipality])  # TODO: Extract srid to settings
     category = TreeForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False, verbose_name=_('category'), help_text=_('Multi-level selection of which kind of note this issue comes closest.'), validators=[validate_is_subcategory])
     photo = models.ImageField(upload_to='', null=True, blank=True, verbose_name=_('photo'), help_text=_('Photo that show the spot. (unprocessed, might include metadata)'))
@@ -139,7 +139,11 @@ class Issue(models.Model):
     status_created_at = models.DateTimeField(default=timezone.now, verbose_name=_('status date'), help_text=_('Date of the last status change.')) # TODO: The default date needs an filter procedure to trigger only on relevant changes
     published = models.BooleanField(null=False, blank=False, default=False, verbose_name=_('published'), help_text=_('If base information are currently public. (can be altered manually and by state changes)'))
     # TODO: timestamp of last change (incl. comments / feedback / abuse?)
-    
+
+    class Meta:
+         verbose_name = _("issue")
+         verbose_name_plural = _('issues')
+
     def get_issue_priority_label(self):
         return PriorityTypes(self.type).name.title()
     
@@ -157,10 +161,6 @@ class Issue(models.Model):
         positionWGS84.transform(4326)
         return positionWGS84
 
-    class Meta:
-         verbose_name = _("issue")
-         verbose_name_plural = _('issues')
-
     def __str__(self):
         return str(self.id)
 
@@ -170,7 +170,7 @@ class Issue(models.Model):
         """
         self.location = reverse_geocode(self.position)
         self.landowner = get_landowner(self.position)
-        self.authorTrust = get_trust(self.authorEmail)
+        self.author_trust = get_trust(self.author_email)
         logger.info('Saving issue')
         super(Issue, self).save(*args, **kwargs)
 
@@ -212,7 +212,7 @@ class Feedback(models.Model):
     """External feedback"""
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     # TODO: User needs to be model not string (if provided by #29)
-    authorEmail = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author (verified).'))
+    author_email = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author (verified).'))
     # TODO: Set receiver mail alias -> which staff user was notified? #45
     created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('When was the content written.'))
     content = models.TextField(max_length=500, verbose_name=_('content'), help_text=_('Text of the feedback'))
@@ -220,7 +220,7 @@ class Feedback(models.Model):
     class Meta:
         verbose_name = _("feedback")
         verbose_name_plural = _('feedback')
-        ordering = ['-created_at', 'authorEmail']
+        ordering = ['-created_at', 'author_email']
 
     def __str__(self):
-        return "%s to %s" % (self.authorEmail, str(self.issue.id))
+        return "%s to %s" % (self.author_email, str(self.issue.id))

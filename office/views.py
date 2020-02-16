@@ -45,7 +45,7 @@ class IssueDetailView(LoginRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         issue = Issue.objects.filter(pk=self.kwargs.get('pk'))[0]
         trustMapping = {TrustTypes.INTERNAL: "internal", TrustTypes.EXTERNAL: "external", TrustTypes.FIELDTEAM: "fieldteam"}
-        context['author_trust_string'] = trustMapping[issue.authorTrust]
+        context['author_trust_string'] = trustMapping[issue.author_trust]
         statusMapping = {StatusTypes.SUBMITTED: "submitted",
                         StatusTypes.WIP: "wip",
                         StatusTypes.SOLVED: "solved",
@@ -80,13 +80,13 @@ class IssueListView(LoginRequiredMixin, SingleTableMixin, FilterView):
 
 class IssueCreateView(LoginRequiredMixin, generic.CreateView):
     model = Issue
-    fields = ['description', 'category', 'authorEmail', 'position','photo']
+    fields = ['description', 'category', 'author_email', 'position','photo']
     template_name = 'office/issue_create.html'
     
     def get_form(self):
         form = super(IssueCreateView, self).get_form()
         form.fields['position'].widget = LeafletWidget()
-        form.fields['authorEmail'].help_text = 'eMail of subitter (usually a citizen, will get a info mail. No confirmation nessesary)'
+        form.fields['author_email'].help_text = 'eMail of subitter (usually a citizen, will get a info mail. No confirmation nessesary)'
         form.fields['position'].help_text = 'Try to map the position as accurate as possible (used to determine landowner and location description)'
         form.fields['photo'].help_text = 'Photo showing the spot and surroundings'
         return form
@@ -94,7 +94,7 @@ class IssueCreateView(LoginRequiredMixin, generic.CreateView):
     def get_initial(self):
         initial = super(IssueCreateView, self).get_initial()
         initial = initial.copy()
-        initial['authorEmail'] = self.request.user.email
+        initial['author_email'] = self.request.user.email
         return initial
     
     def form_valid(self, form):

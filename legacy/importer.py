@@ -182,7 +182,7 @@ class IssueImporter(CSVImporter):
                 published = True
             else:
                 published = False
-        issue = Issue(id=id, description=descr, authorEmail=email, authorTrust=trust, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned, delegated=group_delegated, status=status, status_text=status_text, status_created_at=status_created_at, published=published)
+        issue = Issue(id=id, description=descr, author_email=email, author_trust=trust, position=positionEwkb, category=cat, photo=photoFilename, created_at=created, location=location, priority=priority, landowner=landowner, assigned=group_assigned, delegated=group_delegated, status=status, status_text=status_text, status_created_at=status_created_at, published=published)
         return issue
 
     def checkObjExists(self, row):
@@ -284,7 +284,7 @@ class FeedbackImporter(CSVImporter):
         created_at = dateparse.parse_datetime(created_at)
         created_at=created_at.replace(tzinfo=timezone(timedelta(hours=1)))
         issue = Issue.objects.get(id=issue_id)
-        feedback = Feedback(created_at=created_at, authorEmail=authorEmail, content=content, issue=issue)
+        feedback = Feedback(created_at=created_at, author_email=authorEmail, content=content, issue=issue)
         feedback.save()
     
     def saveChunk(self, chunk):

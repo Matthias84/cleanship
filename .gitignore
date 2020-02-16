@@ -4,3 +4,5 @@ __pycache__
 /*.csv
 /*.json
 /static
+
+cleanship.geany

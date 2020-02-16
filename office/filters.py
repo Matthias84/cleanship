@@ -3,7 +3,7 @@ import django_filters
 from common.models import Issue
 
 class IssueFilter(django_filters.FilterSet):
-    authorEmail = django_filters.CharFilter(lookup_expr='icontains')
+    author_email = django_filters.CharFilter(lookup_expr='icontains')
     location = django_filters.CharFilter(lookup_expr='icontains')
     landowner = django_filters.CharFilter(lookup_expr='icontains')
     #year_created__gt = django_filters.NumberFilter(field_name='created_at', lookup_expr='year__gt')
@@ -15,7 +15,7 @@ class IssueFilter(django_filters.FilterSet):
     class Meta:
         model = Issue
         # TODO: category, delegated
-        fields = ['id', 'authorTrust', 'location', 'priority', 'landowner', 'status', 'published']
+        fields = ['id', 'author_trust', 'location', 'priority', 'landowner', 'status', 'published']
     
     def __init__(self, data, *args, **kwargs):
         if not data:

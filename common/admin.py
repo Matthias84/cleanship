@@ -63,20 +63,20 @@ class CommentInline(admin.StackedInline):
 class FeedbackInline(admin.StackedInline):
     model = Feedback
     ordering = ['-created_at']
-    readonly_fields = ['created_at', "content", "authorEmail"]
+    readonly_fields = ['created_at', "content", "author_email"]
     extra = 0
 
 class IssueAdmin(LeafletGeoAdmin):
-        readonly_fields = ['id', 'thumb_image', 'location', 'landowner', 'authorTrust', 'status_created_at']
+        readonly_fields = ['id', 'thumb_image', 'location', 'landowner', 'author_trust', 'status_created_at']
         date_hierarchy = 'created_at'
         list_display = ('id', 'created_at', 'location', 'category_type', 'category_subcat', 'priority', 'status_styled','status_created_at', 'published')
-        list_filter = ('created_at', 'priority', 'status', 'published', 'authorTrust', ('category', TreeRelatedFieldListFilter),) # TODO: split category levels for filters #47
+        list_filter = ('created_at', 'priority', 'status', 'published', 'author_trust', ('category', TreeRelatedFieldListFilter),) # TODO: split category levels for filters #47
         search_fields = ['id', 'location']
         # TODO: Add admin bulk actions #10
         # TODO: Add Link to public frontend / backoffice view_on_site() #11
         fieldsets = (
         ('Basics', {
-            'fields': ( 'id', 'created_at', 'authorEmail', 'authorTrust', 'category', 'description', 'thumb_image', 'photo')
+            'fields': ( 'id', 'created_at', 'author_email', 'author_trust', 'category', 'description', 'thumb_image', 'photo')
         }),
         ('Geospatial', {
             #'classes': ('collapse',),
@@ -133,9 +133,9 @@ class CommentAdmin(admin.ModelAdmin):
 
 class FeedbackAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
-    list_display = ('issue_id', 'created_at', 'authorEmail')
-    list_filter = ('authorEmail',)
-    search_fields = ['issue_id','authorEmail' ]
+    list_display = ('issue_id', 'created_at', 'author_email')
+    list_filter = ('author_email',)
+    search_fields = ['issue_id','author_email' ]
     
     def issue_id(self, obj):
         return obj.issue.id
