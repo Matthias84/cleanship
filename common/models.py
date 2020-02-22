@@ -193,7 +193,7 @@ class Category(MPTTModel):
 
 class Comment(models.Model):
     """Internal comments of staff after login"""
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='comments')
     # TODO: User needs to be model not string (if provided by #29)
     author = models.CharField(max_length=150, null=False, blank=False, verbose_name=_('author'), help_text=_('Who wrote the content.'))
     # TODO: Get number of edits + last timestamp #44
@@ -210,7 +210,7 @@ class Comment(models.Model):
 
 class Feedback(models.Model):
     """External feedback"""
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='feedbacks')
     # TODO: User needs to be model not string (if provided by #29)
     author_email = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author (verified).'))
     # TODO: Set receiver mail alias -> which staff user was notified? #45

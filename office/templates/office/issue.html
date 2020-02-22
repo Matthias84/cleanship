@@ -108,7 +108,7 @@
     
     <div id="comments" class="tab-pane fade">
       <h3>{% trans "Internal Comments" %}</h3>
-      {% for comment in issue.comment_set.all %}
+      {% for comment in issue.comments.all %}
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">{{comment.author}} <small><i>{% trans "Posted on" %} {{comment.created_at|date:"SHORT_DATE_FORMAT" }}</i></small></h3>
@@ -126,7 +126,7 @@
     
     <div id="feedback" class="tab-pane fade">
       <h3>{% trans "Public Feedback" %}</h3>
-      {% for feedback in issue.feedback_set.all %}
+      {% for feedback in issue.feedbacks.all %}
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">{{feedback.authorEmail}} <small><i>{% trans "Written on" %} {{feedback.created_at|date:"SHORT_DATE_FORMAT" }}</i></small></h3>
