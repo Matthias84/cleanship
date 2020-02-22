@@ -208,11 +208,11 @@ class CategoryImporter(CSVImporter):
 
     def eraseObjects(self):
         Category.objects.all().delete()
-        problem = Category(id=200, name="Problem")
+        problem = Category(id=200, name=Category.PROBLEM)
         problem.save()
-        idea = Category(id=201, name="Idee")
+        idea = Category(id=201, name=Category.IDEA)
         idea.save()
-        tip = Category(id=202, name="Tipp")
+        tip = Category(id=202, name=Category.TIP)
         tip.save()
         self.typeMap = {"problem": problem, "idee": idea, "tipp": tip}
         # TODO: Set mapping also if no clean run

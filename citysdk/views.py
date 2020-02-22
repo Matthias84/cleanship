@@ -75,11 +75,11 @@ class IssueViewSet(viewsets.ModelViewSet):
             # Limit by type (old Klarschiff uses keywords list)
             keywords=keywords.lower()
             if 'idee' in keywords:
-                catidee = Category.objects.filter(name='Idee').first()
+                catidee = Category.get_ideas_root()
                 queryset_list = queryset_list.filter(category__in=catidee.get_descendants())
             if 'problem' in keywords:
-                catidee = Category.objects.filter(name='Problem').first()
-                queryset_list = queryset_list.filter(category__in=catidee.get_descendants())        
+                catproblem = Category.get_problem_root()
+                queryset_list = queryset_list.filter(category__in=catproblem.get_descendants())        
         if queryStatusCitySDK:
             # Limit by status list
             queryStatus =  []

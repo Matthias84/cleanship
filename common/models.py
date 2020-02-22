@@ -179,6 +179,11 @@ class Category(MPTTModel):
     """Kind of issues which used to classify issues and find groups to get a solution"""
     name = models.CharField(max_length=50, verbose_name = 'name', help_text=_('Short label of this category.'))
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', db_index=True, verbose_name = 'parent', help_text='Parent category within the hierachy.')
+    
+    # Labels for 1st level Category types
+    IDEA = 'Idee'
+    PROBLEM = 'Problem'
+    TIP = 'Tipp'
 
     class MPTTMeta:
             order_insertion_by = ['name']
@@ -190,6 +195,21 @@ class Category(MPTTModel):
 
     def __str__(self):
             return self.name
+
+    @classmethod
+    def get_ideas_root(cls):
+        """Returns 1st level root element for type 'ideas'"""
+        return Category.objects.filter(name=Category.IDEA).first()
+
+    @classmethod
+    def get_problems_root(cls):
+        """Returns 1st level root element for type 'problem'"""
+        return Category.objects.filter(name=Category.PROBLEM).first()
+
+    @classmethod
+    def get_tips_root(cls):
+        """Returns 1st level root element for type 'tips'"""
+        return Category.objects.filter(name=Category.Tip).first()
 
 class Comment(models.Model):
     """Internal comments of staff after login"""

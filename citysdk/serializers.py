@@ -163,7 +163,7 @@ class CategorySerializer(serializers.ModelSerializer):
         ]
         
     def get_keywords(self, category):
-        # Like Klarschiff, we map Level 0 (idee / problem / tipp via keyword
+        # Like Klarschiff, we map Level 0 (idee / problem / tipp) via keyword
         return category.get_root().name.lower()
 
     def get_group(self, category):

@@ -92,13 +92,13 @@ class CitySDKServicesTests(TestCase):
     
     def setUp(self):
         # Create a 3 level cat hierachy
-        ideen = Category(name='ideen')
+        ideen = Category(name=Category.IDEA)
         ideen.save()
         mainCat = Category(name='main cat', parent=ideen)
         mainCat.save()
-        catA = Category(name='test cat A', parent=mainCat)
+        catA = Category(name='test sub cat A', parent=mainCat)
         catA.save()
-        catB = Category(name='test cat B', parent=mainCat)
+        catB = Category(name='test sub cat B', parent=mainCat)
         catB.save()
     
     def test_default_listing(self):
@@ -108,5 +108,5 @@ class CitySDKServicesTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
         # adapted dict from https://www.klarschiff-hro.de/citysdk/services.json
-        self.assertDictEqual({"service_code":"6","service_name":"test cat A","description":None,"metadata":False,"type":"realtime","keywords":"ideen","group":"main cat"}, dict(response.data[0]))
+        self.assertDictEqual({"service_code":"6","service_name":"test sub cat A","description":None,"metadata":False,"type":"realtime","keywords":"idee","group":"main cat"}, dict(response.data[0]))
 

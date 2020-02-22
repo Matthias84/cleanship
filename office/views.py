@@ -30,7 +30,7 @@ def start(request):
     checkdate = timezone.now()-timezone.timedelta(days=30)
     unupdatedIssues = unupdatedIssues.filter(status_created_at__lt=checkdate)
     # all wip ideas older > 60d
-    catidee = Category.objects.filter(name='Idee').first()
+    catidee = Category.get_ideas_root()
     if catidee:
         ourideas = ouropenissues.filter(category__in=catidee.get_descendants())
     else:
