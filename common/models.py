@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import Group
 from django.contrib.gis.db import models
@@ -86,7 +87,7 @@ def validate_in_municipality(value):
     """Check if map point is within boundary"""
     # TODO: Extract validators, switch datasource #56
     position = value
-    position.transform(4326)
+    position.transform(settings.EPSG_WIDGET)
     logger.debug('Checking issue position ({})'.format(position))
     ds = DataSource('municipality_area.json')
     poly = ds[0].get_geoms(geos=True)[0]
@@ -125,7 +126,7 @@ class Issue(models.Model):
     description = models.TextField(max_length=500, verbose_name=_('description'), help_text=_('Notes describing further details.'))  # BUG: Could be empty, whats the right way?
     author_email = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author.'))
     author_trust = models.IntegerField(choices=TrustTypes.choices(), default=TrustTypes.EXTERNAL, verbose_name = _('trust'), help_text=_('Trust level of the author.'))
-    position = models.PointField(srid=25833, verbose_name=_('position'), help_text=_('Georeference for this issue. (might be inaccurate)'), validators=[validate_in_municipality])  # TODO: Extract srid to settings
+    position = models.PointField(srid=settings.EPSG_INTERNAL, verbose_name=_('position'), help_text=_('Georeference for this issue. (might be inaccurate)'), validators=[validate_in_municipality])  # TODO: Extract srid to settings
     category = TreeForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False, verbose_name=_('category'), help_text=_('Multi-level selection of which kind of note this issue comes closest.'), validators=[validate_is_subcategory])
     photo = models.ImageField(upload_to='', null=True, blank=True, verbose_name=_('photo'), help_text=_('Photo that show the spot. (unprocessed, might include metadata)'))
     created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('Date of submission.'))
@@ -158,7 +159,7 @@ class Issue(models.Model):
     
     def get_position_WGS84(self):
         positionWGS84 = self.position
-        positionWGS84.transform(4326)
+        positionWGS84.transform(settings.EPSG_WIDGET)
         return positionWGS84
 
     def __str__(self):

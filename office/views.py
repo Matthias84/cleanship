@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
@@ -52,10 +53,10 @@ class IssueDetailView(LoginRequiredMixin, generic.DetailView):
                         StatusTypes.IMPOSSIBLE: "impossible",
                         StatusTypes.DUBLICATE: "dublicate"}
         context['status_string'] = statusMapping[issue.status]
-        positionWGS84 = issue.position
-        positionWGS84.transform(4326)
-        positionWGS84 = positionWGS84.geojson
-        context['position_geojson'] = positionWGS84
+        positionWidget = issue.position
+        positionWidget.transform(settings.EPSG_WIDGET)
+        positionWidget = positionWidget.geojson
+        context['position_geojson'] = positionWidget
         return context
 
 class IssueListView(LoginRequiredMixin, SingleTableMixin, FilterView):
@@ -73,9 +74,9 @@ class IssueListView(LoginRequiredMixin, SingleTableMixin, FilterView):
         context = super().get_context_data(**kwargs)
         # reproject
         for issue in context['object_list']:
-            positionWGS84 = issue.position
-            positionWGS84.transform(4326)
-            issue.position_webmap = positionWGS84.geojson
+            positionWidget = issue.position
+            positionWidget.transform(settings.EPSG_WIDGET)
+            issue.position_webmap = positionWidget.geojson
         return context
 
 class IssueCreateView(LoginRequiredMixin, generic.CreateView):
