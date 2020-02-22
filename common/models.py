@@ -87,13 +87,13 @@ def validate_in_municipality(value):
     # TODO: Extract validators, switch datasource #56
     position = value
     position.transform(4326)
-    logger.debug('Checking issue position (%s)' % position)
+    logger.debug('Checking issue position ({})'.format(position))
     ds = DataSource('municipality_area.json')
     poly = ds[0].get_geoms(geos=True)[0]
     poly.srid = 4326
     logger.debug('Loaded area polygon') #TODO: provide more characteristics?
     if poly.contains(position) == False:
-        logger.debug('Point (%s) not within area polygon' % position.coords)
+        logger.debug('Point ({}) not within area polygon'.format(position.coords))
         raise ValidationError(
             _('Position must be within the municipality area.'),
             code='error_bounds',
@@ -206,7 +206,7 @@ class Comment(models.Model):
         ordering = ['-created_at', 'author']
 
     def __str__(self):
-        return "%s @ %s" % (self.author, str(self.issue.id))
+        return "{} @ {}".format(self.author, str(self.issue.id))
 
 class Feedback(models.Model):
     """External feedback"""
@@ -223,4 +223,4 @@ class Feedback(models.Model):
         ordering = ['-created_at', 'author_email']
 
     def __str__(self):
-        return "%s to %s" % (self.author_email, str(self.issue.id))
+        return "{} to {}".format(self.author_email, str(self.issue.id))

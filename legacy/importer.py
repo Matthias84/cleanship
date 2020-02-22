@@ -27,18 +27,18 @@ class CSVImporter:
         self.skipExisting = skipExisting
         self.clean = clean
         self.lines = self.countTotalLines()
-        logger.debug('opening %s' % self.csvfilename)
+        logger.debug('opening {}'.format(self.csvfilename))
         csvfile = open(self.csvfilename)
         self.reader = csv.DictReader(csvfile)
-        cmd.stdout.write(cmd.style.SUCCESS('Reading %s ...' % self.csvfilename))
+        cmd.stdout.write(cmd.style.SUCCESS('Reading {} ...'.format(self.csvfilename)))
         if chunkSize is not None:
-            self.cmd.stdout.write(self.cmd.style.SUCCESS("(Chunks with %s objects)" % chunkSize))
+            self.cmd.stdout.write(self.cmd.style.SUCCESS("(Chunks with {} objects)".format(chunkSize)))
         if self.checkFields():
             if self.clean:
                 self.eraseObjects()
             self.importCSV()
         else:
-            cmd.stdout.write(cmd.style.ERROR('Error - CSV file missing fields (expexted: %s)' % self.NESSESARY_FIELDS))
+            cmd.stdout.write(cmd.style.ERROR('Error - CSV file missing fields (expexted: {})'.format(self.NESSESARY_FIELDS)))
 
     def countTotalLines(self):
         """get number of lines in CSV file"""
@@ -78,17 +78,17 @@ class CSVImporter:
                         # submit if nessesary
                         perc = 100 - int(self.lines / lineCount)
                         chunkId = int(objCount / self.chunkSize)
-                        self.cmd.stdout.write(self.cmd.style.SUCCESS("%s%% (chunk %s)" % (perc, chunkId)))
+                        self.cmd.stdout.write(self.cmd.style.SUCCESS("{}% (chunk {})".format(perc, chunkId)))
                         self.saveChunk(chunk)
                         chunk = []
         if self.chunkSize is not None:
             # submit last open chunk
             perc = 100 - int(self.lines / lineCount)
             chunkId = int(objCount / self.chunkSize)
-            self.cmd.stdout.write(self.cmd.style.SUCCESS("%s%% (chunk %s)" % (perc, chunkId)))
+            self.cmd.stdout.write(self.cmd.style.SUCCESS("{}% (chunk {})".format(perc, chunkId)))
             self.saveChunk(chunk)
         runTime = (time.time() - start_time)
-        self.cmd.stdout.write(self.cmd.style.SUCCESS('Imported %s objects (%.2f sec)') % (objCount, runTime))
+        self.cmd.stdout.write(self.cmd.style.SUCCESS('Imported {0} objects ({1:.2f} sec)').format(objCount, runTime))
 
     def eraseObjects(self):
         """empty DB from objects"""
@@ -131,7 +131,7 @@ class IssueImporter(CSVImporter):
     def parseRow(self, row):
         # TODO: Exception handling and malformed fields?
         id = row['id']
-        logger.debug('parsing %s' % id)
+        logger.debug('parsing {}'.format(id))
         descr = row['beschreibung']
         email = row['autor_email']
         trust = row['trust']
@@ -156,7 +156,7 @@ class IssueImporter(CSVImporter):
         trust = self.MAP_TRUST[trust]
         cat = Category.objects.get(id=categoryId)
         if cat is None:
-            self.cmd.stdout.write(self.cmd.style.ERROR('Error - No category found (Issue %s, Cat.Id. %s)' % (id, categoryId)))
+            self.cmd.stdout.write(self.cmd.style.ERROR('Error - No category found (Issue {}, Cat.Id. {})'.format(id, categoryId)))
         if photoFilename == '':
             photoFilename = None
         created = dateparse.parse_datetime(created)
@@ -188,7 +188,7 @@ class IssueImporter(CSVImporter):
     def checkObjExists(self, row):
         id = row['id']
         if Issue.objects.filter(id=id).exists():
-            self.cmd.stdout.write("(skipping %s)" % id)
+            self.cmd.stdout.write("(skipping {})".format(id))
             return True
         else:
             return False

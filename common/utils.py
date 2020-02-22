@@ -21,14 +21,14 @@ def reverse_geocode(point):
     headers = {'content-type': 'application/json'}
     result = None
     try:
-        logger.debug("Lookup geocodr (%s)" % url)
+        logger.debug("Lookup geocodr ({})".format(url))
         r = requests.post(url, data=json.dumps(payload), headers=headers, timeout=5.0)
         #r.status_code == requests.codes.ok
         features = r.json()["features"]
         if len(features) == 0:
-            logger.warning("Fail geocoding -  No close features to (%s) within %sm" % (str(point.coords), searchdist))
+            logger.warning("Fail geocoding -  No close features to ({}) within {}m".format(str(point.coords), searchdist))
         else:
-            logger.debug("Checking %d features" % len(features))
+            logger.debug("Checking {} features".format(len(features)))
             for feat in features:
                 if feat['properties']['objektgruppe'] == 'Adresse':
                     # try first adress
@@ -38,7 +38,7 @@ def reverse_geocode(point):
                     addon =  feat['properties']['hausnummer_zusatz']
                     if addon == None:
                         addon = ''
-                    result ='%s %s%s' % (street, number, addon)
+                    result ='{} {}{}'.format(street, number, addon)
                     return result
     except ConnectionError:
         logger.warning("Fail geocoding -  Connection error")
@@ -58,14 +58,14 @@ def get_landowner(point):
     logger.info("Loading landowner polygons")
     ds = DataSource('eigentumsangaben.geojson')
     layer = ds[0]
-    logger.info("Checking %d landowner polygons" % len(layer))
+    logger.info("Checking {} landowner polygons".format(len(layer)))
     for feature in layer:
         poly = feature.geom.geos
         if poly.contains(point) == True:
             owner = feature.get('eigentumsangabe')
-            logger.info("Found point in polygon id %s (%s)" % (feature.get('id'), owner)) #TODO: provide more characteristics?
+            logger.info("Found point in polygon id {} ({})".format(feature.get('id'), owner)) #TODO: provide more characteristics?
             return owner
-    logger.warning("Fail landowner - No polygon for (%s)" % str(point.coords))
+    logger.warning("Fail landowner - No polygon for ({})".format(str(point.coords)))
     return None
     
 def send_author_email_notification(issue):
