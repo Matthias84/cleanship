@@ -177,7 +177,9 @@ content:
 
 -  copy all full size photos to /media directory:
    ``cp /srv/www/klarschiff/static/*_gross_*.jpg ./media``
--  Import via
+-  create list of legacy user details:
+   ``python3 manage.py exportLegacyUsers --settings cleanship.settings.local``
+-  Start full import via
    ``python3 manage.py import --settings cleanship.settings.local``
 -  Import will take only a few minutes
 -  Update DB squences
