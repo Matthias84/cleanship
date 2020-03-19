@@ -25,4 +25,7 @@ TIME_ZONE = 'Europe/Berlin'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+EPSG_WIDGET = 4326
+EPSG_INTERNAL = 25833
+
 GEOCODR_API_KEY = 'abcd...' # We don't make ext. calls in Test CI setup
