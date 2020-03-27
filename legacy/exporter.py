@@ -8,7 +8,6 @@ class LegacyUserDetailsExporter():
     Extracts all user information from CSV export
     (matching needs to be done manually later)
     
-    full_name, email, username, groups
     ks__vorgang:letzter_bearbeiter, ks_kommentar
     ks_lob_hinweise_kritik:empfaenger_email
     klarschiff_benutzer

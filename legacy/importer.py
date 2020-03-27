@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group
 from django.utils import dateparse
-from common.models import Issue, Category, PriorityTypes, StatusTypes, TrustTypes, Comment, Feedback
+from common.models import Issue, Category, PriorityTypes, StatusTypes, TrustTypes, Comment, Feedback, User
 from itertools import islice
 import csv
 import time
@@ -236,11 +236,13 @@ class CategoryImporter(CSVImporter):
 class CommentImporter(CSVImporter):
     """
     Add old internal issue comments from CSV export
-    (requires existing issues)
+    (requires existing issues, users)
     """
 
     def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
         self.NESSESARY_FIELDS = ['datum', 'nutzer', 'text', 'vorgang']
+        self.cmd = cmd
+        self.author2user = self.loadUserMapping()
         super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
 
     def eraseObjects(self):
@@ -249,17 +251,41 @@ class CommentImporter(CSVImporter):
     def parseRow(self, row):
         id = row['id']
         created_at = row['datum']
-        author = row['nutzer']
+        authorstring = row['nutzer']
         content = row['text']
         issue_id = row['vorgang']
         created_at = dateparse.parse_datetime(created_at)
         created_at=created_at.replace(tzinfo=timezone(timedelta(hours=1)))
+        try:
+            #try to map legacy Klarschiff userstring to new user ID
+            authorstring = authorstring.strip()
+            username = self.author2user[authorstring].lower()
+            user = User.objects.get(username=username)
+        except KeyError:
+            self.cmd.stdout.write(self.cmd.style.WARNING('Warning - No mapping for author "{}". Comment #{}'.format(authorstring, id)))
+            user = None
+        except User.DoesNotExist:
+            self.cmd.stdout.write(self.cmd.style.WARNING('Warning - Wrong mapping for author "{}" -> {}. Comment #{}'.format(authorstring, username, id)))
+            user = None
         issue = Issue.objects.get(id=issue_id)
-        comment = Comment(created_at=created_at, author=author, content=content, issue=issue)
+        comment = Comment(created_at=created_at, author=user, content=content, issue=issue)
         comment.save()
     
     def saveChunk(self, chunk):
         Comment.objects.bulk_create(chunk)
+    
+    def loadUserMapping(self, csvfilename='users.csv'):
+        """Open CSV with mapping and return dict"""
+        logger.debug('opening {}'.format(csvfilename))
+        csvfile = open(csvfilename)
+        reader = csv.DictReader(csvfile)
+        self.cmd.stdout.write(self.cmd.style.SUCCESS('Reading {} ...'.format(csvfilename)))
+        fullnames=set()
+        old2new = {}
+        for row in reader:
+            old2new[row['old_fullname']] = row['username']
+        csvfile.close()
+        return old2new
 
 class FeedbackImporter(CSVImporter):
     """
@@ -290,4 +316,32 @@ class FeedbackImporter(CSVImporter):
     def saveChunk(self, chunk):
         Feedback.objects.bulk_create(chunk)
             
+class UserImporter(CSVImporter):
+    """
+    Create users from manually composed CSV mapping file
+    (requires existing groups)
+    """
 
+    def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
+        self.NESSESARY_FIELDS = ['old_fullname', 'email', 'firstname', 'lastname','username', 'group']
+        super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
+
+    def eraseObjects(self):
+        pass
+        #User.objects.all().delete()
+
+    def parseRow(self, row):
+        username = row['username'].lower()
+        email = row['email'].lower()
+        firstname = row['firstname']
+        lastname = row['lastname']
+        groupname = row['group']
+        user, created = User.objects.get_or_create(username=username, email=email, first_name=firstname, last_name=lastname, password='')
+        # assign group
+        if groupname:
+            group = Group.objects.get(name=groupname)
+            group.user_set.add(user)
+            group.save()
+
+    def saveChunk(self, chunk):
+        User.objects.bulk_create(chunk)
