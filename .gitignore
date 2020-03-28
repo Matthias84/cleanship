@@ -1,6 +1,7 @@
 *.pyc
 __pycache__
 /cleanship/settings/local.py
+/legacy/tests/test-users.csv
 /*.csv
 /*.json
 /static

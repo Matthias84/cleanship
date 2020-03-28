@@ -7,16 +7,12 @@ class LegacyUserDetailsExporter():
     """
     Extracts all user information from CSV export
     (matching needs to be done manually later)
-    
-    ks__vorgang:letzter_bearbeiter, ks_kommentar
-    ks_lob_hinweise_kritik:empfaenger_email
-    klarschiff_benutzer
-    
     """
-    def __init__(self, cmd):
+
+    def __init__(self, cmd, csvFilenameIssues="klarschiff_vorgang.csv", csvFilenameFeedback="klarschiff_lob_hinweise_kritik.csv", csvFilenameUsers="klarschiff_benutzer.csv", filenameOutput='users.txt'):
         self.cmd = cmd
-        fullnames = self._readCSVrow("klarschiff_vorgang.csv",'letzter_bearbeiter', 'fullnames')
-        emails = self._readCSVrow("klarschiff_lob_hinweise_kritik.csv",'empfaenger_email', 'emails')
+        fullnames = self._readCSVrow(csvFilenameIssues,'letzter_bearbeiter', 'fullnames')
+        emails = self._readCSVrow(csvFilenameFeedback,'empfaenger_email', 'emails')
         # splitup multiple mail receivers
         temp = set()
         for mail in emails:
@@ -26,8 +22,8 @@ class LegacyUserDetailsExporter():
             else:
                 temp.add(mail)
         emails = temp
-        usernames = self._readCSVrow("klarschiff_benutzer.csv",'benutzername', 'usernames')
-        self._saveLists('users.txt',[fullnames, emails, usernames])
+        usernames = self._readCSVrow(csvFilenameUsers,'benutzername', 'usernames')
+        self._saveLists(filenameOutput,[fullnames, emails, usernames])
         
         
     
