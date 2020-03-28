@@ -275,7 +275,7 @@ class CommentImporter(CSVImporter):
         Comment.objects.bulk_create(chunk)
     
     def loadUserMapping(self, csvfilename='users.csv'):
-        """Open CSV with mapping and return dict"""
+        """Open CSV with mapping and return dict fullname -> userid"""
         logger.debug('opening {}'.format(csvfilename))
         csvfile = open(csvfilename)
         reader = csv.DictReader(csvfile)
@@ -290,11 +290,13 @@ class CommentImporter(CSVImporter):
 class FeedbackImporter(CSVImporter):
     """
     Add old external issue feedback from CSV export
-    (requires existing issues)
+    (requires existing issues, users)
     """
 
     def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
-        self.NESSESARY_FIELDS = ['datum', 'autor_email', 'freitext', 'vorgang']
+        self.NESSESARY_FIELDS = ['datum', 'autor_email', 'freitext', 'vorgang', 'empfaenger_email']
+        self.cmd = cmd
+        self.email2user = self.getUserMapping()
         super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
 
     def eraseObjects(self):
@@ -306,15 +308,40 @@ class FeedbackImporter(CSVImporter):
         authorEmail = row['autor_email']
         content = row['freitext']
         issue_id = row['vorgang']
-        # TODO: Get receiver mail alias -> which staff user was notified? #46
+        recipientEmail = row['empfaenger_email']
         created_at = dateparse.parse_datetime(created_at)
         created_at=created_at.replace(tzinfo=timezone(timedelta(hours=1)))
+        try:
+            recipientEmail = recipientEmail.lower()
+            recipientEmail = recipientEmail.strip()
+            if not recipientEmail or recipientEmail == '':
+                self.cmd.stdout.write(self.cmd.style.WARNING('Warning - No recipent "{}". Feedback #{}'.format(recipientEmail, id)))
+                user = None
+            else:
+                if recipientEmail.find(',') > -1:
+                    self.cmd.stdout.write(self.cmd.style.WARNING('Warning - Multiple recipents, using only first one "{}". Feedback #{}'.format(recipientEmail, id)))
+                    recipientEmail = recipientEmail.split(',')[0]
+                username = self.email2user[recipientEmail]
+                user = User.objects.get(username=username)
+        except KeyError:
+            self.cmd.stdout.write(self.cmd.style.WARNING('Warning - No mapping for recipient "{}". Feedback #{}'.format(recipientEmail, id)))
+            user = None
         issue = Issue.objects.get(id=issue_id)
-        feedback = Feedback(created_at=created_at, author_email=authorEmail, content=content, issue=issue)
+        feedback = Feedback(created_at=created_at, author_email=authorEmail, recipient=user, content=content, issue=issue)
         feedback.save()
     
     def saveChunk(self, chunk):
         Feedback.objects.bulk_create(chunk)
+    
+    def getUserMapping(self):
+        """return dict email -> userid"""
+        mail2user = {}
+        users = User.objects.all()
+        for user in users:
+            mail2user[user.email] = user.username
+        return mail2user
+            
+        
             
 class UserImporter(CSVImporter):
     """

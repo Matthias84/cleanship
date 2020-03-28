@@ -13,6 +13,6 @@ class Command(BaseCommand):
         """Process CSV export DB tables of Klarschiff"""
         # catImporter = CategoryImporter(cmd=self, csvFilename='klarschiff_kategorie.csv')
         # issueimporter = IssueImporter(cmd=self, csvFilename='klarschiff_vorgang.csv', chunkSize=500)
-        comImporter = CommentImporter(cmd=self, csvFilename='klarschiff_kommentar.csv', chunkSize=500)
-        # fbImporter = FeedbackImporter(cmd=self, csvFilename='klarschiff_lob_hinweise_kritik.csv')
+        #comImporter = CommentImporter(cmd=self, csvFilename='klarschiff_kommentar.csv', chunkSize=500)
+        fbImporter = FeedbackImporter(cmd=self, csvFilename='klarschiff_lob_hinweise_kritik.csv')
         #userImporter = UserImporter(cmd=self, csvFilename='users.csv')
