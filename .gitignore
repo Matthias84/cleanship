@@ -1,8 +1,12 @@
 *.pyc
 __pycache__
 /cleanship/settings/local.py
+/legacy/tests/test-users.csv
 /*.csv
 /*.json
 /static
 
 cleanship.geany
+
+users.txt
+users.csv

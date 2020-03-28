@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group
 from django.utils import dateparse
-from common.models import Issue, Category, PriorityTypes, StatusTypes, TrustTypes, Comment, Feedback
+from common.models import Issue, Category, PriorityTypes, StatusTypes, TrustTypes, Comment, Feedback, User
 from itertools import islice
 import csv
 import time
@@ -236,11 +236,13 @@ class CategoryImporter(CSVImporter):
 class CommentImporter(CSVImporter):
     """
     Add old internal issue comments from CSV export
-    (requires existing issues)
+    (requires existing issues, users)
     """
 
     def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
         self.NESSESARY_FIELDS = ['datum', 'nutzer', 'text', 'vorgang']
+        self.cmd = cmd
+        self.author2user = self.loadUserMapping()
         super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
 
     def eraseObjects(self):
@@ -249,26 +251,52 @@ class CommentImporter(CSVImporter):
     def parseRow(self, row):
         id = row['id']
         created_at = row['datum']
-        author = row['nutzer']
+        authorstring = row['nutzer']
         content = row['text']
         issue_id = row['vorgang']
         created_at = dateparse.parse_datetime(created_at)
         created_at=created_at.replace(tzinfo=timezone(timedelta(hours=1)))
+        try:
+            #try to map legacy Klarschiff userstring to new user ID
+            authorstring = authorstring.strip()
+            username = self.author2user[authorstring].lower()
+            user = User.objects.get(username=username)
+        except KeyError:
+            self.cmd.stdout.write(self.cmd.style.WARNING('Warning - No mapping for author "{}". Comment #{}'.format(authorstring, id)))
+            user = None
+        except User.DoesNotExist:
+            self.cmd.stdout.write(self.cmd.style.WARNING('Warning - Wrong mapping for author "{}" -> {}. Comment #{}'.format(authorstring, username, id)))
+            user = None
         issue = Issue.objects.get(id=issue_id)
-        comment = Comment(created_at=created_at, author=author, content=content, issue=issue)
+        comment = Comment(created_at=created_at, author=user, content=content, issue=issue)
         comment.save()
     
     def saveChunk(self, chunk):
         Comment.objects.bulk_create(chunk)
+    
+    def loadUserMapping(self, csvfilename='users.csv'):
+        """Open CSV with mapping and return dict fullname -> userid"""
+        logger.debug('opening {}'.format(csvfilename))
+        csvfile = open(csvfilename)
+        reader = csv.DictReader(csvfile)
+        self.cmd.stdout.write(self.cmd.style.SUCCESS('Reading {} ...'.format(csvfilename)))
+        fullnames=set()
+        old2new = {}
+        for row in reader:
+            old2new[row['old_fullname']] = row['username']
+        csvfile.close()
+        return old2new
 
 class FeedbackImporter(CSVImporter):
     """
     Add old external issue feedback from CSV export
-    (requires existing issues)
+    (requires existing issues, users)
     """
 
     def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
-        self.NESSESARY_FIELDS = ['datum', 'autor_email', 'freitext', 'vorgang']
+        self.NESSESARY_FIELDS = ['datum', 'autor_email', 'freitext', 'vorgang', 'empfaenger_email']
+        self.cmd = cmd
+        self.email2user = self.getUserMapping()
         super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
 
     def eraseObjects(self):
@@ -280,12 +308,67 @@ class FeedbackImporter(CSVImporter):
         authorEmail = row['autor_email']
         content = row['freitext']
         issue_id = row['vorgang']
-        # TODO: Get receiver mail alias -> which staff user was notified? #46
+        recipientEmail = row['empfaenger_email']
         created_at = dateparse.parse_datetime(created_at)
         created_at=created_at.replace(tzinfo=timezone(timedelta(hours=1)))
+        try:
+            recipientEmail = recipientEmail.lower()
+            recipientEmail = recipientEmail.strip()
+            if not recipientEmail or recipientEmail == '':
+                self.cmd.stdout.write(self.cmd.style.WARNING('Warning - No recipent "{}". Feedback #{}'.format(recipientEmail, id)))
+                user = None
+            else:
+                if recipientEmail.find(',') > -1:
+                    self.cmd.stdout.write(self.cmd.style.WARNING('Warning - Multiple recipents, using only first one "{}". Feedback #{}'.format(recipientEmail, id)))
+                    recipientEmail = recipientEmail.split(',')[0]
+                username = self.email2user[recipientEmail]
+                user = User.objects.get(username=username)
+        except KeyError:
+            self.cmd.stdout.write(self.cmd.style.WARNING('Warning - No mapping for recipient "{}". Feedback #{}'.format(recipientEmail, id)))
+            user = None
         issue = Issue.objects.get(id=issue_id)
-        feedback = Feedback(created_at=created_at, author_email=authorEmail, content=content, issue=issue)
+        feedback = Feedback(created_at=created_at, author_email=authorEmail, recipient=user, content=content, issue=issue)
         feedback.save()
     
     def saveChunk(self, chunk):
         Feedback.objects.bulk_create(chunk)
+    
+    def getUserMapping(self):
+        """return dict email -> userid"""
+        mail2user = {}
+        users = User.objects.all()
+        for user in users:
+            mail2user[user.email] = user.username
+        return mail2user
+            
+        
+            
+class UserImporter(CSVImporter):
+    """
+    Create users from manually composed CSV mapping file
+    (requires existing groups)
+    """
+
+    def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
+        self.NESSESARY_FIELDS = ['old_fullname', 'email', 'firstname', 'lastname','username', 'group']
+        super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
+
+    def eraseObjects(self):
+        pass
+        #User.objects.all().delete()
+
+    def parseRow(self, row):
+        username = row['username'].lower()
+        email = row['email'].lower()
+        firstname = row['firstname']
+        lastname = row['lastname']
+        groupname = row['group']
+        user, created = User.objects.get_or_create(username=username, email=email, first_name=firstname, last_name=lastname, password='')
+        # assign group
+        if groupname:
+            group = Group.objects.get(name=groupname)
+            group.user_set.add(user)
+            group.save()
+
+    def saveChunk(self, chunk):
+        User.objects.bulk_create(chunk)

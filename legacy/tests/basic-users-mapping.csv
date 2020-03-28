@@ -1,0 +1,6 @@
+old_fullname,email,firstname,lastname,username,group
+Myterious User A,usera@localhost,User,A,usera,theuser
+Myterious User B,,User,B,userb,theuser
+,userc@localhost,User,c,userc,theuser
+admin,admin@localhost,,,admin,
+root,admin@localhost,,,admin,

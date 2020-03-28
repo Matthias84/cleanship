@@ -216,7 +216,9 @@ class Comment(models.Model):
     """Internal comments of staff after login"""
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='comments')
     # TODO: User needs to be model not string (if provided by #29)
-    author = models.CharField(max_length=150, null=False, blank=False, verbose_name=_('author'), help_text=_('Who wrote the content.'))
+    # TODO: If user is deleted, what to do with Comments?
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='comments',verbose_name=_('author'), help_text=_('Who wrote the content.'))
+    #author = models.CharField(max_length=150, null=False, blank=False, verbose_name=_('author'), help_text=_('Who wrote the content.'))
     # TODO: Get number of edits + last timestamp #44
     created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('When was the content written.'))
     content = models.TextField(max_length=500, verbose_name=_('content'), help_text=_('Text of the comment'))
@@ -234,7 +236,7 @@ class Feedback(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='feedbacks')
     # TODO: User needs to be model not string (if provided by #29)
     author_email = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author (verified).'))
-    # TODO: Set receiver mail alias -> which staff user was notified? #45
+    recipient = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='recipient',verbose_name=_('author'), help_text=_('Who wrote the content.'))
     created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('When was the content written.'))
     content = models.TextField(max_length=500, verbose_name=_('content'), help_text=_('Text of the feedback'))
 

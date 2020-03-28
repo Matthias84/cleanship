@@ -3,8 +3,8 @@ from unittest.mock import patch
 from django.core.management.base import BaseCommand
 from django.contrib.gis.geos import Point
 
-from legacy.importer import IssueImporter, CategoryImporter, CommentImporter, FeedbackImporter
-from common.models import Issue, Category, Comment, Feedback
+from legacy.importer import IssueImporter, CategoryImporter, CommentImporter, FeedbackImporter, UserImporter
+from common.models import Issue, Category, Comment, Feedback, User, Group
 
 @patch("common.models.get_landowner")
 @patch("requests.post")
@@ -77,3 +77,11 @@ class ImporterTests(TestCase):
         issue.save()
         fbi = FeedbackImporter(cmd, './legacy/tests/basic-feedback.csv')
         self.assertEqual(Feedback.objects.count(), 2)
+
+    def test_import_csv_user_basic(self, requests_post, utils_get_landowner):
+        """Check if parsing a wellformed CSV works fine"""
+        cmd = BaseCommand()
+        grp = Group(name='theuser')
+        grp.save()
+        ubi = UserImporter(cmd, './legacy/tests/basic-users-mapping.csv')
+        self.assertEqual(User.objects.count(), 4)

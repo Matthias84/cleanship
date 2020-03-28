@@ -177,7 +177,22 @@ content:
 
 -  copy all full size photos to /media directory:
    ``cp /srv/www/klarschiff/static/*_gross_*.jpg ./media``
--  Import via
+-  create list of legacy user details:
+   ``python3 manage.py exportLegacyUsers --settings cleanship.settings.local``
+-  Use the resulting users.txt, which contains of 3 separated blocks (full names, emails, usernames) of all of your Klarschiff users, to manually create a new mapping file called users.csv.
+   It will be used to create the listed users in the next step and needs to contain the following fields:
+
+    .. code:: csv
+    
+       old_fullname,email,firstname,lastname,username,group
+       A62 Person A,persona@city.gov,Person,A,R62pp001,a62_signs
+   
+   You need to fill the lines using the information from the txt listing and maybe your Klarschiff administration interface.
+   To merge a user from multiple old names, just add dublicated lines.
+   This mapping is nessesary, to deal with Klarschiff different legacy user references when importing users / comments / feedback / edit history.
+   The goal is to normalize old user datasets (encoding, old migration artifacts, ..) and match the new user-id (lowercase username) against your LDAP user-ids.
+   You can also re-arrange users to the groups.
+-  Start full import via
    ``python3 manage.py import --settings cleanship.settings.local``
 -  Import will take only a few minutes
 -  Update DB squences

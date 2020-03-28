@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from legacy.importer import IssueImporter, CategoryImporter, CommentImporter, FeedbackImporter
+from legacy.importer import IssueImporter, CategoryImporter, CommentImporter, FeedbackImporter, UserImporter
 
 # TODO: Tests and try()
 
@@ -11,7 +11,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Process CSV export DB tables of Klarschiff"""
-        catImporter = CategoryImporter(cmd=self, csvFilename='klarschiff_kategorie.csv')
-        issueimporter = IssueImporter(cmd=self, csvFilename='klarschiff_vorgang.csv', chunkSize=500)
-        comImporter = CommentImporter(cmd=self, csvFilename='klarschiff_kommentar.csv', chunkSize=500)
+        # catImporter = CategoryImporter(cmd=self, csvFilename='klarschiff_kategorie.csv')
+        # issueimporter = IssueImporter(cmd=self, csvFilename='klarschiff_vorgang.csv', chunkSize=500)
+        #comImporter = CommentImporter(cmd=self, csvFilename='klarschiff_kommentar.csv', chunkSize=500)
         fbImporter = FeedbackImporter(cmd=self, csvFilename='klarschiff_lob_hinweise_kritik.csv')
+        #userImporter = UserImporter(cmd=self, csvFilename='users.csv')
