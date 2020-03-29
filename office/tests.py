@@ -52,28 +52,29 @@ class OfficeStartViewTests(TestCase):
             assigned=group
         ).save()
         Issue(
-            description='Another old issue',
+            description='Assigned but unreviewed issue',
             position=Point(54.1, 12.1, srid=4326),
             category=cat,
-            created_at=timezone.now() - timedelta(days = 20),
-            status=StatusTypes.WIP,
+            created_at=timezone.now() - timedelta(days = 30),
+            status=StatusTypes.REVIEW,
             published=False,
             assigned=group
         ).save()
         Issue(
-            description='Unassigned issue',
+            description='Assigned but unreviewed issue',
             position=Point(54.1, 12.1, srid=4326),
             category=cat,
             created_at=timezone.now() - timedelta(days = 20),
-            status=StatusTypes.WIP,
+            status=StatusTypes.REVIEW,
             published=False,
+            assigned=group
         ).save()
         Issue(
             description='Very new issue',
             position=Point(54.1, 12.1, srid=4326),
             category=cat,
             created_at=timezone.now(),
-            status=StatusTypes.WIP,
+            status=StatusTypes.REVIEW,
             published=False,
             assigned=group
         ).save()

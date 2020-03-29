@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-19 23:28+0100\n"
+"POT-Creation-Date: 2020-03-29 09:29+0200\n"
 "PO-Revision-Date: 2019-11-15 17:39+0100\n"
 "Last-Translator: Matthias\n"
 "Language-Team: https://github.com/Matthias84/cleanship/\n"
@@ -18,9 +18,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.0.6\n"
 
-#: citysdk/urls.py:159
+#: citysdk/serializers.py:141
 msgid "{} (delegated to {})"
 msgstr "{} (delegiert an {})"
+
+#: common/admin.py:21
+msgid "Groups"
+msgstr ""
 
 #: common/models.py:31
 msgid "LOW"
@@ -46,161 +50,170 @@ msgstr "HOCH"
 msgid "high"
 msgstr "hoch"
 
-#: common/models.py:52
+#: common/models.py:51
 msgid "SUBMITTED"
 msgstr "UNBESTÄTIGT"
 
-#: common/models.py:53
+#: common/models.py:52
 msgid "submitted"
 msgstr "unbestätigt"
 
+#: common/models.py:53
+msgid "REVIEW"
+msgstr "PRÜFUNG"
+
 #: common/models.py:54
+msgid "review"
+msgstr "in Prüfung"
+
+#: common/models.py:55
 msgid "WIP"
 msgstr "IN BEARBEITUNG"
 
-#: common/models.py:55
+#: common/models.py:56
 msgid "wip"
 msgstr "in Bearbeitung"
 
-#: common/models.py:56
+#: common/models.py:57
 msgid "SOLVED"
 msgstr "GELÖST"
 
-#: common/models.py:57
+#: common/models.py:58
 msgid "solved"
 msgstr "gelöst"
 
-#: common/models.py:58
+#: common/models.py:59
 msgid "IMPOSSIBLE"
 msgstr "UNLÖSBAR"
 
-#: common/models.py:59
+#: common/models.py:60
 msgid "impossible"
 msgstr "unlösbar"
 
-#: common/models.py:60
+#: common/models.py:61
 msgid "DUBLICATE"
 msgstr "DUBLIKAT"
 
-#: common/models.py:61
+#: common/models.py:62
 msgid "dublicate"
 msgstr "Dublikat"
 
-#: common/models.py:79
+#: common/models.py:80
 msgid "EXTERNAL"
 msgstr "Extern"
 
-#: common/models.py:80
+#: common/models.py:81
 msgid "external"
 msgstr "extern"
 
-#: common/models.py:81
+#: common/models.py:82
 msgid "INTERNAL"
 msgstr "Mitarbeiter"
 
-#: common/models.py:82
+#: common/models.py:83
 msgid "internal"
 msgstr "Mitarbeiter"
 
-#: common/models.py:83
+#: common/models.py:84
 msgid "FIELDTEAM"
 msgstr "Außendienst"
 
-#: common/models.py:84
+#: common/models.py:85
 msgid "fieldteam"
 msgstr "Außendienst"
 
-#: common/models.py:99
+#: common/models.py:100
 msgid "Position must be within the municipality area."
 msgstr "Position muss innerhalb der Verwaltungsgrenze sei."
 
-#: common/models.py:108
+#: common/models.py:109
 msgid "Category must be a subcategory (3. level)."
 msgstr "Kategorie muss Unterkategorie sein (3. Ebene)"
 
-#: common/models.py:125
+#: common/models.py:126
 msgid "ID"
 msgstr "Vorgangsnummer"
 
-#: common/models.py:126
+#: common/models.py:127
 msgid "description"
 msgstr "Beschreibung"
 
-#: common/models.py:126
+#: common/models.py:127
 msgid "Notes describing further details."
 msgstr "Weitere Details und zum Vorgang."
 
-#: common/models.py:127 common/models.py:199 common/models.py:216
+#: common/models.py:128 common/models.py:221 common/models.py:239
+#: common/models.py:240
 msgid "author"
 msgstr "Autor"
 
-#: common/models.py:127
+#: common/models.py:128
 msgid "eMail alias of the author."
 msgstr "E-Mail Adresse des Autors"
 
-#: common/models.py:128
+#: common/models.py:129
 msgid "trust"
 msgstr "Vertrauen"
 
-#: common/models.py:128
+#: common/models.py:129
 msgid "Trust level of the author."
 msgstr "Vertrauenswürdigkeit des Autors (basierend auf E-Mail Adresse)."
 
-#: common/models.py:129
+#: common/models.py:130
 msgid "position"
 msgstr "Position"
 
-#: common/models.py:129
+#: common/models.py:130
 msgid "Georeference for this issue. (might be inaccurate)"
 msgstr "Geoposition des Vorgangs (kann ungenau sein)"
 
-#: common/models.py:130 common/models.py:189
+#: common/models.py:131 common/models.py:195
 msgid "category"
 msgstr "Kategorie"
 
-#: common/models.py:130
+#: common/models.py:131
 msgid "Multi-level selection of which kind of note this issue comes closest."
 msgstr ""
 "Mehrstufige Auswahl von Kategorien, um den Vorgang möglichst genau zu "
 "charakterisieren."
 
-#: common/models.py:131
+#: common/models.py:132
 msgid "photo"
 msgstr "Photo"
 
-#: common/models.py:131
+#: common/models.py:132
 msgid "Photo that show the spot. (unprocessed, might include metadata)"
 msgstr "Photo der Umgebung (Rohversion, ggF. mit weiteren Metadaten)"
 
-#: common/models.py:132 common/models.py:201 common/models.py:218
+#: common/models.py:133 common/models.py:224 common/models.py:241
 msgid "creation date"
 msgstr "Erstellungsdatum"
 
-#: common/models.py:132
+#: common/models.py:133
 msgid "Date of submission."
 msgstr "Datum der Einreichung"
 
-#: common/models.py:133
+#: common/models.py:134
 msgid "location"
 msgstr "Lage"
 
-#: common/models.py:133
+#: common/models.py:134
 msgid "Human readable description of the position."
 msgstr "Umgangssprachliche Beschreibung der Position."
 
-#: common/models.py:134
+#: common/models.py:135
 msgid "priority"
 msgstr "Priorität"
 
-#: common/models.py:134
+#: common/models.py:135
 msgid "Importance of the note for responsibles."
 msgstr "Wichtigkeit des Hinweises für Bearbeiter."
 
-#: common/models.py:135
+#: common/models.py:136
 msgid "landowner"
 msgstr "Eigentümer"
 
-#: common/models.py:135
+#: common/models.py:136
 msgid ""
 "Operrator that manages the area of the position. (usually landowner, might "
 "be inaccurate)"
@@ -208,37 +221,37 @@ msgstr ""
 "Verantwortlicher für das Gebiet an der Position (gewöhnlich Landeigentümer, "
 "kann u.U. ungenau sein)"
 
-#: common/models.py:136
+#: common/models.py:137
 msgid "assigned group"
 msgstr "Zugeordnet"
 
-#: common/models.py:136
+#: common/models.py:137
 msgid "Responsible (internal) department, which processes the issue currently."
 msgstr "Verantwortliches Amt, dass den Vorgang betreut"
 
-#: common/models.py:137
+#: common/models.py:138
 msgid "delegated group"
 msgstr "Delegiert"
 
-#: common/models.py:137
+#: common/models.py:138
 msgid ""
 "Responsible (external) organisation, which becomes involved in solving this "
 "issue."
 msgstr "Externe Organisation, dass bei der Bearbeitung des Vorganges hilft"
 
-#: common/models.py:138
+#: common/models.py:139
 msgid "status"
 msgstr "Status"
 
-#: common/models.py:138
+#: common/models.py:139
 msgid "Stage of progress for the solution."
 msgstr "Aktueller Status der Bearbeitung."
 
-#: common/models.py:139
+#: common/models.py:140
 msgid "status text"
 msgstr "Status Erläuterung"
 
-#: common/models.py:139
+#: common/models.py:140
 msgid ""
 "Further details explaining the progress / plans / challanges / "
 "milestones / ... ."
@@ -246,19 +259,19 @@ msgstr ""
 "Weiterführende Informationen, die den Stand der Bearbeitung / geplanten "
 "Ablauf / Herausforderungen / Meilensteine / ... erklären"
 
-#: common/models.py:140
+#: common/models.py:141
 msgid "status date"
 msgstr "Status Datum"
 
-#: common/models.py:140
+#: common/models.py:141
 msgid "Date of the last status change."
 msgstr "Datum der letzten Status Änderung"
 
-#: common/models.py:141
+#: common/models.py:142
 msgid "published"
 msgstr "veröffentlicht"
 
-#: common/models.py:141
+#: common/models.py:142
 msgid ""
 "If base information are currently public. (can be altered manually and by "
 "state changes)"
@@ -266,55 +279,55 @@ msgstr ""
 "Ist Meldung öffentlich einsehbar? (Kann manuell geändert werden, aber auch "
 "automatisch durch Status-Änderungen"
 
-#: common/models.py:162 office/templates/office/issue.html:31
+#: common/models.py:146 office/templates/office/issue.html:31
 msgid "issue"
 msgstr "Vorgang"
 
-#: common/models.py:163
+#: common/models.py:147
 msgid "issues"
 msgstr "Vorgänge"
 
-#: common/models.py:181
+#: common/models.py:182
 msgid "Short label of this category."
 msgstr "Kurzbezeichnung dieser Kategorie."
 
-#: common/models.py:190
+#: common/models.py:196
 msgid "categories"
 msgstr "Kategorien"
 
-#: common/models.py:199
+#: common/models.py:221 common/models.py:240
 msgid "Who wrote the content."
 msgstr "Der Verfasser des Inhalts."
 
-#: common/models.py:201 common/models.py:218
+#: common/models.py:224 common/models.py:241
 msgid "When was the content written."
 msgstr "Zeitpunkt, als der Inhalt geschrieben wurde"
 
-#: common/models.py:202 common/models.py:219
+#: common/models.py:225 common/models.py:242
 msgid "content"
 msgstr "Inhalt"
 
-#: common/models.py:202
+#: common/models.py:225
 msgid "Text of the comment"
 msgstr "Text des Kommentars"
 
-#: common/models.py:205
+#: common/models.py:228
 msgid "comment"
 msgstr "Kommentar"
 
-#: common/models.py:206
+#: common/models.py:229
 msgid "comments"
 msgstr "Kommentare"
 
-#: common/models.py:216
+#: common/models.py:239
 msgid "eMail alias of the author (verified)."
 msgstr "E-Mail Adresse des Autors (verifziziert)"
 
-#: common/models.py:219
+#: common/models.py:242
 msgid "Text of the feedback"
 msgstr "Text der Rückmeldung"
 
-#: common/models.py:222 common/models.py:223
+#: common/models.py:245 common/models.py:246
 msgid "feedback"
 msgstr "Rückmeldung"
 
@@ -338,7 +351,7 @@ msgstr "Kommentare"
 msgid "Feedback"
 msgstr "Rückmeldung"
 
-#: office/templates/office/issue.html:45 office/templates/office/issue.html:140
+#: office/templates/office/issue.html:45 office/templates/office/issue.html:142
 msgid "History"
 msgstr "Verlauf"
 
@@ -390,19 +403,19 @@ msgstr "Zugeordnet"
 msgid "delegated"
 msgstr "Delegiert"
 
-#: office/templates/office/issue.html:109
+#: office/templates/office/issue.html:110
 msgid "Internal Comments"
 msgstr "Interne Kommentare"
 
-#: office/templates/office/issue.html:113
+#: office/templates/office/issue.html:114
 msgid "Posted on"
 msgstr "Geschrieben am"
 
-#: office/templates/office/issue.html:126
+#: office/templates/office/issue.html:128
 msgid "Public Feedback"
 msgstr "Öffentliche Rückmeldung"
 
-#: office/templates/office/issue.html:130
+#: office/templates/office/issue.html:132
 msgid "Written on"
 msgstr "Geschrieben am"
 
@@ -411,13 +424,13 @@ msgstr "Geschrieben am"
 msgid "New Issue"
 msgstr "Neuer Vorgang"
 
-#: office/templates/office/issue_create.html:38
+#: office/templates/office/issue_create.html:36
 msgid "Create Issue"
 msgstr "Vorgang erstellen"
 
 #: office/templates/office/issues.html:26
 #: office/templates/office/issues.html:28
-#: office/templates/office/layout.html:18
+#: office/templates/office/layout.html:19
 msgid "Issues"
 msgstr "Vorgänge"
 
@@ -441,19 +454,19 @@ msgstr "Tabelle"
 msgid "Map"
 msgstr "Karte"
 
-#: office/templates/office/layout.html:23
+#: office/templates/office/layout.html:24
 msgid "new Issue"
 msgstr "Neuer Vorgang"
 
-#: office/templates/office/layout.html:38
+#: office/templates/office/layout.html:39
 msgid "Help"
 msgstr "Hilfe"
 
-#: office/templates/office/layout.html:50
+#: office/templates/office/layout.html:51
 msgid "ID ..."
 msgstr "Vorgangsnummer ..."
 
-#: office/templates/office/layout.html:52
+#: office/templates/office/layout.html:53
 msgid "Search"
 msgstr "Suche"
 
@@ -461,14 +474,14 @@ msgstr "Suche"
 msgid "You might want to check the following issues"
 msgstr "Sie möchten ggF. die folgenden Vorgänge überprüfen"
 
-#: office/templates/office/start.html:8
+#: office/templates/office/start.html:9
 msgid "Not reviewed for more than 3 days"
 msgstr "Nicht gesichtet für mehr als 3 Tage"
 
-#: office/templates/office/start.html:14
+#: office/templates/office/start.html:15
 msgid "Without update for more than 30 days"
 msgstr "Ohne Statusmeldung für mehr als 30 Tage"
 
-#: office/templates/office/start.html:20
+#: office/templates/office/start.html:21
 msgid "Without final decission for more than 60 days"
 msgstr "Ohne abschließende Bearbeitung seit mehr als 30 Tagen"

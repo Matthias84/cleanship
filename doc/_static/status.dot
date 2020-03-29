@@ -3,7 +3,8 @@ digraph G {
 subgraph cluster_status{
     label="status";
     node [shape=box];
-    submitted -> wip [label="email verification"];
+    submitted -> review [label="email verification"];
+    review -> wip 
     wip -> solved
     wip -> impossible;
     wip -> dublicate;
@@ -17,6 +18,7 @@ subgraph cluster_public{
     label="published"
     node [shape=box];
     submitted -> invisible
+    review -> visible [label="at map" style=dashed]
     wip -> visible
     dublicate -> invisible
     solved -> invisible [label="timeout" style=dashed]

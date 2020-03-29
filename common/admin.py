@@ -18,7 +18,7 @@ class UserAdmin(UserAdmin):
         for group in user.groups.all():
             groups.append(group.name)
         return ' '.join(groups)
-    group.short_description = 'Groups'
+    group.short_description = _('Groups')
     add_form = UserCreationForm
     form = UserChangeForm
     model = User
@@ -99,6 +99,8 @@ class IssueAdmin(LeafletGeoAdmin):
         def status_styled(self, obj):
             if obj.status == StatusTypes.SUBMITTED:
                 color = 'grey'
+            elif obj.status == StatusTypes.REVIEW:
+                color = 'red'
             elif obj.status == StatusTypes.WIP:
                 color = 'red'
             else:

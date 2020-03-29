@@ -86,6 +86,9 @@ class IssueViewSet(viewsets.ModelViewSet):
             statusMap = {'RECEIVED': StatusTypes.SUBMITTED, 'IN_PROCESS': StatusTypes.WIP, 'PROCESSED':StatusTypes.SOLVED, 'REJECTED':StatusTypes.IMPOSSIBLE, 'closed': StatusTypes.DUBLICATE}
             for x in queryStatusCitySDK.split(','):
                 queryStatus.append(statusMap[x])
+            # Review is mapped as IN_PROCESS as well
+            if StatusTypes.WIP in queryStatus:
+                queryStatus.append(StatusTypes.REVIEW)
             queryset_list = queryset_list.filter(status__in = queryStatus)
         if with_picture:
             # Limit if photo present

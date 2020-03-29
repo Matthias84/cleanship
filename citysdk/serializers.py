@@ -21,8 +21,7 @@ class NestedExtendedAttributesSerializer(serializers.Serializer):
     
     def get_detailed_status(self, obj):
         """Transform to citySDK status"""
-        statusMap = {StatusTypes.SUBMITTED: 'RECEIVED', StatusTypes.WIP: 'IN_PROCESS', StatusTypes.SOLVED: 'PROCESSED', StatusTypes.IMPOSSIBLE: 'REJECTED', StatusTypes.DUBLICATE: 'closed'}
-        # TODO: Map PENDING if we add review state
+        statusMap = {StatusTypes.SUBMITTED: 'RECEIVED', StatusTypes.REVIEW: 'IN_PROCESS', StatusTypes.WIP: 'IN_PROCESS', StatusTypes.SOLVED: 'PROCESSED', StatusTypes.IMPOSSIBLE: 'REJECTED', StatusTypes.DUBLICATE: 'closed'}
         return statusMap[obj.status]
     
     def get_description_public(self, obj):
@@ -107,7 +106,7 @@ class IssueSerializer(serializers.ModelSerializer):
 
     def get_status(self, obj):
         """Transform to 2 open311 status"""
-        statusMap = {StatusTypes.SUBMITTED: 'open', StatusTypes.WIP: 'open', StatusTypes.SOLVED: 'closed', StatusTypes.IMPOSSIBLE: 'closed', StatusTypes.DUBLICATE: 'closed'}
+        statusMap = {StatusTypes.SUBMITTED: 'open', StatusTypes.REVIEW: 'open', StatusTypes.WIP: 'open', StatusTypes.SOLVED: 'closed', StatusTypes.IMPOSSIBLE: 'closed', StatusTypes.DUBLICATE: 'closed'}
         return statusMap[obj.status]
 
     def get_long(self, obj):

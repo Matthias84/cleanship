@@ -21,9 +21,9 @@ def start(request):
     for g in request.user.groups.all():
         l.append(g.name)
     ourissues = Issue.objects.filter(assigned__in=request.user.groups.all())
-    ouropenissues = ourissues.filter(status=StatusTypes.WIP)
-    # all wip issues without review > 3d
-    uncheckedIssues = ouropenissues.filter(published=False)
+    ouropenissues = ourissues.exclude(status__in=[StatusTypes.SOLVED, StatusTypes.IMPOSSIBLE, StatusTypes.DUBLICATE])
+    # all review issues > 3d
+    uncheckedIssues = ouropenissues.filter(status=StatusTypes.REVIEW)
     checkdate = timezone.now()-timezone.timedelta(days=3)
     uncheckedIssues = uncheckedIssues.filter(created_at__lt=checkdate)
     # all wip issues without status update > 30d
@@ -48,6 +48,7 @@ class IssueDetailView(LoginRequiredMixin, generic.DetailView):
         trustMapping = {TrustTypes.INTERNAL: "internal", TrustTypes.EXTERNAL: "external", TrustTypes.FIELDTEAM: "fieldteam"}
         context['author_trust_string'] = trustMapping[issue.author_trust]
         statusMapping = {StatusTypes.SUBMITTED: "submitted",
+                        StatusTypes.REVIEW: "review",
                         StatusTypes.WIP: "wip",
                         StatusTypes.SOLVED: "solved",
                         StatusTypes.IMPOSSIBLE: "impossible",
@@ -101,8 +102,8 @@ class IssueCreateView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         # Set issue defaults if submitted via office users
         self.object = form.save(commit=False)
-        self.object.status = StatusTypes.WIP
-        self.object.published = True
+        self.object.status = StatusTypes.REVIEW
+        self.object.published = False
         candidates = self.object.get_responsible_candidates()
         if len(candidates) > 0:
             self.object.assigned = candidates[0]

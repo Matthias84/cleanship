@@ -199,6 +199,12 @@ A issue has a status which indicates it's current progress and which transition 
 
 .. graphviz:: _static/status.dot
 
+* submitted - User submitted issue, but didn't verified his email yet. Issue will be removed, if user don't open confirmation link.
+* review - User verified his email, but no internal group assigned and no person did a review of the issue content yet. Issue displayed on the map, but details and photo stay hidden.
+* work in progress (wip) - A internal group is assigned and working on the issue. Details and photo become public.
+* solved - Final state, the core issue could be solved. An explaination is in status text.
+* impossible - Final state, the core issue couldn't be solved. An explaination is in status text.
+
 Development
 ===========
 

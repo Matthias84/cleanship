@@ -42,15 +42,16 @@ class PriorityTypes(IntEnum):
 class StatusTypes(IntEnum):
     """Enum of current step in finding a solution to the issue"""
     SUBMITTED = 1
-    WIP = 2
-    SOLVED = 3
-    IMPOSSIBLE = 4
-    DUBLICATE = 5
-    # TODO: Add unassigned / offen #12
+    REVIEW = 2
+    WIP = 3
+    SOLVED = 4
+    IMPOSSIBLE = 5
+    DUBLICATE = 6
     # TODO: Add deleted / geloescht #13
-    # to get strings for translation
     gettext_noop("SUBMITTED")
     gettext_noop("submitted")
+    gettext_noop("REVIEW")
+    gettext_noop("review")
     gettext_noop("WIP")
     gettext_noop("wip")
     gettext_noop("SOLVED")
