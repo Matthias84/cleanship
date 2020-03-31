@@ -1,6 +1,7 @@
 {% extends "office/layout.html" %}
 {% load static %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 {% load leaflet_tags %}
 {% block head %}
    {% leaflet_js plugins="forms" %}
@@ -9,30 +10,24 @@
 {% block title %} {% trans "New Issue" %}{% endblock %}
 {% block content %}
  <div class="container">
-  <h2>{% trans "New Issue" %}</h2>
-  <div style="width:30%">
+  <h2 class="mt-4">{% trans "New Issue" %}</h2>
+  <div>
     <form action="" method="post">
       {%csrf_token%}
-      {% for hidden_field in form.hidden_fields %}
-        {{ hidden_field }}
-      {% endfor %}
-      {% for error in form.non_field_errors %}
-        <div class="form-group has-errors text-danger small">
-          {{error}}
+      <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+          {{ form.author_email|as_crispy_field }}
+          {{ form.category|as_crispy_field }}
+          {{ form.photo|as_crispy_field }}
         </div>
-      {% endfor %}
-      {% for field in form %}
-        <div class="form-group has-errors text-danger small">
-          {{field.errors}}
+        <div class="form-group col-md-6 mb-0">
+          {{ form.description|as_crispy_field }}
         </div>
-        <div class="form-group">
-          {{ field.label_tag }}
-          {{ field }}
-          {% if field.help_text %}
-            <small class="form-text text-muted">{{ field.help_text }}</small>
-          {% endif %}
-        </div>
-      {% endfor %}
+      </div>
+      {{ form.position|as_crispy_field }}
+      <div class="form-group has-errors text-danger small">
+          {{form.position.errors}}
+      </div>
       <button type="submit" class="btn btn-success">{% trans "Create Issue" %}</button>
     </form>
   </div>

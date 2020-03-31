@@ -1,5 +1,6 @@
 {% extends "office/layout.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 {% load render_table from django_tables2 %}
 {% load leaflet_tags %}
 {% block head %}
@@ -25,43 +26,46 @@
 {% endblock %}
 {% block title %} {% trans "Issues" %}{% endblock %}
 {% block content %}
-<h1>{% trans "Issues" %}</h1>
+<h1 class="mt-4">{% trans "Issues" %}</h1>
 {% trans "All issues assigned to your groups" %}
 {% if filter %}
-   <div class="panel-group">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapseFilters">{% trans "Filters" %}</a>
-        </h4>
-      </div>
-      <div id="collapseFilters" class="panel-collapse collapse">
-        <div class="panel-body">
-            <form class="form-inline" action="" method="get">
-              <div class="form-group">
-              {{ filter.form.as_p }}
+   <div id="accordion">
+      <div class="card">
+        <div class="card-header">
+          <a class="card-link" data-toggle="collapse" href="#collapseFilters">{% trans "Filter" %}</a>
+        </div>
+        <div id="collapseFilters" class="collapse" data-parent="#accordion">
+          <div class="card-body">
+            <form action="" method="get">
+              <div class="form-group mx-sm-3 mb-2">
+                {{filter.form|crispy}}
               </div>
-              <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
-          </form>
+              <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+            </form>
+            </div>
         </div>
       </div>
-    </div>
-  </div> 
+  </div>
 {% endif %}
-<!-- Menus-->
+  <!-- Tab Menus-->
   <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#tabletab">{% trans "Table" %}</a></li>
-    <li><a data-toggle="tab" href="#maptab">{% trans "Map" %}</a></li>
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#tabletab">{% trans "Table" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#maptab">{% trans "Map" %}</a>
+    </li>
   </ul>
 
   <!-- filtered Table-->
   <div class="tab-content">
-    <div id="tabletab" class="tab-pane fade in active">
+    <div class="tab-pane container active" id="tabletab">
       {% render_table table %}
     </div>
-    <div id="maptab" class="tab-pane fade">
-    {% leaflet_map "issuesmap" callback="window.map_init_basic" %}
-    <!-- #TODO: Enable settings as overview map, overlays, ... -->
+    <div class="tab-pane container" id="maptab">
+      {% leaflet_map "issuesmap" callback="window.map_init_basic" %}
+      <!-- #TODO: Enable settings as overview map, overlays, ... -->
     </div>
-  </div>
+  </div
+  
 {% endblock %}

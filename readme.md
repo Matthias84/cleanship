@@ -7,7 +7,7 @@ Cleanship is a citizen participation (Bürgerbeteiligung) / complaints & suggest
 It is the successor of [Klarschiff](https://de.wikipedia.org/wiki/Klarschiff). But this project includes only the core and a internal [backoffice](https://github.com/bfpi/klarschiff-backend) for city staff. We reuse the old public (mobile) [frontend](https://github.com/bfpi/klarschiff-field_service) from Klarschiff,  which is connected trough an extended [CitySDK API](https://github.com/bfpi/klarschiff-citysdk).
 Currently we port only existing features, while avoiding old bottlenecks. New features will be introduced starting with version 0.3.
 
-The code is Python3 using the Django 2 framework and bootstrap3 webfrontend toolkit.
+The code is Python3 using the Django 2 framework and bootstrap4 webfrontend toolkit.
 
 Currently **alpha** , so expect that we will break your installation / data / modules / ... ! Migrations will cause data lost!
 This version is a preview with a lot of limitations:
@@ -93,6 +93,7 @@ The client protocol specification is basing on work of the open311 and citySDK c
 The codebases integrates packages of great communities as well:
 
 * Django project including some pretty useful external packages
+    * django-crispy-forms
     * django-filter
     * django-leaflet
     * django-mptt
@@ -105,4 +106,4 @@ The codebases integrates packages of great communities as well:
 * Bootstrap
 * Leafletjs
 
-The internal office GUI makes use of a [Bootstrap sidebar Layout by Brenna Veen](https://codepen.io/blcveen/pen/jwMdrX) and the [Material Design Iconic Font by Sergey Kupletsky](https://zavoloklom.github.io/material-design-iconic-font)
+The internal office GUI makes use of a [startbootstrap.com - Simple sidebar](https://github.com/BlackrockDigital/startbootstrap-simple-sidebar) template and the [Fork Awesome](https://forkaweso.me/Fork-Awesome/)

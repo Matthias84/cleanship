@@ -22,7 +22,7 @@
 {% block title %} #{{ issue.id }}{% endblock %}
 {% block content %}
 <div class="container">
-  <h2>
+  <h2 class="mt-4">
     {% if issue.priority == 3 %}
       <i class="fa fa-warning" aria-hidden="true"></i>
     {% elif issue.priority == 1 %}
@@ -39,16 +39,23 @@
   
   <!-- Menus-->
   <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#base">{% trans "Base" %}</a></li>
-    <li><a data-toggle="tab" href="#comments">{% trans "Comments" %}</a></li>
-    <li><a data-toggle="tab" href="#feedback">{% trans "Feedback" %}</a></li>
-    <li><a data-toggle="tab" href="#history">{% trans "History" %}</a></li>
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#base">{% trans "Base" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#comments">{% trans "Comments" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#feedback">{% trans "Feedback" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#history">{% trans "History" %}</a>
+    </li>
   </ul>
 
-  <!-- Panes-->
+  <!-- Content Panes-->
   <div class="tab-content">
-    <div id="base" class="tab-pane fade in active">
-      <h3>{% trans "Base" %}</h3>
+    <div class="tab-pane container active" id="base">
       <div class="row">
         <div class="col-md-8">
           <p>{% trans "Author" %}: 
@@ -57,7 +64,7 @@
               {% elif author_trust_string == 'internal' %}
                   <i class="fa fa-institution" aria-hidden="true" title="{% trans author_trust_string %}"></i>
               {% elif author_trust_string == 'fieldteam' %}
-                  <i class="fa fa-user-secret" aria-hidden="true" title="{% trans author_trust_string %}></i>
+                  <i class="fa fa-user-secret" aria-hidden="true" title="{% trans author_trust_string %}"></i>
               {% endif %}
               {% trans '(removed)' as trans_empty_email %}
               {{ issue.authorEmail|default_if_none:trans_empty_email }}
@@ -105,10 +112,9 @@
             <img class="img-thumbnail" style="width:90%" src="{% get_media_prefix %}{{ issue.photo }}"/>
           </div>
       </div>
-      <p></p>
     </div>
     
-    <div id="comments" class="tab-pane fade">
+    <div class="tab-pane container" id="comments">
       <h3>{% trans "Internal Comments" %}</h3>
       {% for comment in issue.comments.all %}
         <div class="panel panel-default">
@@ -126,7 +132,7 @@
       {% endfor %}
     </div>
     
-    <div id="feedback" class="tab-pane fade">
+    <div class="tab-pane container" id="feedback">
       <h3>{% trans "Public Feedback" %}</h3>
       {% for feedback in issue.feedbacks.all %}
         <div class="panel panel-default">
@@ -139,11 +145,10 @@
         </div>
       {% endfor %}
     </div>
-    
-    <div id="history" class="tab-pane fade">
+    <div class="tab-pane container" id="history">
       <h3>{% trans "History" %}</h3>
       <p>(here list alls edit history items)</p>
     </div>
-  </div>
+  </div
 </div>
 {% endblock %}

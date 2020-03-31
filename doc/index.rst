@@ -26,7 +26,7 @@ Basics
 It is the successor of :term:`Klarschiff`, a platform where citizens report problems / ideas concerning public infrastructure.
 The municipality staff does then review, check and fix this issues.
 
-The code is Python3 using the Django 2 framework and bootstrap3
+The code is Python3 using the Django 2 framework and bootstrap4
 webfrontend toolkit.
 
 .. note::

@@ -26,6 +26,12 @@ class IssueTable(tables.Table):
     
     class Meta:
         model = Issue
-        template_name = "django_tables2/bootstrap.html"
+        template_name = "django_tables2/bootstrap4.html"
         fields = ('id', 'created_at', 'location', 'category_type', 'category_subcat', 'priority', 'status_styled','status_created_at', 'published' )
         order_by = ('-id')
+        attrs = {
+                'class': 'table table-hover',
+                'thead' : {
+                    'class': 'thead-light'
+                }
+        }
