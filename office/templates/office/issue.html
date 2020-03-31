@@ -24,15 +24,15 @@
 <div class="container">
   <h2>
     {% if issue.priority == 3 %}
-      <i class="zmdi zmdi-trending-up"></i>
+      <i class="fa fa-warning" aria-hidden="true"></i>
     {% elif issue.priority == 1 %}
-      <i class="zmdi zmdi-trending-down"></i>
+      <i class="fa fa-arrow-down" aria-hidden="true"></i>
     {% endif %}
     {% trans "issue" %} {{ issue.id }}
     {% if issue.published %}
-      <i class="zmdi zmdi-eye" title='{% trans "public visible" %}'></i>
+      <i class="fa fa-eye" aria-hidden="true" title='{% trans "public visible" %}'></i>
     {% else %}
-      <i class="zmdi zmdi-eye-off" title='{% trans "not public visible" %}'></i>
+      <i class="fa fa-eye-slash" aria-hidden="true" title='{% trans "not public visible" %}'></i>
     {% endif %}
   </h2>
   <p>{{ issue.category }}</p>
@@ -53,11 +53,11 @@
         <div class="col-md-8">
           <p>{% trans "Author" %}: 
               {% if author_trust_string == 'external' %}
-                  <i class="zmdi zmdi-accounts" title="{% trans author_trust_string %}"></i>
+                  <i class="fa fa-user-circle" aria-hidden="true" title="{% trans author_trust_string %}"></i>
               {% elif author_trust_string == 'internal' %}
-                  <i class="zmdi zmdi-city" title="{% trans author_trust_string %}"></i>
+                  <i class="fa fa-institution" aria-hidden="true" title="{% trans author_trust_string %}"></i>
               {% elif author_trust_string == 'fieldteam' %}
-                  <i class="zmdi zmdi-walk" title="{% trans author_trust_string %}"></i>
+                  <i class="fa fa-user-secret" aria-hidden="true" title="{% trans author_trust_string %}></i>
               {% endif %}
               {% trans '(removed)' as trans_empty_email %}
               {{ issue.authorEmail|default_if_none:trans_empty_email }}
@@ -72,20 +72,20 @@
           <div class="bg-info">
               <p>{% trans "Status" %}: 
                   {% if status_string == 'submitted' %}
-                      <i class="zmdi zmdi-email-open" title="{% trans status_string %}"></i>
-                  {% elif status_string == 'wip' %}
-                      <i class="zmdi zmdi-puzzle-piece" title="{% trans status_string %}"></i>
+                      <i class="fa fa-share" aria-hidden="true" title="{% trans status_string %}"></i>
                   {% elif status_string == 'review' %}
-                      <i class="zmdi zmdi-zmdi-zoom-in" title="{% trans status_string %}"></i>
+                      <i class="fa fa-check-square" aria-hidden="true" title="{% trans status_string %}"></i>
+                  {% elif status_string == 'wip' %}
+                      <i class="fa fa-gears" aria-hidden="true" title="{% trans status_string %}"></i>
                   {% elif status_string == 'solved' %}
-                      <i class="zmdi zmdi-check-circle" title="{% trans status_string %}"></i>
+                      <i class="fa fa-flag-checkered" aria-hidden="true" title="{% trans status_string %}"></i>
                   {% elif status_string == 'impossible' %}
-                      <span class="zmdi-hc-stack zmdi-hc-lg" title="{% trans status_string %}">
-                          <i class="zmdi zmdi-balance"></i>
-                          <i class="zmdi zmdi-block zmdi-hc-stack-2x"></i>
+                      <span class="fa-stack fa-lg" title="{% trans status_string %}">
+                          <i class="fa fa-flag-checkered"></i>
+                          <i class="fa fa-ban fa-stack-2x text-danger"></i>
                       </span> 
                   {% elif status_string == 'dublicate' %}
-                      <i class="zmdi zmdi-check-copy" title="{% trans status_string %}"></i>
+                      <i class="fa fa-copy" title="{% trans status_string %}"></i>
                   {% endif %}
                   {% trans status_string %} - {% trans "since" %} {{ issue.status_created_at }}
               </p>
