@@ -119,7 +119,7 @@ class IssueImporter(CSVImporter):
         self.LOCATION_UNKOWN = 'nicht zuordenbar'
         self.MAP_PRIORITY = {'mittel': PriorityTypes.NORMAL, 'niedrig': PriorityTypes.LOW, 'hoch': PriorityTypes.HIGH}
         self.ASSIGNED_OK = 'akzeptiert'
-        self.MAP_STATUS = {'gemeldet': StatusTypes.SUBMITTED, 'offen': StatusTypes.WIP, 'inBearbeitung': StatusTypes.WIP, 'geloest': StatusTypes.SOLVED, 'nichtLoesbar': StatusTypes.IMPOSSIBLE, 'duplikat': StatusTypes.DUBLICATE, 'geloescht': StatusTypes.DUBLICATE}
+        self.MAP_STATUS = {'gemeldet': StatusTypes.SUBMITTED, 'offen': StatusTypes.REVIEW, 'inBearbeitung': StatusTypes.WIP, 'geloest': StatusTypes.SOLVED, 'nichtLoesbar': StatusTypes.IMPOSSIBLE, 'duplikat': StatusTypes.DUBLICATE, 'geloescht': StatusTypes.DUBLICATE}
         self.MAP_ARCHIVE = {'t': True, 'f': False, '': False}
         self.MAP_PUBLIC = {'extern': True, 'intern': False, 'geloescht': False} # TODO: Process deleted photo #48
         self.MAP_TRUST = {'0': TrustTypes.EXTERNAL, '1': TrustTypes.INTERNAL, '2': TrustTypes.FIELDTEAM}
