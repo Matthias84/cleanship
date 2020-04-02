@@ -109,9 +109,11 @@
               </p>
           </div>
         </div>
+        {% if issue.photo %}
         <div class="col-md-4">
-            <img class="img-thumbnail" style="width:90%" src="{% get_media_prefix %}{{ issue.photo }}"/>
-          </div>
+          <img class="img-thumbnail" style="width:90%" src="{% get_media_prefix %}{{ issue.photo }}"/>
+        </div>
+        {% endif %}
       </div>
     </div>
     
