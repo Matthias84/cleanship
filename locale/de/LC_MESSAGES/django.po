@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-29 09:29+0200\n"
+"POT-Creation-Date: 2020-04-02 14:37+0200\n"
 "PO-Revision-Date: 2019-11-15 17:39+0100\n"
 "Last-Translator: Matthias\n"
 "Language-Team: https://github.com/Matthias84/cleanship/\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.0.6\n"
 
-#: citysdk/serializers.py:141
+#: citysdk/serializers.py:140
 msgid "{} (delegated to {})"
 msgstr "{} (delegiert an {})"
 
 #: common/admin.py:21
 msgid "Groups"
-msgstr ""
+msgstr "Gruppen"
 
 #: common/models.py:31
 msgid "LOW"
@@ -36,7 +36,7 @@ msgstr "niedrig"
 
 #: common/models.py:33
 msgid "NORMAL"
-msgstr ""
+msgstr "NORMAL"
 
 #: common/models.py:34
 msgid "normal"
@@ -154,6 +154,7 @@ msgstr "E-Mail Adresse des Autors"
 #: common/models.py:129
 msgid "trust"
 msgstr "Vertrauen"
+
 
 #: common/models.py:129
 msgid "Trust level of the author."
@@ -331,6 +332,22 @@ msgstr "Text der Rückmeldung"
 msgid "feedback"
 msgstr "Rückmeldung"
 
+#: office/tables.py:8
+msgid "number"
+msgstr "Vorgang"
+
+#: office/tables.py:10
+msgid "category type"
+msgstr "Typ"
+
+#: office/tables.py:11
+msgid "main category"
+msgstr "Haupt-Kategorie"
+
+#: office/tables.py:12
+msgid "sub category"
+msgstr "Unter-Kategorie"
+
 #: office/templates/office/issue.html:33
 msgid "public visible"
 msgstr "öffentlich sichtbar"
@@ -339,110 +356,108 @@ msgstr "öffentlich sichtbar"
 msgid "not public visible"
 msgstr "nicht öffentlich sichtbar"
 
-#: office/templates/office/issue.html:42 office/templates/office/issue.html:51
+#: office/templates/office/issue.html:43
 msgid "Base"
 msgstr "Basis"
 
-#: office/templates/office/issue.html:43
+#: office/templates/office/issue.html:46 office/templates/office/layout.html:23
 msgid "Comments"
 msgstr "Kommentare"
 
-#: office/templates/office/issue.html:44
+#: office/templates/office/issue.html:49
 msgid "Feedback"
 msgstr "Rückmeldung"
 
-#: office/templates/office/issue.html:45 office/templates/office/issue.html:142
+#: office/templates/office/issue.html:52 office/templates/office/issue.html:154
 msgid "History"
 msgstr "Verlauf"
 
-#: office/templates/office/issue.html:54
+#: office/templates/office/issue.html:61
 msgid "Author"
 msgstr "Autor"
 
-#: office/templates/office/issue.html:62
+#: office/templates/office/issue.html:69
 msgid "(removed)"
 msgstr "(entfernt)"
 
-#: office/templates/office/issue.html:65
-msgid "Created"
-msgstr "Erstellt am"
-
-#: office/templates/office/issue.html:69
+#: office/templates/office/issue.html:78
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
-#: office/templates/office/issue.html:70
+#: office/templates/office/issue.html:79
 msgid "Location"
 msgstr "Lage"
 
-#: office/templates/office/issue.html:71
+#: office/templates/office/issue.html:80
 msgid "Landowner"
 msgstr "Eigentümer"
 
-#: office/templates/office/issue.html:73
+#: office/templates/office/issue.html:83
 msgid "Status"
 msgstr "Status"
 
-#: office/templates/office/issue.html:88
+#: office/templates/office/issue.html:100
 msgid "since"
 msgstr "seit"
 
-#: office/templates/office/issue.html:90
+#: office/templates/office/issue.html:102
 msgid "Status Text"
 msgstr "Status Erläuterung"
 
-#: office/templates/office/issue.html:94
+#: office/templates/office/issue.html:106
 msgid "(not assigned)"
 msgstr "(nicht zugeordnet)"
 
-#: office/templates/office/issue.html:95
+#: office/templates/office/issue.html:107
 msgid "Assigned"
 msgstr "Zugeordnet"
 
-#: office/templates/office/issue.html:97
+#: office/templates/office/issue.html:109
 msgid "delegated"
 msgstr "Delegiert"
 
-#: office/templates/office/issue.html:110
+#: office/templates/office/issue.html:123
 msgid "Internal Comments"
 msgstr "Interne Kommentare"
 
-#: office/templates/office/issue.html:114
+#: office/templates/office/issue.html:127
 msgid "Posted on"
 msgstr "Geschrieben am"
 
-#: office/templates/office/issue.html:128
+#: office/templates/office/issue.html:141
 msgid "Public Feedback"
 msgstr "Öffentliche Rückmeldung"
 
-#: office/templates/office/issue.html:132
+#: office/templates/office/issue.html:145
 msgid "Written on"
 msgstr "Geschrieben am"
 
-#: office/templates/office/issue_create.html:9
-#: office/templates/office/issue_create.html:12
+#: office/templates/office/issue_create.html:10
+#: office/templates/office/issue_create.html:13
 msgid "New Issue"
 msgstr "Neuer Vorgang"
 
-#: office/templates/office/issue_create.html:36
+#: office/templates/office/issue_create.html:31
 msgid "Create Issue"
 msgstr "Vorgang erstellen"
 
-#: office/templates/office/issues.html:26
-#: office/templates/office/issues.html:28
-#: office/templates/office/layout.html:19
+#: office/templates/office/issues.html:27
+#: office/templates/office/issues.html:29
+#: office/templates/office/layout.html:14
 msgid "Issues"
 msgstr "Vorgänge"
 
-#: office/templates/office/issues.html:29
+#: office/templates/office/issues.html:30
 msgid "All issues assigned to your groups"
 msgstr "Alle Vorgänge die Ihren Gruppen zugeordnet sind"
 
 #: office/templates/office/issues.html:35
-msgid "Filters"
+#, fuzzy
+#| msgid "Filters"
+msgid "Filter"
 msgstr "Filter"
 
-#: office/templates/office/issues.html:44
+#: office/templates/office/issues.html:43
 msgid "Submit"
 msgstr "Ausführen"
 
@@ -450,23 +465,29 @@ msgstr "Ausführen"
 msgid "Table"
 msgstr "Tabelle"
 
-#: office/templates/office/issues.html:54
+#: office/templates/office/issues.html:56
 msgid "Map"
 msgstr "Karte"
 
-#: office/templates/office/layout.html:24
+#: office/templates/office/layout.html:17
 msgid "new Issue"
 msgstr "Neuer Vorgang"
 
-#: office/templates/office/layout.html:39
+#: office/templates/office/layout.html:20
+#, fuzzy
+#| msgid "Feedback"
+msgid "Feedbacks"
+msgstr "Rückmeldung"
+
+#: office/templates/office/layout.html:26
 msgid "Help"
 msgstr "Hilfe"
 
-#: office/templates/office/layout.html:51
+#: office/templates/office/layout.html:37
 msgid "ID ..."
 msgstr "Vorgangsnummer ..."
 
-#: office/templates/office/layout.html:53
+#: office/templates/office/layout.html:38
 msgid "Search"
 msgstr "Suche"
 
@@ -485,3 +506,6 @@ msgstr "Ohne Statusmeldung für mehr als 30 Tage"
 #: office/templates/office/start.html:21
 msgid "Without final decission for more than 60 days"
 msgstr "Ohne abschließende Bearbeitung seit mehr als 30 Tagen"
+
+#~ msgid "Created"
+#~ msgstr "Erstellt am"
