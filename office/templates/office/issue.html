@@ -72,12 +72,14 @@
               {{ issue.created_at|date:"SHORT_DATE_FORMAT" }}
           </p>
           <q class="usertext">{{ issue.description }}</q>
-          {% leaflet_map "issuemap" callback="window.map_init_basic" %}
-          <!-- #TODO: Enable settings as overview map, overlays, ... -->
-          {% trans '(unknown)' as trans_unkown_location %}
-          <p>{% trans "Location" %}: {{ issue.location|default_if_none:trans_unkown_location }}</p>
-          <p>{% trans "Landowner" %}: {{ issue.landowner }}</p>
-          <div class="bg-info">
+          <div class="container">
+            {% leaflet_map "issuemap" callback="window.map_init_basic" %}
+            <!-- #TODO: Enable settings as overview map, overlays, ... -->
+            {% trans '(unknown)' as trans_unkown_location %}
+            <p class="font-weight-light text-left small">{% trans "Location" %}: {{ issue.location|default_if_none:trans_unkown_location }}</p>
+            <p class="font-weight-light">{% trans "Landowner" %}: {{ issue.landowner }}</p>
+          </div>
+          <div>
               <p>{% trans "Status" %}: 
                   {% if status_string == 'submitted' %}
                       <i class="fa fa-share" aria-hidden="true" title="{% trans status_string %}"></i>

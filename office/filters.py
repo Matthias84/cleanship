@@ -6,10 +6,8 @@ class IssueFilter(django_filters.FilterSet):
     author_email = django_filters.CharFilter(lookup_expr='icontains')
     location = django_filters.CharFilter(lookup_expr='icontains')
     landowner = django_filters.CharFilter(lookup_expr='icontains')
-    #year_created__gt = django_filters.NumberFilter(field_name='created_at', lookup_expr='year__gt')
-    #year_created__lt = django_filters.NumberFilter(field_name='created_at', lookup_expr='year__lt')
-    create_between = date_between = django_filters.DateFromToRangeFilter(field_name='created_at')
-    # TODO: useful Date ranges e.g. 30d, 1y, ...
+    create_between = django_filters.DateFromToRangeFilter(field_name='created_at', widget=django_filters.widgets.RangeWidget(attrs={'type': 'date'}))
+    # TODO: useful Date ranges e.g. 30d, 1y, ... (daterangefilter)
     category__name = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
