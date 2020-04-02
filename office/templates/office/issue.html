@@ -58,7 +58,7 @@
     <div class="tab-pane container active" id="base">
       <div class="row">
         <div class="col-md-8">
-          <p>{% trans "Author" %}: 
+          <p title="{{ issue.created_at }}">{% trans "Author" %}: 
               {% if author_trust_string == 'external' %}
                   <i class="fa fa-user-circle" aria-hidden="true" title="{% trans author_trust_string %}"></i>
               {% elif author_trust_string == 'internal' %}
@@ -67,9 +67,10 @@
                   <i class="fa fa-user-secret" aria-hidden="true" title="{% trans author_trust_string %}"></i>
               {% endif %}
               {% trans '(removed)' as trans_empty_email %}
-              {{ issue.authorEmail|default_if_none:trans_empty_email }}
+              {{ issue.author_email|default_if_none:trans_empty_email }}
+              &nbsp
+              {{ issue.created_at|date:"SHORT_DATE_FORMAT" }}
           </p>
-          <p title="{{ issue.created_at }}">{% trans "Created" %}: {{ issue.created_at|date:"SHORT_DATE_FORMAT" }}</p>
           <q class="usertext">{{ issue.description }}</q>
           {% leaflet_map "issuemap" callback="window.map_init_basic" %}
           <!-- #TODO: Enable settings as overview map, overlays, ... -->
