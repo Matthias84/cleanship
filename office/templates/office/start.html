@@ -3,33 +3,43 @@
 {% block title %} Start{% endblock %}
 {% block content %}
 <h1 class="mt-4">Übersicht</h1>
-<p> {% trans "You might want to check the following issues" %}:
+<p> {% trans "You might want to check the following issues" %}:</p>
+<div class="card-deck">
   <!-- 3x personal QA listings -->
   <ul>
     {% if issues3dunchecked %}
-        <li><b>{{issues3dunchecked.count}}</b> {% trans "Not reviewed for more than 3 days" %} (
-        {% for issue in issues3dunchecked %}
-            <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
-        {% endfor %}
-        )
-        </li>
+      <div class="card bg-warning">
+        <div class="card-body">
+          <h4 class="card-title">{% trans "3 days unreviewed" %}</h4>
+          <p class="card-text">{{issues3dunchecked.count}} {% trans "issues, which are not reviewed within 3 days." %} </p>
+          {% for issue in issues3dunchecked %}
+            <a href="{% url 'office:issue' issue.id %}" class="card-link">{{ issue.id }}</a>
+          {% endfor %}
+        </div>
+      </div>
     {% endif %}
     {% if issues30dunupdated %}
-        <li><b>{{issues30dunupdated.count}}</b> {% trans "Without update for more than 30 days" %} (
-        {% for issue in issues30dunupdated %}
-            <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
-        {% endfor %}
-        )
-        </li>
+      <div class="card bg-warning">
+        <div class="card-body">
+          <h4 class="card-title">{% trans "30 days silent" %}</h4>
+          <p class="card-text">{{issues30dunupdated.count}} {% trans "issues, without update for more than 30 days." %} </p>
+          {% for issue in issues30dunupdated %}
+            <a href="{% url 'office:issue' issue.id %}" class="card-link">{{ issue.id }}</a>
+          {% endfor %}
+        </div>
+      </div>
     {% endif %}
     {% if ideas60d %}
-        <li><b>{{ideas60d.count}}</b> {% trans "Without final decission for more than 60 days" %} (
-        {% for issue in ideas60d %}
-            <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
-        {% endfor %}
-        )
-        </li>
+      <div class="card bg-warning">
+        <div class="card-body">
+          <h4 class="card-title">{% trans "Open ideas for 60 days" %}</h4>
+          <p class="card-text">{{ideas60d.count}} {% trans "ideas, without final decission for more than 60 days" %} </p>
+          {% for issue in ideas60d %}
+            <a href="{% url 'office:issue' issue.id %}" class="card-link">{{ issue.id }}</a>
+          {% endfor %}
+        </div>
+      </div>
     {% endif %}
   </ul>
-</p>
+</div>
 {% endblock %}

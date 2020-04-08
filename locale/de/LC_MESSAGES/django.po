@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-02 14:37+0200\n"
+"POT-Creation-Date: 2020-04-08 13:07+0200\n"
 "PO-Revision-Date: 2019-11-15 17:39+0100\n"
 "Last-Translator: Matthias\n"
 "Language-Team: https://github.com/Matthias84/cleanship/\n"
@@ -155,7 +155,6 @@ msgstr "E-Mail Adresse des Autors"
 msgid "trust"
 msgstr "Vertrauen"
 
-
 #: common/models.py:129
 msgid "Trust level of the author."
 msgstr "Vertrauenswürdigkeit des Autors (basierend auf E-Mail Adresse)."
@@ -240,7 +239,7 @@ msgid ""
 "issue."
 msgstr "Externe Organisation, dass bei der Bearbeitung des Vorganges hilft"
 
-#: common/models.py:139
+#: common/models.py:139 office/tables.py:14
 msgid "status"
 msgstr "Status"
 
@@ -332,19 +331,19 @@ msgstr "Text der Rückmeldung"
 msgid "feedback"
 msgstr "Rückmeldung"
 
-#: office/tables.py:8
+#: office/tables.py:9
 msgid "number"
 msgstr "Vorgang"
 
-#: office/tables.py:10
+#: office/tables.py:11
 msgid "category type"
 msgstr "Typ"
 
-#: office/tables.py:11
+#: office/tables.py:12
 msgid "main category"
 msgstr "Haupt-Kategorie"
 
-#: office/tables.py:12
+#: office/tables.py:13
 msgid "sub category"
 msgstr "Unter-Kategorie"
 
@@ -452,8 +451,6 @@ msgid "All issues assigned to your groups"
 msgstr "Alle Vorgänge die Ihren Gruppen zugeordnet sind"
 
 #: office/templates/office/issues.html:35
-#, fuzzy
-#| msgid "Filters"
 msgid "Filter"
 msgstr "Filter"
 
@@ -474,10 +471,8 @@ msgid "new Issue"
 msgstr "Neuer Vorgang"
 
 #: office/templates/office/layout.html:20
-#, fuzzy
-#| msgid "Feedback"
 msgid "Feedbacks"
-msgstr "Rückmeldung"
+msgstr "Rückmeldungen"
 
 #: office/templates/office/layout.html:26
 msgid "Help"
@@ -495,17 +490,28 @@ msgstr "Suche"
 msgid "You might want to check the following issues"
 msgstr "Sie möchten ggF. die folgenden Vorgänge überprüfen"
 
-#: office/templates/office/start.html:9
-msgid "Not reviewed for more than 3 days"
-msgstr "Nicht gesichtet für mehr als 3 Tage"
+#: office/templates/office/start.html:12
+msgid "3 days unreviewed"
+msgstr ""
 
-#: office/templates/office/start.html:15
-msgid "Without update for more than 30 days"
-msgstr "Ohne Statusmeldung für mehr als 30 Tage"
+#: office/templates/office/start.html:13
+msgid ""
+"{{issues3dunchecked.count}} issues, which are not reviewed within 3 days."
+msgstr ""
 
-#: office/templates/office/start.html:21
-msgid "Without final decission for more than 60 days"
-msgstr "Ohne abschließende Bearbeitung seit mehr als 30 Tagen"
+#: office/templates/office/start.html:23
+msgid "30 days silent"
+msgstr "30 Tage unaktualisiert"
 
-#~ msgid "Created"
-#~ msgstr "Erstellt am"
+#: office/templates/office/start.html:24
+msgid ""
+"issues, without update for more than 30 days."
+msgstr "Vorgänge ohne Aktualisierung seit mehr als 30 Tage"
+
+#: office/templates/office/start.html:34
+msgid "Open ideas for 60 days"
+msgstr "Offene Ideen seit über 60 Tagen"
+
+#: office/templates/office/start.html:35
+msgid "ideas, without final decission for more than 60 days"
+msgstr "Offene Ideen seit über 60 Tagen"
