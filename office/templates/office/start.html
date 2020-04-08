@@ -6,24 +6,30 @@
 <p> {% trans "You might want to check the following issues" %}:
   <!-- 3x personal QA listings -->
   <ul>
-    <li><b>{{issues3dunchecked.count}}</b> {% trans "Not reviewed for more than 3 days" %} (
-    {% for issue in issues3dunchecked %}
-        <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
-    {% endfor %}
-    )
-    </li>
-    <li><b>{{issues30dunupdated.count}}</b> {% trans "Without update for more than 30 days" %} (
-    {% for issue in issues30dunupdated %}
-        <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
-    {% endfor %}
-    )
-    </li>
-    <li><b>{{ideas60d.count}}</b> {% trans "Without final decission for more than 60 days" %} (
-    {% for issue in ideas60d %}
-        <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
-    {% endfor %}
-    )
-    </li>
+    {% if issues3dunchecked %}
+        <li><b>{{issues3dunchecked.count}}</b> {% trans "Not reviewed for more than 3 days" %} (
+        {% for issue in issues3dunchecked %}
+            <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
+        {% endfor %}
+        )
+        </li>
+    {% endif %}
+    {% if issues30dunupdated %}
+        <li><b>{{issues30dunupdated.count}}</b> {% trans "Without update for more than 30 days" %} (
+        {% for issue in issues30dunupdated %}
+            <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
+        {% endfor %}
+        )
+        </li>
+    {% endif %}
+    {% if ideas60d %}
+        <li><b>{{ideas60d.count}}</b> {% trans "Without final decission for more than 60 days" %} (
+        {% for issue in ideas60d %}
+            <a href="{% url 'office:issue' issue.id %}">{{ issue.id }}</a>,
+        {% endfor %}
+        )
+        </li>
+    {% endif %}
   </ul>
 </p>
 {% endblock %}
