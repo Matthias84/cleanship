@@ -10,12 +10,8 @@
         //Setup leaflet map
         layer = L.geoJSON({{ position_geojson|safe }}).addTo(map);
         map.fitBounds(layer.getBounds());
+        map.zoomOut(2);
         //centerLeafletMapOnMarker(map, marker);
-    }
-    function centerLeafletMapOnMarker(map, marker) {
-      var latLngs = [ marker.getLatLng() ];
-      var markerBounds = L.latLngBounds(latLngs);
-      map.fitBounds(markerBounds);
     }
   </script>
 {% endblock %}
