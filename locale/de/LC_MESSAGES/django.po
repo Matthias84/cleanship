@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-08 13:07+0200\n"
+"POT-Creation-Date: 2020-04-10 17:09+0200\n"
 "PO-Revision-Date: 2019-11-15 17:39+0100\n"
 "Last-Translator: Matthias\n"
 "Language-Team: https://github.com/Matthias84/cleanship/\n"
@@ -279,7 +279,7 @@ msgstr ""
 "Ist Meldung öffentlich einsehbar? (Kann manuell geändert werden, aber auch "
 "automatisch durch Status-Änderungen"
 
-#: common/models.py:146 office/templates/office/issue.html:31
+#: common/models.py:146 office/templates/office/issue.html:27
 msgid "issue"
 msgstr "Vorgang"
 
@@ -347,87 +347,87 @@ msgstr "Haupt-Kategorie"
 msgid "sub category"
 msgstr "Unter-Kategorie"
 
-#: office/templates/office/issue.html:33
+#: office/templates/office/issue.html:29
 msgid "public visible"
 msgstr "öffentlich sichtbar"
 
-#: office/templates/office/issue.html:35
+#: office/templates/office/issue.html:31
 msgid "not public visible"
 msgstr "nicht öffentlich sichtbar"
 
-#: office/templates/office/issue.html:43
+#: office/templates/office/issue.html:39
 msgid "Base"
 msgstr "Basis"
 
-#: office/templates/office/issue.html:46 office/templates/office/layout.html:23
+#: office/templates/office/issue.html:42 office/templates/office/layout.html:23
 msgid "Comments"
 msgstr "Kommentare"
 
-#: office/templates/office/issue.html:49
+#: office/templates/office/issue.html:45
 msgid "Feedback"
 msgstr "Rückmeldung"
 
-#: office/templates/office/issue.html:52 office/templates/office/issue.html:154
+#: office/templates/office/issue.html:48 office/templates/office/issue.html:150
 msgid "History"
 msgstr "Verlauf"
 
-#: office/templates/office/issue.html:61
+#: office/templates/office/issue.html:57
 msgid "Author"
 msgstr "Autor"
 
-#: office/templates/office/issue.html:69
+#: office/templates/office/issue.html:65
 msgid "(removed)"
 msgstr "(entfernt)"
 
-#: office/templates/office/issue.html:78
+#: office/templates/office/issue.html:74
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
-#: office/templates/office/issue.html:79
+#: office/templates/office/issue.html:75
 msgid "Location"
 msgstr "Lage"
 
-#: office/templates/office/issue.html:80
+#: office/templates/office/issue.html:76
 msgid "Landowner"
 msgstr "Eigentümer"
 
-#: office/templates/office/issue.html:83
+#: office/templates/office/issue.html:79
 msgid "Status"
 msgstr "Status"
 
-#: office/templates/office/issue.html:100
+#: office/templates/office/issue.html:96
 msgid "since"
 msgstr "seit"
 
-#: office/templates/office/issue.html:102
+#: office/templates/office/issue.html:98
 msgid "Status Text"
 msgstr "Status Erläuterung"
 
-#: office/templates/office/issue.html:106
+#: office/templates/office/issue.html:102
 msgid "(not assigned)"
 msgstr "(nicht zugeordnet)"
 
-#: office/templates/office/issue.html:107
+#: office/templates/office/issue.html:103
 msgid "Assigned"
 msgstr "Zugeordnet"
 
-#: office/templates/office/issue.html:109
+#: office/templates/office/issue.html:105
 msgid "delegated"
 msgstr "Delegiert"
 
-#: office/templates/office/issue.html:123
+#: office/templates/office/issue.html:119
 msgid "Internal Comments"
 msgstr "Interne Kommentare"
 
-#: office/templates/office/issue.html:127
+#: office/templates/office/issue.html:123
 msgid "Posted on"
 msgstr "Geschrieben am"
 
-#: office/templates/office/issue.html:141
+#: office/templates/office/issue.html:137
 msgid "Public Feedback"
 msgstr "Öffentliche Rückmeldung"
 
-#: office/templates/office/issue.html:145
+#: office/templates/office/issue.html:141
 msgid "Written on"
 msgstr "Geschrieben am"
 
@@ -486,32 +486,34 @@ msgstr "Vorgangsnummer ..."
 msgid "Search"
 msgstr "Suche"
 
+#: office/templates/office/layout.html:48
+msgid "Logout"
+msgstr "Abmelden"
+
 #: office/templates/office/start.html:6
 msgid "You might want to check the following issues"
 msgstr "Sie möchten ggF. die folgenden Vorgänge überprüfen"
 
-#: office/templates/office/start.html:12
+#: office/templates/office/start.html:13
 msgid "3 days unreviewed"
 msgstr ""
 
-#: office/templates/office/start.html:13
-msgid ""
-"{{issues3dunchecked.count}} issues, which are not reviewed within 3 days."
-msgstr ""
+#: office/templates/office/start.html:14
+msgid "issues, which are not reviewed within 3 days."
+msgstr "Vorgänge ohne Aktualisierung seit mehr als 30 Tage"
 
-#: office/templates/office/start.html:23
+#: office/templates/office/start.html:24
 msgid "30 days silent"
 msgstr "30 Tage unaktualisiert"
 
-#: office/templates/office/start.html:24
-msgid ""
-"issues, without update for more than 30 days."
+#: office/templates/office/start.html:25
+msgid "issues, without update for more than 30 days."
 msgstr "Vorgänge ohne Aktualisierung seit mehr als 30 Tage"
 
-#: office/templates/office/start.html:34
+#: office/templates/office/start.html:35
 msgid "Open ideas for 60 days"
 msgstr "Offene Ideen seit über 60 Tagen"
 
-#: office/templates/office/start.html:35
+#: office/templates/office/start.html:36
 msgid "ideas, without final decission for more than 60 days"
 msgstr "Offene Ideen seit über 60 Tagen"
