@@ -61,19 +61,25 @@ class IssueDetailView(LoginRequiredMixin, generic.DetailView):
         return context
 
 class IssueListView(LoginRequiredMixin, SingleTableMixin, FilterView):
+    """
+    List all assigned and open issues by default.
+    Let user change the filter.
+    Let search enter every issue-ID of any group and state.
+    """
+    
     model = Issue
     table_class = IssueTable
     filterset_class = IssueFilter
     template_name = 'office/issues.html'
     
     def get_queryset(self):
-        """List all assigned and filtered issues"""
-        return Issue.objects.filter(assigned__in=self.request.user.groups.all())
+        #return Issue.objects.all()
+        return Issue.objects.filter(created_at__year=2019)
 
     def get_context_data(self,**kwargs):
         """Extend with improved map representation"""
         context = super().get_context_data(**kwargs)
-        # reproject
+        # reproject map markers
         for issue in context['object_list']:
             positionWidget = issue.position
             positionWidget.transform(settings.EPSG_WIDGET)

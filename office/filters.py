@@ -1,6 +1,8 @@
+from django import forms
+from django.utils.translation import gettext_lazy as _
 import django_filters
 
-from common.models import Issue
+from common.models import Issue, Group, StatusTypes
 
 class IssueFilter(django_filters.FilterSet):
     author_email = django_filters.CharFilter(lookup_expr='icontains')
@@ -9,21 +11,21 @@ class IssueFilter(django_filters.FilterSet):
     create_between = django_filters.DateFromToRangeFilter(field_name='created_at', widget=django_filters.widgets.RangeWidget(attrs={'type': 'date'}))
     # TODO: useful Date ranges e.g. 30d, 1y, ... (daterangefilter)
     category__name = django_filters.CharFilter(lookup_expr='icontains')
+    assigned = django_filters.ModelMultipleChoiceFilter(
+        queryset=Group.objects.all().order_by('name'),
+        widget=forms.SelectMultiple(),
+    )
+    status = django_filters.MultipleChoiceFilter(
+        choices=StatusTypes.choices(),
+        widget=forms.CheckboxSelectMultiple(),
+        )
 
     class Meta:
         model = Issue
         # TODO: category, delegated
-        fields = ['id', 'author_trust', 'location', 'priority', 'landowner', 'status', 'published']
+        fields = ['id', 'assigned', 'author_trust', 'location', 'priority', 'landowner', 'status', 'published']
     
     def __init__(self, data, *args, **kwargs):
-        if not data:
-            data = {}
-            data['published'] = 'True'
-            data['status'] = '2'
-        else:
-            if not data.get('published'):
-                if not data.get('foo'):
-                    data = data.copy()
-                    data['published'] = 'True'
-                    data['status'] = '2'
+        # set default fields if not other requested
         super().__init__(data, *args, **kwargs)
+        self.form.initial['status'] = int(StatusTypes.REVIEW)
