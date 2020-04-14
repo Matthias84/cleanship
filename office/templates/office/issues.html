@@ -11,16 +11,39 @@
       //Setup and fill leaflet map
       layer = L.geoJSON();
       {% for issue in filter.qs %}
-          marker = layer.addData({{ issue.position.geojson|safe }});
-          marker.bindTooltip("{{ issue.id }}<br\>({{ issue.category }})");
-          marker.issueid = {{ issue.id }};
+          geojson={
+          "type": "Feature",
+          "properties": { "id": "{{ issue.id }}",
+                          "category": "{{ issue.category }}",
+                          "status": "{{ issue.status }}",
+                          "createdat": "{{ issue.created_at|date:"SHORT_DATE_FORMAT" }}",
+                          "priority": "{{ issue.get_priority_display }}",
+                          "status": "{{ issue.get_status_display }}",
+                          "trust": "{{ issue.get_author_trust_display }}"
+                          // # TODO: type idea / problem / tipp
+          },
+          "geometry": {{ issue.position.geojson|safe }}
+          };
+          marker = layer.addData(geojson);
       {% endfor %}
+      layer.bindTooltip(function (layer) { 
+        prop = layer.feature.properties;
+        return '<b>' + prop.id + '</b><br>'+ prop.category + '<br>' + prop.createdat
+      });
       layer.addTo(map);
       layer.on("click", function (event) {
-          var clickedMarker = event.layer;
-         window.open(clickedMarker.issueid);
+          var clickedMarker = event.layer.feature;
+         window.open('issue/' + clickedMarker.properties.id);
       });
-      map.flyToBounds(layer.getBounds());
+      //Workaround to fix issues within Bootstrap tab
+      var homeTab = document.getElementById('maptab');
+      var observer1 = new MutationObserver(function(){
+        if(homeTab.style.display != 'none'){
+          map.invalidateSize();
+          map.fitBounds(layer.getBounds());
+        }
+      });
+      observer1.observe(homeTab, {attributes: true});
   }
   </script>
 {% endblock %}
@@ -53,7 +76,7 @@
       <a class="nav-link active" data-toggle="tab" href="#tabletab">{% trans "Table" %}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#maptab">{% trans "Map" %}</a>
+      <a class="nav-link" data-toggle="tab" href="#maptab" id="mapbutton">{% trans "Map" %}</a>
     </li>
   </ul>
 
@@ -62,10 +85,10 @@
     <div class="tab-pane container active" id="tabletab">
       {% render_table table %}
     </div>
-    <div class="tab-pane container" id="maptab">
+    <div class="tab-pane container fade" id="maptab">
       {% leaflet_map "issuesmap" callback="window.map_init_basic" %}
       <!-- #TODO: Enable settings as overview map, overlays, ... -->
     </div>
-  </div
+  </div>
   
 {% endblock %}
