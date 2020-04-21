@@ -239,10 +239,10 @@ class CommentImporter(CSVImporter):
     (requires existing issues, users)
     """
 
-    def __init__(self, cmd, csvFilename, chunkSize=None, skipExisting=False, clean=True):
+    def __init__(self, cmd, csvFilename, csvMappingFilename='users.csv', chunkSize=None, skipExisting=False, clean=True):
         self.NESSESARY_FIELDS = ['datum', 'nutzer', 'text', 'vorgang']
         self.cmd = cmd
-        self.author2user = self.loadUserMapping()
+        self.author2user = self.loadUserMapping(csvMappingFilename)
         super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
 
     def eraseObjects(self):

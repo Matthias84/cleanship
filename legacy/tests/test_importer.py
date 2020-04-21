@@ -61,7 +61,7 @@ class ImporterTests(TestCase):
         issue.save()
         issue = Issue(id=2, description="test issue with defined id", position=Point(5, 23), category=catA)
         issue.save()
-        commi = CommentImporter(cmd, './legacy/tests/basic-comment.csv')
+        commi = CommentImporter(cmd, './legacy/tests/basic-comment.csv','./legacy/tests/basic-users-mapping.csv')
         self.assertEqual(Comment.objects.count(), 2)
     
     def test_import_csv_feedback_basic(self, requests_post, utils_get_landowner):
