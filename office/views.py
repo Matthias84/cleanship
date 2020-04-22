@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import timezone
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
@@ -94,9 +95,10 @@ class IssueCreateView(LoginRequiredMixin, generic.CreateView):
     def get_form(self):
         form = super(IssueCreateView, self).get_form()
         form.fields['position'].widget = LeafletWidget()
-        form.fields['author_email'].help_text = 'eMail of subitter (usually a citizen, will get a info mail. No confirmation nessesary)'
-        form.fields['position'].help_text = 'Try to map the position as accurate as possible (used to determine landowner and location description)'
-        form.fields['photo'].help_text = 'Photo showing the spot and surroundings'
+        # Use improved explainations to staff adding issues
+        form.fields['author_email'].help_text = _('eMail of submitter (usually a citizen, will get a info mail, but no more confirmation nessesary).')
+        form.fields['position'].help_text = _('Use map pin tool to map the position as accurate as possible (used to determine landowner and location description).')
+        form.fields['photo'].help_text = _('Photo showing the spot and surroundings')
         return form
         
     def get_initial(self):

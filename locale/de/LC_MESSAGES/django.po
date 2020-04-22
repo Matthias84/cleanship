@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 17:09+0200\n"
+"POT-Creation-Date: 2020-04-22 14:27+0200\n"
 "PO-Revision-Date: 2019-11-15 17:39+0100\n"
 "Last-Translator: Matthias\n"
 "Language-Team: https://github.com/Matthias84/cleanship/\n"
@@ -440,29 +440,29 @@ msgstr "Neuer Vorgang"
 msgid "Create Issue"
 msgstr "Vorgang erstellen"
 
-#: office/templates/office/issues.html:27
-#: office/templates/office/issues.html:29
+#: office/templates/office/issues.html:50
+#: office/templates/office/issues.html:52
 #: office/templates/office/layout.html:14
 msgid "Issues"
 msgstr "Vorgänge"
 
-#: office/templates/office/issues.html:30
+#: office/templates/office/issues.html:53
 msgid "All issues assigned to your groups"
 msgstr "Alle Vorgänge die Ihren Gruppen zugeordnet sind"
 
-#: office/templates/office/issues.html:35
+#: office/templates/office/issues.html:58
 msgid "Filter"
 msgstr "Filter"
 
-#: office/templates/office/issues.html:43
+#: office/templates/office/issues.html:66
 msgid "Submit"
 msgstr "Ausführen"
 
-#: office/templates/office/issues.html:53
+#: office/templates/office/issues.html:76
 msgid "Table"
 msgstr "Tabelle"
 
-#: office/templates/office/issues.html:56
+#: office/templates/office/issues.html:79
 msgid "Map"
 msgstr "Karte"
 
@@ -496,7 +496,7 @@ msgstr "Sie möchten ggF. die folgenden Vorgänge überprüfen"
 
 #: office/templates/office/start.html:13
 msgid "3 days unreviewed"
-msgstr ""
+msgstr "3 Tage ungeprüft"
 
 #: office/templates/office/start.html:14
 msgid "issues, which are not reviewed within 3 days."
@@ -517,3 +517,23 @@ msgstr "Offene Ideen seit über 60 Tagen"
 #: office/templates/office/start.html:36
 msgid "ideas, without final decission for more than 60 days"
 msgstr "Offene Ideen seit über 60 Tagen"
+
+#: office/views.py:99
+msgid ""
+"eMail of submitter (usually a citizen, will get a info mail, but no more "
+"confirmation nessesary)."
+msgstr ""
+"E-Mail Adresse des Melders (gewöhnlich Bürger, erhält eine Benachrichtigung "
+"aber muss nicht bestätigen)"
+
+#: office/views.py:100
+msgid ""
+"Use map pin tool to map the position as accurate as possible (used to "
+"determine landowner and location description)."
+msgstr ""
+"Nutzen Sie das Marker-Werkzeug, um die Position möglichst genau"
+"zu arkieren (wird genutzt um Eigentümer und Adresse zu ermitteln)"
+
+#: office/views.py:101
+msgid "Photo showing the spot and surroundings"
+msgstr "Photo des Objektes und der näheren Umgebung"
