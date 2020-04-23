@@ -126,12 +126,12 @@ class Issue(models.Model):
     id = models.AutoField(primary_key=True, verbose_name=_('ID'))
     description = models.TextField(max_length=500, verbose_name=_('description'), help_text=_('Notes describing further details.'))  # BUG: Could be empty, whats the right way?
     author_email = models.EmailField(null=True, blank=False, verbose_name=_('author'), help_text=_('eMail alias of the author.'))
-    author_trust = models.IntegerField(choices=TrustTypes.choices(), default=TrustTypes.EXTERNAL, verbose_name = _('trust'), help_text=_('Trust level of the author.'))
+    author_trust = models.IntegerField(choices=TrustTypes.choices(), default=TrustTypes.EXTERNAL, editable=False, verbose_name = _('trust'), help_text=_('Trust level of the author.'))
     position = models.PointField(srid=settings.EPSG_INTERNAL, verbose_name=_('position'), help_text=_('Georeference for this issue. (might be inaccurate)'), validators=[validate_in_municipality])  # TODO: Extract srid to settings
     category = TreeForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False, verbose_name=_('category'), help_text=_('Multi-level selection of which kind of note this issue comes closest.'), validators=[validate_is_subcategory])
     photo = models.ImageField(upload_to='', null=True, blank=True, verbose_name=_('photo'), help_text=_('Photo that show the spot. (unprocessed, might include metadata)'))
     created_at = models.DateTimeField(default=timezone.now, verbose_name=_('creation date'), help_text=_('Date of submission.'))
-    location = models.CharField(max_length=150, null=True, blank=True, verbose_name=_('location'), help_text=_('Human readable description of the position.'))
+    location = models.CharField(max_length=150, null=True, blank=True, editable=False, verbose_name=_('location'), help_text=_('Human readable description of the position.'))
     priority = models.IntegerField(choices=PriorityTypes.choices(), default=PriorityTypes.NORMAL, verbose_name = _('priority'), help_text=_('Importance of the note for responsibles.'))
     landowner = models.CharField(max_length=250, null=True, blank=True, verbose_name = _('landowner'), help_text=_('Operrator that manages the area of the position. (usually landowner, might be inaccurate)'))
     assigned = models.ForeignKey(Group, null=True, blank=True, on_delete=models.SET_NULL, related_name='assignedIssues', verbose_name=_('assigned group'), help_text=_('Responsible (internal) department, which processes the issue currently.'))

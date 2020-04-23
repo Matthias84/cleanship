@@ -79,13 +79,6 @@ Import Issues
 -  Start full import via
    ``python3 manage.py import --issues --settings cleanship.settings.local``
 -  Import will take only a few minutes
--  You need to update DB squences
-
-.. code:: sql
-
-   SELECT setval(pg_get_serial_sequence('"common_issue"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "common_issue";
-   SELECT setval(pg_get_serial_sequence('"common_category"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "common_category";
-   SELECT setval(pg_get_serial_sequence('"common_comment"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "common_comment";
 
 Import Comments
 ---------------

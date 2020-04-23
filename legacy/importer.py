@@ -1,4 +1,6 @@
+from django.core.management.color import no_style
 from django.contrib.auth.models import Group
+from django.db import connection
 from django.utils import dateparse
 from common.models import Issue, Category, PriorityTypes, StatusTypes, TrustTypes, Comment, Feedback, User
 from itertools import islice
@@ -50,6 +52,13 @@ class CSVImporter:
         """Check if all fields present in CSV header"""
         logger.debug('Check CSV header')
         return all(field in self.reader.fieldnames for field in self.NESSESARY_FIELDS)
+    
+    def _resetDBSequence(self, model):
+        """Create and run raw SQL statement"""
+        sequence_sql = connection.ops.sequence_reset_sql(no_style(), [model])
+        with connection.cursor() as cursor:
+            for sql in sequence_sql:
+                cursor.execute(sql)
 
     def importCSV(self):
         """start (possible long running) import and parsing CSV"""
@@ -89,10 +98,15 @@ class CSVImporter:
             self.saveChunk(chunk)
         runTime = (time.time() - start_time)
         self.cmd.stdout.write(self.cmd.style.SUCCESS('Imported {0} objects ({1:.2f} sec)').format(objCount, runTime))
+        self.resetDBSequence()
 
     def eraseObjects(self):
         """empty DB from objects"""
         raise NotImplementedError("Please Implement eraseObjects() method")
+
+    def resetDBSequence(self):
+        """Update DB squence counter after import """
+        raise NotImplementedError("Please Implement resetDBSequence() method")
 
     def parseRow(self, row):
         """return DB model object from CSV fields"""
@@ -127,6 +141,10 @@ class IssueImporter(CSVImporter):
 
     def eraseObjects(self):
         Issue.objects.all().delete()
+    
+    def resetDBSequence(self):
+        logger.info('reset DB sequence common_issue')
+        super()._resetDBSequence(Issue)
 
     def parseRow(self, row):
         # TODO: Exception handling and malformed fields?
@@ -217,6 +235,10 @@ class CategoryImporter(CSVImporter):
         self.typeMap = {"problem": problem, "idee": idea, "tipp": tip}
         # TODO: Set mapping also if no clean run
 
+    def resetDBSequence(self):
+        logger.info('reset DB sequence common_category')
+        super()._resetDBSequence(Category)
+
     def parseRow(self, row):
         id = row['id']
         name = row['name']
@@ -244,6 +266,10 @@ class CommentImporter(CSVImporter):
         self.cmd = cmd
         self.author2user = self.loadUserMapping(csvMappingFilename)
         super().__init__(cmd, csvFilename, chunkSize, skipExisting, clean)
+
+    def resetDBSequence(self):
+        logger.info('reset DB sequence common_comment')
+        super()._resetDBSequence(Comment)
 
     def eraseObjects(self):
         Comment.objects.all().delete()
@@ -301,6 +327,10 @@ class FeedbackImporter(CSVImporter):
 
     def eraseObjects(self):
         Feedback.objects.all().delete()
+    
+    def resetDBSequence(self):
+        logger.info('reset DB sequence common_feedback')
+        super()._resetDBSequence(Feedback)
 
     def parseRow(self, row):
         id = row['id']
@@ -356,6 +386,10 @@ class UserImporter(CSVImporter):
     def eraseObjects(self):
         pass
         #User.objects.all().delete()
+    
+    def resetDBSequence(self):
+        logger.info('reset DB sequence common_user')
+        super()._resetDBSequence(User)
 
     def parseRow(self, row):
         username = row['username'].lower()
