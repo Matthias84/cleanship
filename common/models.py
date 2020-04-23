@@ -5,6 +5,7 @@ from django.contrib.gis.db import models
 from django.contrib.gis.gdal import DataSource
 from django.contrib.gis.geos import GEOSGeometry, Point
 from django.core.exceptions import ValidationError
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext_noop
@@ -175,6 +176,11 @@ class Issue(models.Model):
         self.author_trust = get_trust(self.author_email)
         logger.info('Saving issue')
         super(Issue, self).save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        """Get object URL for admin link button"""
+        return reverse('office:issue', kwargs={'pk': self.id})
+        
 
 
 class Category(MPTTModel):
