@@ -1,6 +1,7 @@
 {% extends "office/layout.html" %}
 {% load static %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 {% load leaflet_tags %}
 {% block head %}
   {% leaflet_js %}
@@ -118,19 +119,31 @@
     <div class="tab-pane container" id="comments">
       <h3>{% trans "Internal Comments" %}</h3>
       {% for comment in issue.comments.all %}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">{{comment.author}} <small><i>{% trans "Posted on" %} {{comment.created_at|date:"SHORT_DATE_FORMAT" }}</i></small></h3>
-            <div class="btn-group pull-right">
-              <a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></i></a>
-              <a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></i></a>
+        <div class="card mt-3">
+          <div class="card-header">
+            {{comment.author.username}} <small><i>{% trans "wrote on" %} {{comment.created_at|date:"SHORT_DATE_FORMAT" }}</i></small>
+            <div class="btn-group pull-right" role="group">
+              <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a>
+              <a class="btn btn btn-sm" href="#"><i class="fa fa-trash-o fa-lg"></i> {% trans "Edit" %}</a>
             </div>
           </div>
-          <div class="panel-body">
-            <q>{{comment.content}}</q>
+           <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                {{comment.content}}
+            </blockquote>
           </div>
         </div>
       {% endfor %}
+      <div class="card mt-5">
+        <div class="card-header">{% trans "New comment" %}</div>
+        <div class="card-body">
+          <form action="{% url 'office:createcomment' pk=issue.id  %}" method="post" style="margin-top: 1.3em;">
+            {{ comment_form|crispy }}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">{% trans "Create Comment" %}</button>
+          </form>
+        </div>
+      </div>
     </div>
     
     <div class="tab-pane container" id="feedback">

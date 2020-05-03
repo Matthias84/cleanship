@@ -3,7 +3,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.gis import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
-from django.forms import ModelForm, ModelMultipleChoiceField
+from django.forms import ModelForm, ModelMultipleChoiceField, BaseInlineFormSet
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from mptt.admin import MPTTModelAdmin, TreeRelatedFieldListFilter
@@ -57,8 +57,21 @@ class GroupAdmin(admin.ModelAdmin):
 class CommentInline(admin.StackedInline):
     model = Comment
     ordering = ['-created_at']
-    readonly_fields = ['created_at', "content", "author"]
+    #readonly_fields = ['created_at', "content", "author"]
+    readonly_fields = ["author"]
     extra = 0
+    
+    def save_model(self, request, obj, form, change):
+        """Limit author to current user"""
+        # BUG Doesn't set the author as inline
+        obj.author = request.user
+        super().save_model(request, obj, form, change)
+    
+    def get_formset(self, request, obj=None, **kwargs):
+        """Used to pass current user to model"""
+        formset = super(CommentInline, self).get_formset(request, obj, **kwargs)
+        formset.request = request
+        return formset
 
 class FeedbackInline(admin.StackedInline):
     model = Feedback
@@ -129,9 +142,16 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('issue_id', 'created_at', 'author')
     list_filter = ('author',)
     search_fields = ['issue_id','author' ]
+    raw_id_fields = ('issue',)
+    readonly_fields = ('author',)
     
     def issue_id(self, obj):
         return obj.issue.id
+    
+    def save_model(self, request, obj, form, change):
+        """Limit author to current user"""
+        obj.author = request.user
+        super().save_model(request, obj, form, change)
 
 class FeedbackAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'

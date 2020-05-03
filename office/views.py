@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.utils import timezone
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.shortcuts import get_object_or_404, redirect
 from django.views import generic
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
@@ -13,6 +14,7 @@ from leaflet.forms.widgets import LeafletWidget
 
 from common.models import Category, Issue, StatusTypes, TrustTypes
 from common.utils import send_author_email_notification
+from common.forms import CommentCreationForm
 from .tables import IssueTable
 from .filters import IssueFilter
 
@@ -59,6 +61,8 @@ class IssueDetailView(LoginRequiredMixin, generic.DetailView):
         positionWidget.transform(settings.EPSG_WIDGET)
         positionWidget = positionWidget.geojson
         context['position_geojson'] = positionWidget
+        comment_form = CommentCreationForm()
+        context['comment_form'] = comment_form
         return context
 
 class IssueListView(LoginRequiredMixin, SingleTableMixin, FilterView):
@@ -121,3 +125,18 @@ class IssueCreateView(LoginRequiredMixin, generic.CreateView):
 
     def get_success_url(self):
         return reverse('office:issue', kwargs={'pk': self.object.pk})
+
+def createcomment(request, pk):
+    issue = get_object_or_404(Issue, pk=pk)
+    if request.method == "POST":
+        form = CommentCreationForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.issue = issue
+            comment.author = request.user
+            comment.created_at = timezone.now()
+            comment.save()
+            return redirect('office:issue', pk=pk)
+    else:
+        form = CommentForm()
+    return render(request, 'blog/add_comment_to_post.html', {'form': form})
