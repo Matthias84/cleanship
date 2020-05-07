@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-05 18:52+0200\n"
+"POT-Creation-Date: 2020-05-06 19:33+0200\n"
 "PO-Revision-Date: 2019-11-15 17:39+0100\n"
 "Last-Translator: Matthias\n"
 "Language-Team: https://github.com/Matthias84/cleanship/\n"
@@ -355,95 +355,96 @@ msgstr "öffentlich sichtbar"
 msgid "not public visible"
 msgstr "nicht öffentlich sichtbar"
 
-#: office/templates/office/issue.html:40
-msgid "Base"
-msgstr "Basis"
-
-#: office/templates/office/issue.html:43 office/templates/office/layout.html:23
-msgid "Comments"
-msgstr "Kommentare"
-
-#: office/templates/office/issue.html:46
-msgid "Feedback"
-msgstr "Rückmeldung"
-
-#: office/templates/office/issue.html:49 office/templates/office/issue.html:163
-msgid "History"
-msgstr "Verlauf"
-
-#: office/templates/office/issue.html:58
-msgid "Author"
-msgstr "Autor"
-
-#: office/templates/office/issue.html:66
-msgid "(removed)"
-msgstr "(entfernt)"
-
-#: office/templates/office/issue.html:75
-msgid "(unknown)"
-msgstr "(unbekannt)"
-
-#: office/templates/office/issue.html:76
-msgid "Location"
-msgstr "Lage"
-
-#: office/templates/office/issue.html:77
-msgid "Landowner"
-msgstr "Eigentümer"
-
-#: office/templates/office/issue.html:80
-msgid "Status"
-msgstr "Status"
-
-#: office/templates/office/issue.html:97
-msgid "since"
-msgstr "seit"
-
-#: office/templates/office/issue.html:99
-msgid "Status Text"
-msgstr "Status Erläuterung"
-
-#: office/templates/office/issue.html:103
-msgid "(not assigned)"
-msgstr "(nicht zugeordnet)"
-
-#: office/templates/office/issue.html:104
-msgid "Assigned"
-msgstr "Zugeordnet"
-
-#: office/templates/office/issue.html:106
-msgid "delegated"
-msgstr "Delegiert"
-
-#: office/templates/office/issue.html:120
-msgid "Internal Comments"
-msgstr "Interne Kommentare"
-
-#: office/templates/office/issue.html:124
-msgid "wrote on"
-msgstr "verfasst am"
-
-#: office/templates/office/issue.html:126
-msgid "Delete"
-msgstr "Löschen"
-
-#: office/templates/office/issue.html:127
+#: office/templates/office/issue.html:35 office/templates/office/issue.html:128
+#: office/templates/office/issue_update.html:10
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: office/templates/office/issue.html:138
+#: office/templates/office/issue.html:41
+msgid "Base"
+msgstr "Basis"
+
+#: office/templates/office/issue.html:44 office/templates/office/layout.html:23
+msgid "Comments"
+msgstr "Kommentare"
+
+#: office/templates/office/issue.html:47
+msgid "Feedback"
+msgstr "Rückmeldung"
+
+#: office/templates/office/issue.html:50 office/templates/office/issue.html:164
+msgid "History"
+msgstr "Verlauf"
+
+#: office/templates/office/issue.html:59
+msgid "Author"
+msgstr "Autor"
+
+#: office/templates/office/issue.html:67
+msgid "(removed)"
+msgstr "(entfernt)"
+
+#: office/templates/office/issue.html:76
+msgid "(unknown)"
+msgstr "(unbekannt)"
+
+#: office/templates/office/issue.html:77
+msgid "Location"
+msgstr "Lage"
+
+#: office/templates/office/issue.html:78
+msgid "Landowner"
+msgstr "Eigentümer"
+
+#: office/templates/office/issue.html:81
+msgid "Status"
+msgstr "Status"
+
+#: office/templates/office/issue.html:98
+msgid "since"
+msgstr "seit"
+
+#: office/templates/office/issue.html:100
+msgid "Status Text"
+msgstr "Status Erläuterung"
+
+#: office/templates/office/issue.html:104
+msgid "(not assigned)"
+msgstr "(nicht zugeordnet)"
+
+#: office/templates/office/issue.html:105
+msgid "Assigned"
+msgstr "Zugeordnet"
+
+#: office/templates/office/issue.html:107
+msgid "delegated"
+msgstr "Delegiert"
+
+#: office/templates/office/issue.html:121
+msgid "Internal Comments"
+msgstr "Interne Kommentare"
+
+#: office/templates/office/issue.html:125
+msgid "wrote on"
+msgstr "verfasst am"
+
+#: office/templates/office/issue.html:127
+msgid "Delete"
+msgstr "Löschen"
+
+#: office/templates/office/issue.html:139
 msgid "New comment"
 msgstr "Neuer Kommentar"
 
-#: office/templates/office/issue.html:143
+#: office/templates/office/issue.html:144
 msgid "Create Comment"
 msgstr "Kommentar erstellen"
 
-#: office/templates/office/issue.html:150
+#: office/templates/office/issue.html:151
 msgid "Public Feedback"
 msgstr "Öffentliche Rückmeldung"
 
-#: office/templates/office/issue.html:154
+#: office/templates/office/issue.html:155
 msgid "Written on"
 msgstr "Geschrieben am"
 
@@ -455,6 +456,14 @@ msgstr "Neuer Vorgang"
 #: office/templates/office/issue_create.html:31
 msgid "Create Issue"
 msgstr "Vorgang erstellen"
+
+#: office/templates/office/issue_update.html:13
+msgid "Edit Issue"
+msgstr "Vorgang bearbeiten"
+
+#: office/templates/office/issue_update.html:21
+msgid "Save Issue"
+msgstr "Vorgang speichern"
 
 #: office/templates/office/issues.html:50
 #: office/templates/office/issues.html:52
@@ -534,7 +543,7 @@ msgstr "Offene Ideen seit über 60 Tagen"
 msgid "ideas, without final decission for more than 60 days"
 msgstr "Offene Ideen seit über 60 Tagen"
 
-#: office/views.py:103
+#: office/views.py:119
 msgid ""
 "eMail of submitter (usually a citizen, will get a info mail, but no more "
 "confirmation nessesary)."
@@ -542,7 +551,7 @@ msgstr ""
 "E-Mail Adresse des Melders (gewöhnlich Bürger, erhält eine Benachrichtigung "
 "aber muss nicht bestätigen)"
 
-#: office/views.py:104
+#: office/views.py:120
 msgid ""
 "Use map pin tool to map the position as accurate as possible (used to "
 "determine landowner and location description)."
@@ -550,6 +559,6 @@ msgstr ""
 "Nutzen Sie das Marker-Werkzeug, um die Position möglichst genauzu arkieren "
 "(wird genutzt um Eigentümer und Adresse zu ermitteln)"
 
-#: office/views.py:105
+#: office/views.py:121
 msgid "Photo showing the spot and surroundings"
 msgstr "Photo des Objektes und der näheren Umgebung"

@@ -32,6 +32,7 @@
       <i class="fa fa-eye-slash" aria-hidden="true" title='{% trans "not public visible" %}'></i>
     {% endif %}
   </h2>
+  <a class="btn btn btn-sm" href="{% url 'office:editissue' pk=issue.id  %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a>
   <p>{{ issue.category }}</p>
   
   <!-- Menus-->
@@ -124,7 +125,7 @@
             {{comment.author.username}} <small><i>{% trans "wrote on" %} {{comment.created_at|date:"SHORT_DATE_FORMAT" }}</i></small>
             <div class="btn-group pull-right" role="group">
               <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a>
-              <a class="btn btn btn-sm" href="#"><i class="fa fa-trash-o fa-lg"></i> {% trans "Edit" %}</a>
+              <a class="btn btn btn-sm" href="#"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a>
             </div>
           </div>
            <div class="card-body">

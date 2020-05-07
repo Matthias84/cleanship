@@ -65,6 +65,22 @@ class IssueDetailView(LoginRequiredMixin, generic.DetailView):
         context['comment_form'] = comment_form
         return context
 
+def createcomment(request, pk):
+    """Adding Comment for current issue"""
+    issue = get_object_or_404(Issue, pk=pk)
+    if request.method == "POST":
+        form = CommentCreationForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.issue = issue
+            comment.author = request.user
+            comment.created_at = timezone.now()
+            comment.save()
+            return redirect('office:issue', pk=pk)
+    else:
+        form = CommentForm()
+    return render(request, 'blog/add_comment_to_post.html', {'form': form})
+
 class IssueListView(LoginRequiredMixin, SingleTableMixin, FilterView):
     """
     List all assigned and open issues by default.
@@ -126,17 +142,12 @@ class IssueCreateView(LoginRequiredMixin, generic.CreateView):
     def get_success_url(self):
         return reverse('office:issue', kwargs={'pk': self.object.pk})
 
-def createcomment(request, pk):
-    issue = get_object_or_404(Issue, pk=pk)
-    if request.method == "POST":
-        form = CommentCreationForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.issue = issue
-            comment.author = request.user
-            comment.created_at = timezone.now()
-            comment.save()
-            return redirect('office:issue', pk=pk)
-    else:
-        form = CommentForm()
-    return render(request, 'blog/add_comment_to_post.html', {'form': form})
+class IssueUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Issue
+    fields = '__all__'
+    template_name = 'office/issue_update.html'
+    
+    def get_form(self):
+        form = super(IssueUpdateView, self).get_form()
+        form.fields['position'].widget = LeafletWidget()
+        return form
