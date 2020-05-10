@@ -1,0 +1,26 @@
+{% extends "office/layout.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load leaflet_tags %}
+{% block head %}
+   {% leaflet_js plugins="forms" %}
+   {% leaflet_css plugins="forms" %}
+{% endblock %}
+{% block title %} {% trans "Edit" %} #{{ issue.id }}{% endblock %}
+{% block content %}
+ <div class="container">
+  <h2 class="mt-4">{% trans "Edit Issue" %} #{{ issue.id }}</h2>
+  <div>
+    <form action="" method="post" enctype="multipart/form-data">
+      {%csrf_token%}
+      {{ form|crispy }}
+      <div class="form-group has-errors text-danger small">
+          {{form.position.errors}}
+      </div>
+      <button type="submit" class="btn btn-success">{% trans "Save Issue" %}</button>
+      <a href="{% url 'office:issue' pk=issue.id  %}" id="cancel" name="cancel" class="btn btn-default">{% trans "Cancel" %}</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

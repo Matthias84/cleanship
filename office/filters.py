@@ -28,4 +28,5 @@ class IssueFilter(django_filters.FilterSet):
     def __init__(self, data, *args, **kwargs):
         # set default fields if not other requested
         super().__init__(data, *args, **kwargs)
-        self.form.initial['status'] = int(StatusTypes.REVIEW)
+        self.form.initial['status'] = [int(StatusTypes.WIP), int(StatusTypes.REVIEW)]
+        self.form.initial['assigned'] = self.request.user.groups.all()
