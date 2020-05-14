@@ -4,6 +4,13 @@ Currently we focus on a pure port of Klarschiff (Java, PHP) to cleanship (Django
 For that reason, **we don't accept pull-requests yet**.  Feel free to discuss requests / bugs.
 New features or breaking changes will be stalled till version 0.3! 
 
+* 0.1 (Painbox) 01/2020 - prototyp focus on possibility
+* 0.2 (Caladan) 12/2020 - full port of Klarschiff.HRO features
+* 0.3 (IX) - new features and addons
+* 1.0 (Guild) - extension for distributed services
+
+## Code
+
 For code format conventions, please see `.editorconfig`
 We follow flake8 code conventions, [Django coding style](https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/) and pythonic best practises.
 

@@ -24,13 +24,18 @@ Basics
 ======
 
 It is the successor of :term:`Klarschiff`, a platform where citizens report problems / ideas concerning public infrastructure.
-The municipality staff does then review, check and fix this issues.
+The local administration will then review your note and the solution process is public visible.
 
 The code is Python3 using the Django 2 framework and bootstrap4
 webfrontend toolkit.
 
+.. warning::
+  Currently **alpha** , so expect that we will break your installation / data / modules / ... !
+  
+  Migrations will cause data lost!
+
 .. note::
-  Currently we port only existing features, while avoiding old bottlenecks.
+  Currently we port only existing features, while avoiding old bottlenecks. New features will be introduced starting with version 0.3.
   New features will be introduced starting with version `0.3 (*IX*) <https://github.com/Matthias84/cleanship/milestones>`_
   
 .. note::
@@ -40,17 +45,12 @@ webfrontend toolkit.
      - some performance issues
      - hardcoded settings
 
-.. warning::
-  Currently **alpha** , so expect that we will break your installation / data / modules / ... !
-  
-  Migrations will cause data lost!
-
 Features
 ========
 
--  staff frontend (office)
 -  issues with georeference
 -  groups to maintain / delegate issues
+-  staff frontend (office)
 -  admin backend
 -  API compatible with :term:`CitySDK`
 -  import :term:`Klarschiff` legacy data
