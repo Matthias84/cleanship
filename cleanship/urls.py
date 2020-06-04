@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
+from common.feeds import LatestIssueFeed
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('citysdk/', include('citysdk.urls')),
     path('office/', include('office.urls')),
-    path('accounts/', include('django.contrib.auth.urls'))
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('feed/', LatestIssueFeed()),
 ]
 
 # server media files in local dev

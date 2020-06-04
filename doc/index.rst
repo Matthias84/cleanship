@@ -65,6 +65,7 @@ Usage
 -  enter ``localhost:8000/admin`` to maintain issues
 -  enter ``localhost:8000/office`` for staff backoffice
 -  enter ``localhost:8000/citysdk`` for REST API
+-  enter ``localhost:8000/feed`` for GeoRSS feed
 
 Setup
 -----
